@@ -1,0 +1,8 @@
+# Cloudflare Pages _redirects
+# Routes clean post URLs to the track renderers
+
+# Ancient Paths posts
+/blog/ancient-paths/*  /blog/ancient-paths/index.html  200
+
+# The Work posts
+/blog/the-work/*  /blog/the-work/index.html  200
