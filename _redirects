@@ -1,9 +1,0 @@
-# Cloudflare Pages _redirects
-# Routes clean post URLs to the track renderers
-# Add this file to the ROOT of your GitHub repo
-
-# Ancient Paths posts — any slug routes to the renderer
-/blog/ancient-paths/:slug  /blog/ancient-paths/index.html  200
-
-# The Work posts — any slug routes to the renderer  
-/blog/the-work/:slug  /blog/the-work/index.html  200
