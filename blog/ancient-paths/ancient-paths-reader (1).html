@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ancient Paths — Cayden Farris</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<!-- marked.js for markdown parsing -->
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --cream:#faf6ef;--cream2:#f2ece0;
+  --gold:#b8840a;--gold-lt:#d4a832;
+  --espresso:#1c1208;--brown:#4a2e12;--brown-lt:#7a5230;
+  --terra:#c4654a;--muted:#8a7060;--border:rgba(74,46,18,0.12);
+  --ancient:#2a3d5c;--ancient-lt:#3d5878;--ancient-pale:#eef2f8;
+  --ff-head:'Cormorant Garamond',Georgia,serif;
+  --ff-body:'Lora',Georgia,serif;
+}
+html{scroll-behavior:smooth}
+body{background:var(--cream);color:var(--espresso);font-family:var(--ff-body);font-size:17px;line-height:1.82;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;opacity:0.025;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:160px 160px}
+::selection{background:var(--ancient-pale);color:var(--ancient)}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 clamp(20px,6vw,60px);height:62px;display:flex;align-items:center;justify-content:space-between;background:rgba(250,246,239,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+.nav-logo{font-family:var(--ff-head);font-size:21px;font-weight:600;color:var(--espresso);text-decoration:none}
+.nav-logo span{color:var(--gold)}
+.nav-back{font-family:var(--ff-body);font-size:12px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--brown-lt);text-decoration:none;transition:color .2s}
+.nav-back:hover{color:var(--ancient)}
+
+/* Loading state */
+#loading{display:flex;align-items:center;justify-content:center;min-height:100vh;flex-direction:column;gap:16px}
+#loading p{font-family:var(--ff-head);font-size:22px;font-style:italic;color:var(--muted)}
+.loading-dot{width:8px;height:8px;border-radius:50%;background:var(--ancient);opacity:0.4;animation:pulse 1.4s ease-in-out infinite}
+.loading-dot:nth-child(2){animation-delay:0.2s}
+.loading-dot:nth-child(3){animation-delay:0.4s}
+.loading-dots{display:flex;gap:6px}
+@keyframes pulse{0%,100%{opacity:0.4;transform:scale(1)}50%{opacity:1;transform:scale(1.3)}}
+
+/* Error state */
+#error{display:none;align-items:center;justify-content:center;min-height:100vh;flex-direction:column;gap:12px;text-align:center;padding:24px}
+#error h2{font-family:var(--ff-head);font-size:32px;color:var(--ancient)}
+#error p{color:var(--muted);font-size:15px}
+#error a{color:var(--gold);font-family:var(--ff-body);font-size:13px;letter-spacing:1.5px;text-transform:uppercase}
+
+/* Article */
+#article{display:none}
+
+.article-hero{padding:clamp(100px,12vw,140px) clamp(24px,8vw,100px) clamp(48px,6vw,72px);max-width:820px;margin:0 auto}
+.track-badge{display:inline-flex;align-items:center;gap:8px;font-family:var(--ff-body);font-size:10px;font-weight:500;letter-spacing:2.5px;text-transform:uppercase;color:var(--ancient);background:var(--ancient-pale);padding:5px 12px;border-radius:2px;margin-bottom:28px}
+.track-badge .dot{width:5px;height:5px;border-radius:50%;background:var(--ancient)}
+.article-title{font-family:var(--ff-head);font-size:clamp(40px,6vw,68px);font-weight:400;line-height:1.05;letter-spacing:-.5px;margin-bottom:16px;color:var(--espresso)}
+.article-subtitle{font-family:var(--ff-head);font-size:clamp(18px,2.5vw,24px);font-style:italic;color:var(--brown-lt);line-height:1.5;margin-bottom:32px}
+.article-meta{display:flex;align-items:center;gap:24px;flex-wrap:wrap;padding-bottom:28px;border-bottom:1px solid var(--border)}
+.meta-item{font-size:12px;color:var(--muted);letter-spacing:1px}
+.meta-divider{width:1px;height:14px;background:var(--border)}
+
+/* Hebrew hero */
+.hebrew-hero{background:var(--ancient);padding:clamp(40px,5vw,64px) clamp(24px,8vw,80px);text-align:center}
+.hebrew-word{font-family:var(--ff-head);font-size:clamp(48px,9vw,90px);font-weight:300;color:rgba(255,255,255,.92);display:block;margin-bottom:10px;letter-spacing:2px}
+.hebrew-translit{font-family:var(--ff-body);font-size:13px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:8px}
+.hebrew-def{font-family:var(--ff-head);font-size:clamp(18px,2.5vw,24px);font-style:italic;color:rgba(255,255,255,.65)}
+
+/* Body content */
+.article-body{max-width:720px;margin:0 auto;padding:clamp(48px,6vw,80px) clamp(24px,8vw,100px)}
+
+/* Markdown-rendered content styles */
+.post-content p{margin-bottom:1.75em;color:var(--espresso);font-size:17px;line-height:1.82}
+.post-content h2{font-family:var(--ff-head);font-size:clamp(28px,4vw,38px);font-weight:500;line-height:1.2;margin:2.5em 0 .75em;color:var(--espresso)}
+.post-content h3{font-family:var(--ff-head);font-size:clamp(22px,3vw,28px);font-weight:500;margin:2em 0 .6em;color:var(--espresso)}
+.post-content blockquote{background:var(--ancient-pale);border-left:3px solid var(--ancient);padding:22px 26px;margin:2em 0;border-radius:0 3px 3px 0}
+.post-content blockquote p{font-family:var(--ff-head);font-size:clamp(17px,2.2vw,21px);font-style:italic;color:var(--ancient);line-height:1.6;margin-bottom:0}
+.post-content strong{color:var(--espresso);font-weight:600}
+.post-content em{font-style:italic}
+.post-content hr{border:none;height:1px;background:var(--border);margin:2.5em 0}
+.post-content ul,.post-content ol{padding-left:24px;margin-bottom:1.75em}
+.post-content li{margin-bottom:.5em;color:var(--espresso)}
+
+/* Pull quote — use === text === in markdown to trigger */
+.pull-quote{border-top:2px solid var(--ancient);border-bottom:1px solid var(--border);padding:28px 0;margin:2.5em 0;text-align:center}
+.pull-quote p{font-family:var(--ff-head);font-size:clamp(22px,3.5vw,32px);font-style:italic;color:var(--ancient);line-height:1.4}
+
+/* Reflection box */
+.reflection-box{background:var(--espresso);color:var(--cream);padding:32px 28px;border-radius:3px;margin:2.5em 0}
+.reflection-label{font-family:var(--ff-body);font-size:10px;font-weight:500;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold-lt);margin-bottom:16px}
+.reflection-box h3{font-family:var(--ff-head);font-size:22px;font-weight:500;color:var(--cream);margin-bottom:16px}
+.reflection-box ol{padding-left:20px;display:flex;flex-direction:column;gap:12px}
+.reflection-box li{font-size:15px;color:rgba(250,246,239,.75);line-height:1.7}
+
+/* Post nav */
+.article-nav{max-width:720px;margin:0 auto;padding:0 clamp(24px,8vw,100px) clamp(48px,6vw,72px);display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:500px){.article-nav{grid-template-columns:1fr}}
+.article-nav-link{background:var(--cream2);border:1px solid var(--border);border-radius:3px;padding:20px 22px;text-decoration:none;color:inherit;transition:border-color .2s,transform .2s;display:block}
+.article-nav-link:hover{border-color:var(--ancient);transform:translateY(-2px)}
+.nav-dir{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;font-family:var(--ff-body)}
+.nav-title{font-family:var(--ff-head);font-size:18px;font-weight:500;color:var(--ancient);line-height:1.3}
+
+footer{background:var(--espresso);border-top:1px solid rgba(250,246,239,.06);padding:24px clamp(24px,6vw,60px);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-top:0}
+.footer-logo{font-family:var(--ff-head);font-size:18px;color:rgba(250,246,239,.4);text-decoration:none}
+.footer-logo span{color:var(--gold)}
+.footer-copy{font-size:12px;color:rgba(250,246,239,.2)}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">Cayden <span>Farris</span></a>
+  <a href="/blog" class="nav-back">← All Posts</a>
+</nav>
+
+<!-- Loading -->
+<div id="loading">
+  <div class="loading-dots">
+    <div class="loading-dot"></div>
+    <div class="loading-dot"></div>
+    <div class="loading-dot"></div>
+  </div>
+  <p>Loading post...</p>
+</div>
+
+<!-- Error -->
+<div id="error">
+  <h2>Post not found</h2>
+  <p>This post may have moved or the link is incorrect.</p>
+  <a href="/blog">← Back to all posts</a>
+</div>
+
+<!-- Article (populated by JS) -->
+<div id="article">
+
+  <div class="article-hero">
+    <span class="track-badge"><span class="dot"></span>Ancient Paths</span>
+    <h1 class="article-title" id="postTitle"></h1>
+    <p class="article-subtitle" id="postSubtitle"></p>
+    <div class="article-meta">
+      <span class="meta-item">Cayden Farris</span>
+      <div class="meta-divider"></div>
+      <span class="meta-item" id="postVolume"></span>
+      <div class="meta-divider"></div>
+      <span class="meta-item" id="postReadtime"></span>
+    </div>
+  </div>
+
+  <!-- Hebrew word study hero (hidden if not used) -->
+  <div class="hebrew-hero" id="hebrewHero" style="display:none">
+    <span class="hebrew-word" id="hebrewChars"></span>
+    <p class="hebrew-translit" id="hebrewTranslit"></p>
+    <p class="hebrew-def" id="hebrewDef"></p>
+  </div>
+
+  <div class="article-body">
+    <div class="post-content" id="postContent"></div>
+
+    <!-- Reflection questions (hidden if none) -->
+    <div class="reflection-box" id="reflectionBox" style="display:none">
+      <div class="reflection-label">For Your Own Study</div>
+      <h3>Sit with these before you move on</h3>
+      <ol id="reflectionList"></ol>
+    </div>
+  </div>
+
+  <div class="article-nav" id="articleNav">
+    <a href="/blog" class="article-nav-link">
+      <div class="nav-dir">← Back to</div>
+      <div class="nav-title">All Posts</div>
+    </a>
+    <div id="nextPostLink"></div>
+  </div>
+
+</div>
+
+<footer>
+  <a href="/" class="footer-logo">Cayden <span>Farris</span></a>
+  <p class="footer-copy">© 2025 Cayden Farris · caydenfarris.net</p>
+</footer>
+
+<script>
+// ── PARSE FRONTMATTER + MARKDOWN ────────────────────────────────────────────
+// ── SIMPLE FRONTMATTER PARSER (no external dependency) ──────────────────────
+// Handles the fields we actually use — no jsyaml needed
+function parseFrontmatter(raw) {
+  // Normalize line endings
+  const normalized = raw.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+  const match = normalized.match(/^---\n([\s\S]*?)\n---\n?([\s\S]*)$/);
+  if (!match) return { frontmatter: {}, body: normalized };
+
+  const fm = {};
+  const yamlBlock = match[1];
+  const body = match[2];
+
+  // Parse line by line — handles simple key: value and nested objects
+  const lines = yamlBlock.split('\n');
+  let i = 0;
+  while (i < lines.length) {
+    const line = lines[i];
+    // Skip empty lines and comments
+    if (!line.trim() || line.trim().startsWith('#')) { i++; continue; }
+
+    // Key: "value" or key: value
+    const simpleMatch = line.match(/^(\w+):\s*"?(.*?)"?\s*$/);
+    const numberMatch = line.match(/^(\w+):\s*(\d+)\s*$/);
+    const boolMatch   = line.match(/^(\w+):\s*(true|false)\s*$/);
+
+    // List items — e.g. reflection:
+    if (line.match(/^(\w+):\s*$/) && lines[i+1] && lines[i+1].match(/^\s+-/)) {
+      const key = line.match(/^(\w+):/)[1];
+      const items = [];
+      i++;
+      while (i < lines.length && lines[i].match(/^\s+-/)) {
+        const itemLine = lines[i].trim().replace(/^-\s*/, '');
+        // Handle question: "text" format
+        const qMatch = itemLine.match(/^question:\s*"?(.+?)"?\s*$/);
+        if (qMatch) items.push(qMatch[1]);
+        else items.push(itemLine.replace(/^"(.*)"$/, '$1'));
+        i++;
+      }
+      fm[key] = items;
+      continue;
+    }
+
+    // Nested object — e.g. hebrew:
+    if (line.match(/^(\w+):\s*$/) && lines[i+1] && lines[i+1].match(/^\s+\w+:/)) {
+      const key = line.match(/^(\w+):/)[1];
+      const obj = {};
+      i++;
+      while (i < lines.length && lines[i].match(/^\s+\w+:/)) {
+        const subMatch = lines[i].trim().match(/^(\w+):\s*"?([\s\S]*?)"?\s*$/);
+        if (subMatch) obj[subMatch[1]] = subMatch[2];
+        i++;
+      }
+      fm[key] = obj;
+      continue;
+    }
+
+    if (boolMatch)   { fm[boolMatch[1]]  = boolMatch[2] === 'true'; i++; continue; }
+    if (numberMatch) { fm[numberMatch[1]] = parseInt(numberMatch[2]); i++; continue; }
+    if (simpleMatch) { fm[simpleMatch[1]] = simpleMatch[2]; i++; continue; }
+    i++;
+  }
+
+  return { frontmatter: fm, body };
+}
+
+// ── GET POST SLUG FROM URL ───────────────────────────────────────────────────
+function getSlug() {
+  // Read from ?post=slug URL parameter
+  const params = new URLSearchParams(window.location.search);
+  return params.get('post') || null;
+}
+
+// ── LOAD AND RENDER POST ─────────────────────────────────────────────────────
+async function loadPost() {
+  const slug = getSlug();
+  if (!slug) { showError('No post slug found in URL: ' + window.location.pathname); return; }
+
+  const mdUrl = `/blog/ancient-paths/posts/${slug}.md`;
+
+  try {
+    const res = await fetch(mdUrl);
+    if (!res.ok) {
+      showError(`Could not fetch post: ${mdUrl} (status ${res.status})`);
+      return;
+    }
+
+    const raw = await res.text();
+    const { frontmatter: fm, body } = parseFrontmatter(raw);
+
+    document.title = `${fm.title || 'Post'} — Ancient Paths · Cayden Farris`;
+    document.getElementById('postTitle').textContent = fm.title || '';
+
+    const subtitle = document.getElementById('postSubtitle');
+    if (fm.subtitle) { subtitle.textContent = fm.subtitle; }
+    else { subtitle.style.display = 'none'; }
+
+    document.getElementById('postVolume').textContent = `Ancient Paths · ${fm.volume || ''}`;
+    document.getElementById('postReadtime').textContent = `${fm.readtime || '?'} min read`;
+
+    // Hebrew word study block
+    if (fm.hebrew && fm.hebrew.chars) {
+      document.getElementById('hebrewHero').style.display = 'block';
+      document.getElementById('hebrewChars').textContent = fm.hebrew.chars;
+      document.getElementById('hebrewTranslit').textContent = fm.hebrew.translit || '';
+      document.getElementById('hebrewDef').textContent = fm.hebrew.definition || '';
+    }
+
+    // Render body markdown
+    document.getElementById('postContent').innerHTML = marked.parse(body);
+
+    // Reflection questions
+    if (fm.reflection && fm.reflection.length > 0) {
+      document.getElementById('reflectionBox').style.display = 'block';
+      const list = document.getElementById('reflectionList');
+      fm.reflection.forEach(q => {
+        const li = document.createElement('li');
+        li.textContent = typeof q === 'object' ? (q.question || '') : q;
+        list.appendChild(li);
+      });
+    }
+
+    // Next post nav
+    if (fm.next_title && fm.next_slug) {
+      document.getElementById('nextPostLink').innerHTML = `
+        <a href="/blog/ancient-paths/reader.html?post=${fm.next_slug}" class="article-nav-link" style="text-align:right">
+          <div class="nav-dir">Next in Ancient Paths →</div>
+          <div class="nav-title">${fm.next_title}</div>
+        </a>`;
+    }
+
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('article').style.display = 'block';
+
+  } catch(err) {
+    showError('JavaScript error: ' + err.message);
+  }
+}
+
+function showError(msg) {
+  document.getElementById('loading').style.display = 'none';
+  const errEl = document.getElementById('error');
+  errEl.style.display = 'flex';
+  // Show debug info in development — remove the next 3 lines once working
+  if (msg) {
+    const debug = document.createElement('p');
+    debug.style.cssText = 'font-size:11px;color:#999;max-width:400px;word-break:break-all;margin-top:8px';
+    debug.textContent = msg;
+    errEl.appendChild(debug);
+  }
+}
+
+loadPost();
+</script>
+
+</body>
+</html>
