@@ -3,7 +3,8 @@ backend:
   repo: caydenfarris4/website
   branch: main
   auth_type: pkce
-  app_id: YOUR_GITHUB_CLIENT_ID
+  app_id: Ov23liFPYknATA7Zivr7
+
 
 media_folder: "images/blog"
 public_folder: "/images/blog"
