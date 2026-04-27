@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Garments of the High Priest — Bigdei Kohen Gadol</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0e0a02;font-family:'Crimson Text',Georgia,serif;color:#e8dfc0;overflow:hidden;user-select:none}
+#wrap{display:flex;width:100vw;height:100vh;overflow:hidden}
+#canvasWrap{flex:1;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+#header{position:absolute;top:12px;left:0;right:0;text-align:center;pointer-events:none;z-index:10}
+#header h1{font-family:'Cinzel',serif;font-size:17px;color:#d4af37;letter-spacing:2px;text-shadow:0 2px 8px #000}
+#header p{font-size:10px;color:rgba(212,175,55,.5);font-style:italic;letter-spacing:1px;margin-top:2px}
+#hint{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);font-size:10px;color:rgba(212,175,55,.42);letter-spacing:1px;pointer-events:none;white-space:nowrap;background:rgba(0,0,0,.6);padding:4px 12px;text-align:center}
+
+#stage{position:relative;width:100%;height:100%;display:flex;align-items:center;justify-content:center}
+.scene{position:absolute;top:0;left:0;right:0;bottom:0;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .4s ease}
+.scene.active{opacity:1;pointer-events:auto}
+
+svg{display:block;max-width:100%;max-height:100%}
+
+/* Garment hover/active states */
+.garment{cursor:pointer;transition:filter .2s ease}
+.garment:hover{filter:brightness(1.25) drop-shadow(0 0 8px rgba(255,220,100,.5))}
+.garment.active{filter:brightness(1.3) drop-shadow(0 0 12px rgba(255,220,100,.7))}
+
+.stone{cursor:pointer;transition:transform .2s ease,filter .2s ease;transform-origin:center;transform-box:fill-box}
+.stone:hover{transform:scale(1.15);filter:brightness(1.4) drop-shadow(0 0 6px rgba(255,255,255,.6))}
+.stone.active{filter:brightness(1.4) drop-shadow(0 0 10px rgba(255,255,255,.8))}
+
+.label{font-family:'Cinzel',serif;fill:rgba(212,175,55,.7);font-size:10px;letter-spacing:1.5px;text-anchor:middle;pointer-events:none;text-shadow:0 1px 3px #000}
+.label-heb{font-family:Georgia,serif;font-style:italic;fill:rgba(212,175,55,.5);font-size:9px;text-anchor:middle;pointer-events:none}
+
+/* Clickable label groups — point at the same artifacts as the figure */
+.label-link{cursor:pointer;transition:opacity .2s ease}
+.label-link text{transition:fill .2s ease}
+.label-link line{transition:stroke .2s ease}
+.label-link:hover .label{fill:#ffe488}
+.label-link:hover .label-heb{fill:rgba(255,228,136,.9)}
+.label-link:hover line{stroke:rgba(255,220,100,.7);stroke-width:1}
+.label-link.active .label{fill:#ffe488}
+.label-link.active .label-heb{fill:rgba(255,228,136,.9)}
+
+/* Christ-mode glow — every garment radiant simultaneously */
+.christ-mode .garment{filter:brightness(1.18) drop-shadow(0 0 12px rgba(255,220,100,.35))}
+.christ-mode #auraGlow{opacity:0.18!important}
+#auraGlow{transition:opacity .5s ease}
+.garment{transition:filter .35s ease}
+
+/* Control buttons */
+#modebar{position:absolute;top:58px;right:12px;display:flex;flex-direction:column;gap:5px;z-index:10}
+.mbtn{background:rgba(6,4,0,.9);border:1px solid rgba(212,175,55,.3);color:rgba(212,175,55,.65);font-family:'Cinzel',serif;font-size:8px;letter-spacing:1px;padding:6px 10px;cursor:pointer;transition:all .15s;white-space:nowrap;text-align:center;border-radius:2px}
+.mbtn:hover,.mbtn.on{background:rgba(212,175,55,.18);border-color:#d4af37;color:#d4af37}
+
+#backbtn{position:absolute;top:58px;left:12px;background:rgba(6,4,0,.9);border:1px solid rgba(212,175,55,.4);color:#d4af37;font-family:'Cinzel',serif;font-size:9px;letter-spacing:1.2px;padding:7px 14px;cursor:pointer;display:none;z-index:10;border-radius:2px}
+#backbtn:hover{background:rgba(212,175,55,.18)}
+#backbtn.on{display:block}
+
+/* Side panel — matching tabernacle */
+#panel{width:0;min-width:0;height:100vh;background:linear-gradient(170deg,#130f04,#080500);border-left:1px solid rgba(212,175,55,.18);overflow:hidden;transition:width .32s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;flex-shrink:0}
+#panel.open{width:420px;min-width:420px}
+.ph{padding:22px 22px 14px;border-bottom:1px solid rgba(212,175,55,.1);position:relative;flex-shrink:0}
+.pclose{position:absolute;top:14px;right:14px;background:none;border:none;color:rgba(212,175,55,.4);font-size:18px;cursor:pointer}
+.pclose:hover{color:#d4af37}
+.ptitle{font-family:'Cinzel',serif;font-size:15px;font-weight:700;color:#d4af37;margin-bottom:5px;line-height:1.3}
+.pheb{font-size:11.5px;color:rgba(212,175,55,.55);font-style:italic;line-height:1.6;white-space:pre-line}
+
+.pbody{padding:16px 22px 40px;overflow-y:auto;flex:1;scrollbar-width:thin;scrollbar-color:rgba(212,175,55,.3) transparent}
+.pbody::-webkit-scrollbar{width:3px}
+.pbody::-webkit-scrollbar-thumb{background:rgba(212,175,55,.3)}
+
+.ps{margin-bottom:16px}
+.psl{font-family:'Cinzel',serif;font-size:7.5px;letter-spacing:2.5px;color:rgba(212,175,55,.36);text-transform:uppercase;margin-bottom:6px}
+.psc{background:rgba(212,175,55,.05);border-left:2px solid rgba(212,175,55,.32);padding:10px 12px;font-style:italic;font-size:12px;line-height:1.65;color:#d4c98a;margin-bottom:8px}
+.ref{font-size:9.5px;color:rgba(212,175,55,.36);font-style:normal;margin-top:4px;font-family:'Cinzel',serif;letter-spacing:0.8px}
+.ptx{font-size:12px;line-height:1.85;color:#a0987a}
+.ptx strong{color:#d4af37;font-weight:600}
+hr.dv{border:none;border-top:1px solid rgba(212,175,55,.07);margin:14px 0}
+
+/* Tribe-specific touches */
+.tribe-meta{display:flex;gap:12px;margin-bottom:12px;flex-wrap:wrap}
+.meta-pill{background:rgba(212,175,55,.06);border:1px solid rgba(212,175,55,.18);padding:5px 10px;font-family:'Cinzel',serif;font-size:8.5px;letter-spacing:1.2px;color:#d4af37;border-radius:2px}
+.stone-display{display:flex;align-items:center;gap:14px;margin:6px 0 14px;padding:12px;background:rgba(212,175,55,.04);border:1px solid rgba(212,175,55,.15)}
+.stone-vis{width:42px;height:42px;border-radius:50%;border:2px solid rgba(212,175,55,.4);box-shadow:inset 0 -4px 8px rgba(0,0,0,.5),inset 0 4px 8px rgba(255,255,255,.3),0 0 12px rgba(255,255,255,.1);flex-shrink:0}
+.stone-info{font-family:'Cinzel',serif;font-size:10px;letter-spacing:1px;color:#d4af37;line-height:1.7}
+.stone-info span{color:rgba(212,175,55,.55);font-style:italic}
+</style>
+</head>
+<body>
+<div id="wrap">
+ <div id="canvasWrap">
+  <div id="header">
+   <h1>BIGDEI KOHEN GADOL · בִּגְדֵי כֹּהֵן גָּדוֹל</h1>
+   <p>The Garments of the High Priest</p>
+  </div>
+
+  <button id="backbtn">◁ BACK TO HIGH PRIEST</button>
+
+  <div id="modebar">
+   <div class="mbtn on" id="vFull">Full Vestments</div>
+   <div class="mbtn" id="vYom">Yom Kippur Linen</div>
+   <div class="mbtn" id="vChrist">Christ Fulfills All</div>
+  </div>
+
+  <div id="stage">
+    <!-- MAIN SCENE: full priest figure -->
+    <div class="scene active" id="sceneMain">
+      <svg id="priestSvg" viewBox="-60 -10 600 800" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <!-- Gradients for garment colors -->
+          <linearGradient id="gLinen" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0" stop-color="#f4ecc8"/>
+            <stop offset="1" stop-color="#d8cc94"/>
+          </linearGradient>
+          <linearGradient id="gBlue" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0" stop-color="#2a4dc0"/>
+            <stop offset="1" stop-color="#152870"/>
+          </linearGradient>
+          <linearGradient id="gPurple" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0" stop-color="#6a2890"/>
+            <stop offset="1" stop-color="#3e1058"/>
+          </linearGradient>
+          <linearGradient id="gScarlet" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0" stop-color="#c41e2a"/>
+            <stop offset="1" stop-color="#7a0f18"/>
+          </linearGradient>
+          <linearGradient id="gGold" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0" stop-color="#ffe488"/>
+            <stop offset="0.5" stop-color="#d4af37"/>
+            <stop offset="1" stop-color="#8a6818"/>
+          </linearGradient>
+          <linearGradient id="gEphod" x1="0" x2="1" y1="0" y2="0">
+            <stop offset="0" stop-color="#1a3ea8"/>
+            <stop offset="0.33" stop-color="#5a2080"/>
+            <stop offset="0.66" stop-color="#a51820"/>
+            <stop offset="1" stop-color="#d4c898"/>
+          </linearGradient>
+          <linearGradient id="gFlesh" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0" stop-color="#c9a878"/>
+            <stop offset="1" stop-color="#8a6840"/>
+          </linearGradient>
+          <radialGradient id="gShoulderStone" cx="0.35" cy="0.35">
+            <stop offset="0" stop-color="#5a5048"/>
+            <stop offset="0.5" stop-color="#1a1410"/>
+            <stop offset="1" stop-color="#000"/>
+          </radialGradient>
+          <radialGradient id="gPlateGold" cx="0.4" cy="0.3">
+            <stop offset="0" stop-color="#fff4a0"/>
+            <stop offset="0.5" stop-color="#d4af37"/>
+            <stop offset="1" stop-color="#7a5818"/>
+          </radialGradient>
+          <filter id="softGlow"><feGaussianBlur stdDeviation="3"/></filter>
+          <pattern id="checker" patternUnits="userSpaceOnUse" width="14" height="14">
+            <rect width="14" height="14" fill="url(#gLinen)"/>
+            <path d="M0 7h14M7 0v14" stroke="rgba(180,150,80,0.18)" stroke-width="0.5"/>
+          </pattern>
+        </defs>
+
+        <!-- Sacred glow behind figure -->
+        <ellipse id="auraGlow" cx="240" cy="430" rx="220" ry="340" fill="url(#gGold)" opacity="0.04" filter="url(#softGlow)"/>
+
+        <!-- ============ FIGURE — LAYERED FROM BACK TO FRONT ============ -->
+
+        <!-- 1. MIKHNESEI — linen breeches (mostly hidden, only at ankles) -->
+        <g class="garment" data-key="mikhnesei">
+          <rect x="195" y="700" width="40" height="40" fill="url(#gLinen)" stroke="rgba(150,120,60,.4)" stroke-width="0.8"/>
+          <rect x="245" y="700" width="40" height="40" fill="url(#gLinen)" stroke="rgba(150,120,60,.4)" stroke-width="0.8"/>
+        </g>
+
+        <!-- 2. KETHONETH — white linen tunic (visible at sleeves and below robe) -->
+        <g class="garment" data-key="kethoneth">
+          <!-- sleeves extending from arms -->
+          <path d="M 90,260 Q 70,360 80,440 L 130,440 Q 130,360 130,260 Z" fill="url(#checker)" stroke="rgba(150,120,60,.5)" stroke-width="1"/>
+          <path d="M 390,260 Q 410,360 400,440 L 350,440 Q 350,360 350,260 Z" fill="url(#checker)" stroke="rgba(150,120,60,.5)" stroke-width="1"/>
+          <!-- bottom of tunic visible below robe hem -->
+          <rect x="170" y="690" width="140" height="20" fill="url(#checker)" stroke="rgba(150,120,60,.5)" stroke-width="0.8"/>
+        </g>
+
+        <!-- HEAD AND NECK — drawn but not interactive -->
+        <g id="head">
+          <!-- neck -->
+          <rect x="220" y="200" width="40" height="40" fill="url(#gFlesh)"/>
+          <!-- face/head -->
+          <ellipse cx="240" cy="160" rx="58" ry="68" fill="url(#gFlesh)" stroke="rgba(80,50,20,.4)" stroke-width="1"/>
+          <!-- beard -->
+          <path d="M 195,180 Q 200,230 240,250 Q 280,230 285,180 Q 280,210 240,220 Q 200,210 195,180 Z" fill="#3a2812" opacity="0.85"/>
+          <path d="M 200,170 Q 220,200 240,205 Q 260,200 280,170" fill="none" stroke="#2a1808" stroke-width="0.8" opacity="0.5"/>
+          <!-- closed serene eyes -->
+          <path d="M 215,150 Q 222,153 229,150" fill="none" stroke="#1a0a04" stroke-width="1.4" stroke-linecap="round"/>
+          <path d="M 251,150 Q 258,153 265,150" fill="none" stroke="#1a0a04" stroke-width="1.4" stroke-linecap="round"/>
+          <!-- subtle nose -->
+          <path d="M 240,158 Q 238,170 240,178" fill="none" stroke="rgba(80,50,20,.3)" stroke-width="0.8"/>
+        </g>
+
+        <!-- 3. MITZNEPHET — turban -->
+        <g class="garment" data-key="mitznephet">
+          <path d="M 175,120 Q 165,80 240,68 Q 315,80 305,120 Q 300,108 240,100 Q 180,108 175,120 Z" fill="url(#gLinen)" stroke="rgba(150,120,60,.55)" stroke-width="1.2"/>
+          <path d="M 178,108 Q 220,90 240,90 Q 260,90 302,108" fill="none" stroke="rgba(150,120,60,.4)" stroke-width="0.7"/>
+          <path d="M 182,98 Q 220,82 240,82 Q 260,82 298,98" fill="none" stroke="rgba(150,120,60,.4)" stroke-width="0.7"/>
+        </g>
+
+        <!-- 4. TZITZ — golden plate / holy crown -->
+        <g class="garment" data-key="tzitz">
+          <!-- blue cord around turban -->
+          <path d="M 174,118 Q 240,128 306,118" fill="none" stroke="url(#gBlue)" stroke-width="3" stroke-linecap="round"/>
+          <!-- the plate itself -->
+          <path d="M 200,114 Q 240,108 280,114 L 282,128 Q 240,135 198,128 Z" fill="url(#gPlateGold)" stroke="#7a5818" stroke-width="1.2"/>
+          <!-- engraving -->
+          <text x="240" y="125" font-family="Georgia,serif" font-size="7" fill="#5a3c08" text-anchor="middle" font-weight="700" letter-spacing="0.5">קֹדֶשׁ לַיהוה</text>
+        </g>
+
+        <!-- 5. ME'IL — blue robe of the ephod (long, to ankles) -->
+        <g class="garment" data-key="meil">
+          <!-- main body of robe -->
+          <path d="M 130,260 Q 125,320 130,440 L 115,690 L 365,690 L 350,440 Q 355,320 350,260 Q 320,250 240,250 Q 160,250 130,260 Z" fill="url(#gBlue)" stroke="rgba(15,30,90,.6)" stroke-width="1.2"/>
+          <!-- subtle vertical fold lines -->
+          <path d="M 175,290 L 168,680" fill="none" stroke="rgba(0,0,0,.18)" stroke-width="1"/>
+          <path d="M 240,290 L 240,680" fill="none" stroke="rgba(0,0,0,.18)" stroke-width="1"/>
+          <path d="M 305,290 L 312,680" fill="none" stroke="rgba(0,0,0,.18)" stroke-width="1"/>
+          <!-- neck opening -->
+          <path d="M 215,250 Q 240,265 265,250" fill="none" stroke="url(#gGold)" stroke-width="2.5"/>
+          <path d="M 215,250 Q 240,260 265,250" fill="rgba(255,220,100,.15)"/>
+
+          <!-- HEM: alternating golden bells and pomegranates -->
+          <g id="hemDecorations">
+            <!-- 9 bells and 9 pomegranates alternating across the hem -->
+            <!-- Bells (golden, dome shape with clapper) -->
+            <g fill="url(#gGold)" stroke="#7a5818" stroke-width="0.5">
+              <path d="M 130,690 Q 130,680 138,680 Q 146,680 146,690 Z"/>
+              <circle cx="138" cy="694" r="1.4"/>
+              <path d="M 165,690 Q 165,680 173,680 Q 181,680 181,690 Z"/>
+              <circle cx="173" cy="694" r="1.4"/>
+              <path d="M 200,690 Q 200,680 208,680 Q 216,680 216,690 Z"/>
+              <circle cx="208" cy="694" r="1.4"/>
+              <path d="M 235,690 Q 235,680 243,680 Q 251,680 251,690 Z"/>
+              <circle cx="243" cy="694" r="1.4"/>
+              <path d="M 270,690 Q 270,680 278,680 Q 286,680 286,690 Z"/>
+              <circle cx="278" cy="694" r="1.4"/>
+              <path d="M 305,690 Q 305,680 313,680 Q 321,680 321,690 Z"/>
+              <circle cx="313" cy="694" r="1.4"/>
+              <path d="M 340,690 Q 340,680 348,680 Q 356,680 356,690 Z"/>
+              <circle cx="348" cy="694" r="1.4"/>
+            </g>
+            <!-- Pomegranates (alternating blue, purple, scarlet) -->
+            <g stroke="#3a1010" stroke-width="0.4">
+              <ellipse cx="156" cy="685" rx="4" ry="5" fill="url(#gBlue)"/>
+              <path d="M 156,679 L 156,675 M 154,675 L 158,675" stroke="#5a4818" stroke-width="0.6"/>
+              <ellipse cx="190" cy="685" rx="4" ry="5" fill="url(#gPurple)"/>
+              <path d="M 190,679 L 190,675 M 188,675 L 192,675" stroke="#5a4818" stroke-width="0.6"/>
+              <ellipse cx="225" cy="685" rx="4" ry="5" fill="url(#gScarlet)"/>
+              <path d="M 225,679 L 225,675 M 223,675 L 227,675" stroke="#5a4818" stroke-width="0.6"/>
+              <ellipse cx="260" cy="685" rx="4" ry="5" fill="url(#gBlue)"/>
+              <path d="M 260,679 L 260,675 M 258,675 L 262,675" stroke="#5a4818" stroke-width="0.6"/>
+              <ellipse cx="295" cy="685" rx="4" ry="5" fill="url(#gPurple)"/>
+              <path d="M 295,679 L 295,675 M 293,675 L 297,675" stroke="#5a4818" stroke-width="0.6"/>
+              <ellipse cx="330" cy="685" rx="4" ry="5" fill="url(#gScarlet)"/>
+              <path d="M 330,679 L 330,675 M 328,675 L 332,675" stroke="#5a4818" stroke-width="0.6"/>
+            </g>
+          </g>
+        </g>
+
+        <!-- 6. EPHOD — colored apron over the robe (shorter, to thigh) -->
+        <g class="garment" data-key="ephod">
+          <!-- back of ephod (just shoulder straps over the robe) -->
+          <path d="M 145,265 Q 240,255 335,265 L 340,290 Q 240,275 140,290 Z" fill="url(#gEphod)" stroke="rgba(80,40,20,.6)" stroke-width="1"/>
+          <!-- front apron -->
+          <path d="M 155,290 L 145,490 L 335,490 L 325,290 Q 240,278 155,290 Z" fill="url(#gEphod)" stroke="rgba(80,40,20,.6)" stroke-width="1.2"/>
+          <!-- gold thread weaving — diagonal lines suggesting the gold-woven pattern -->
+          <g opacity="0.28" stroke="url(#gGold)" stroke-width="0.6" fill="none">
+            <path d="M 155,310 L 335,310"/>
+            <path d="M 152,335 L 333,335"/>
+            <path d="M 150,360 L 332,360"/>
+            <path d="M 148,385 L 332,385"/>
+            <path d="M 147,410 L 333,410"/>
+            <path d="M 146,435 L 334,435"/>
+            <path d="M 145,460 L 335,460"/>
+          </g>
+          <!-- gold woven sash at top -->
+          <rect x="155" y="285" width="170" height="9" fill="url(#gGold)" opacity="0.85" stroke="#7a5818" stroke-width="0.5"/>
+        </g>
+
+        <!-- 7. SHOULDER STONES — onyx with tribal names (PART OF EPHOD but separate clickable) -->
+        <g class="garment" data-key="shoulders">
+          <!-- left shoulder stone -->
+          <ellipse cx="170" cy="278" rx="22" ry="14" fill="url(#gShoulderStone)" stroke="url(#gGold)" stroke-width="2.5"/>
+          <text x="170" y="282" font-family="Georgia,serif" font-size="6" fill="rgba(212,175,55,0.9)" text-anchor="middle" font-style="italic">6 שְׁבָטִים</text>
+          <!-- right shoulder stone -->
+          <ellipse cx="310" cy="278" rx="22" ry="14" fill="url(#gShoulderStone)" stroke="url(#gGold)" stroke-width="2.5"/>
+          <text x="310" y="282" font-family="Georgia,serif" font-size="6" fill="rgba(212,175,55,0.9)" text-anchor="middle" font-style="italic">6 שְׁבָטִים</text>
+        </g>
+
+        <!-- 8. AVNET — sash/girdle around waist -->
+        <g class="garment" data-key="avnet">
+          <rect x="146" y="490" width="188" height="18" fill="url(#gPurple)" stroke="rgba(80,40,20,.6)" stroke-width="0.8"/>
+          <!-- decorative stripes representing the four colors -->
+          <rect x="146" y="492" width="188" height="3" fill="url(#gBlue)" opacity="0.85"/>
+          <rect x="146" y="498" width="188" height="3" fill="url(#gScarlet)" opacity="0.85"/>
+          <rect x="146" y="504" width="188" height="2.5" fill="url(#gLinen)" opacity="0.7"/>
+          <!-- gold thread accent -->
+          <path d="M 146,489 L 334,489" stroke="url(#gGold)" stroke-width="0.6"/>
+          <path d="M 146,508 L 334,508" stroke="url(#gGold)" stroke-width="0.6"/>
+        </g>
+
+        <!-- 9. CHOSHEN — breastplate of judgment with 12 stones -->
+        <g class="garment" data-key="choshen">
+          <!-- gold chains connecting to shoulders -->
+          <path d="M 178,290 Q 195,330 204,355" fill="none" stroke="url(#gGold)" stroke-width="2"/>
+          <path d="M 302,290 Q 285,330 276,355" fill="none" stroke="url(#gGold)" stroke-width="2"/>
+          <!-- breastplate backing (gold-edged) -->
+          <rect x="195" y="345" width="90" height="100" rx="4" fill="url(#gEphod)" stroke="url(#gGold)" stroke-width="3" opacity="0.95"/>
+          <!-- inner border -->
+          <rect x="200" y="350" width="80" height="90" rx="2" fill="none" stroke="url(#gGold)" stroke-width="1" opacity="0.7"/>
+
+          <!-- 12 STONES: 4 rows of 3 -->
+          <!-- Row 1: Reuben, Simeon, Levi -->
+          <circle class="stone-mini" cx="217" cy="365" r="8.5" fill="#d92020" stroke="#7a5818" stroke-width="1.2"/>
+          <circle class="stone-mini" cx="240" cy="365" r="8.5" fill="#d4d020" stroke="#7a5818" stroke-width="1.2"/>
+          <circle class="stone-mini" cx="263" cy="365" r="8.5" fill="#0d9c4a" stroke="#7a5818" stroke-width="1.2"/>
+          <!-- Row 2: Judah, Dan, Naphtali -->
+          <circle class="stone-mini" cx="217" cy="388" r="8.5" fill="#1cb578" stroke="#7a5818" stroke-width="1.2"/>
+          <circle class="stone-mini" cx="240" cy="388" r="8.5" fill="#1438a8" stroke="#7a5818" stroke-width="1.2"/>
+          <circle class="stone-mini" cx="263" cy="388" r="8.5" fill="#f0f0e8" stroke="#7a5818" stroke-width="1.2"/>
+          <!-- Row 3: Gad, Asher, Issachar -->
+          <circle class="stone-mini" cx="217" cy="411" r="8.5" fill="#e07020" stroke="#7a5818" stroke-width="1.2"/>
+          <circle class="stone-mini" cx="240" cy="411" r="8.5" fill="#a07050" stroke="#7a5818" stroke-width="1.2"/>
+          <circle class="stone-mini" cx="263" cy="411" r="8.5" fill="#9430b8" stroke="#7a5818" stroke-width="1.2"/>
+          <!-- Row 4: Zebulun, Joseph, Benjamin -->
+          <circle class="stone-mini" cx="217" cy="434" r="8.5" fill="#d8a838" stroke="#7a5818" stroke-width="1.2"/>
+          <circle class="stone-mini" cx="240" cy="434" r="8.5" fill="#1a1810" stroke="#7a5818" stroke-width="1.2"/>
+          <circle class="stone-mini" cx="263" cy="434" r="8.5" fill="#a82828" stroke="#7a5818" stroke-width="1.2"/>
+
+          <!-- "Click to explore" hint -->
+          <text x="240" y="465" font-family="Cinzel,serif" font-size="6" fill="rgba(212,175,55,0.6)" text-anchor="middle" letter-spacing="1">CLICK TO EXPLORE</text>
+        </g>
+
+        <!-- ARMS / hands resting at sides — drawn but not interactive -->
+        <g id="hands">
+          <ellipse cx="100" cy="470" rx="22" ry="28" fill="url(#gFlesh)" stroke="rgba(80,50,20,.4)" stroke-width="0.8"/>
+          <ellipse cx="380" cy="470" rx="22" ry="28" fill="url(#gFlesh)" stroke="rgba(80,50,20,.4)" stroke-width="0.8"/>
+        </g>
+
+        <!-- LABELS pointing to garments — all clickable as links -->
+        <g id="labels">
+          <g class="label-link" data-key="tzitz">
+            <text class="label" x="475" y="118" text-anchor="end">TZITZ</text>
+            <text class="label-heb" x="475" y="130" text-anchor="end">צִיץ</text>
+            <line x1="288" y1="120" x2="445" y2="120" stroke="rgba(212,175,55,0.3)" stroke-width="0.6" stroke-dasharray="2,2"/>
+          </g>
+
+          <g class="label-link" data-key="mitznephet">
+            <text class="label" x="5" y="92" text-anchor="start">MITZNEPHET</text>
+            <text class="label-heb" x="5" y="104" text-anchor="start">מִצְנֶפֶת</text>
+            <line x1="170" y1="98" x2="78" y2="98" stroke="rgba(212,175,55,0.3)" stroke-width="0.6" stroke-dasharray="2,2"/>
+          </g>
+
+          <g class="label-link" data-key="shoulders">
+            <text class="label" x="5" y="244" text-anchor="start">SHOULDERS</text>
+            <text class="label-heb" x="5" y="256" text-anchor="start">אַבְנֵי שֹׁהַם</text>
+            <line x1="148" y1="278" x2="78" y2="252" stroke="rgba(212,175,55,0.3)" stroke-width="0.6" stroke-dasharray="2,2"/>
+          </g>
+
+          <g class="label-link" data-key="choshen">
+            <text class="label" x="475" y="385" text-anchor="end">CHOSHEN</text>
+            <text class="label-heb" x="475" y="397" text-anchor="end">חֹשֶׁן מִשְׁפָּט</text>
+            <line x1="290" y1="395" x2="410" y2="392" stroke="rgba(212,175,55,0.3)" stroke-width="0.6" stroke-dasharray="2,2"/>
+          </g>
+
+          <g class="label-link" data-key="ephod">
+            <text class="label" x="475" y="320" text-anchor="end">EPHOD</text>
+            <text class="label-heb" x="475" y="332" text-anchor="end">אֵפוֹד</text>
+            <line x1="335" y1="320" x2="430" y2="325" stroke="rgba(212,175,55,0.3)" stroke-width="0.6" stroke-dasharray="2,2"/>
+          </g>
+
+          <g class="label-link" data-key="avnet">
+            <text class="label" x="5" y="500" text-anchor="start">AVNET</text>
+            <text class="label-heb" x="5" y="512" text-anchor="start">אַבְנֵט</text>
+            <line x1="146" y1="500" x2="55" y2="503" stroke="rgba(212,175,55,0.3)" stroke-width="0.6" stroke-dasharray="2,2"/>
+          </g>
+
+          <g class="label-link" data-key="meil">
+            <text class="label" x="475" y="580" text-anchor="end">ME'IL</text>
+            <text class="label-heb" x="475" y="592" text-anchor="end">מְעִיל</text>
+            <line x1="350" y1="580" x2="440" y2="585" stroke="rgba(212,175,55,0.3)" stroke-width="0.6" stroke-dasharray="2,2"/>
+          </g>
+
+          <g class="label-link" data-key="kethoneth">
+            <text class="label" x="5" y="640" text-anchor="start">KETHONETH</text>
+            <text class="label-heb" x="5" y="652" text-anchor="start">כְּתֹנֶת</text>
+            <line x1="170" y1="650" x2="80" y2="645" stroke="rgba(212,175,55,0.3)" stroke-width="0.6" stroke-dasharray="2,2"/>
+          </g>
+
+          <g class="label-link" data-key="mikhnesei">
+            <text class="label" x="475" y="720" text-anchor="end">MIKHNESEI</text>
+            <text class="label-heb" x="475" y="732" text-anchor="end">מִכְנְסֵי בָד</text>
+            <line x1="290" y1="720" x2="415" y2="722" stroke="rgba(212,175,55,0.3)" stroke-width="0.6" stroke-dasharray="2,2"/>
+          </g>
+        </g>
+
+      </svg>
+    </div>
+
+    <!-- BREASTPLATE DETAIL SCENE -->
+    <div class="scene" id="sceneBreastplate">
+      <svg id="breastplateSvg" viewBox="0 0 600 720" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="bGold" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0" stop-color="#ffe488"/>
+            <stop offset="0.5" stop-color="#d4af37"/>
+            <stop offset="1" stop-color="#7a5818"/>
+          </linearGradient>
+          <linearGradient id="bWeave" x1="0" x2="1" y1="0" y2="0">
+            <stop offset="0" stop-color="#1a3ea8"/>
+            <stop offset="0.33" stop-color="#5a2080"/>
+            <stop offset="0.66" stop-color="#a51820"/>
+            <stop offset="1" stop-color="#d4c898"/>
+          </linearGradient>
+          <radialGradient id="bsRed"><stop offset="0" stop-color="#ff6060"/><stop offset="0.6" stop-color="#d92020"/><stop offset="1" stop-color="#600808"/></radialGradient>
+          <radialGradient id="bsTopaz"><stop offset="0" stop-color="#fff080"/><stop offset="0.6" stop-color="#d4d020"/><stop offset="1" stop-color="#7a7008"/></radialGradient>
+          <radialGradient id="bsCarbuncle"><stop offset="0" stop-color="#40e890"/><stop offset="0.6" stop-color="#0d9c4a"/><stop offset="1" stop-color="#053820"/></radialGradient>
+          <radialGradient id="bsEmerald"><stop offset="0" stop-color="#5af0b0"/><stop offset="0.6" stop-color="#1cb578"/><stop offset="1" stop-color="#0a4830"/></radialGradient>
+          <radialGradient id="bsSapphire"><stop offset="0" stop-color="#5070ff"/><stop offset="0.6" stop-color="#1438a8"/><stop offset="1" stop-color="#080c40"/></radialGradient>
+          <radialGradient id="bsDiamond"><stop offset="0" stop-color="#ffffff"/><stop offset="0.6" stop-color="#f0f0e8"/><stop offset="1" stop-color="#a0a098"/></radialGradient>
+          <radialGradient id="bsLigure"><stop offset="0" stop-color="#ffaa50"/><stop offset="0.6" stop-color="#e07020"/><stop offset="1" stop-color="#702808"/></radialGradient>
+          <radialGradient id="bsAgate"><stop offset="0" stop-color="#d4a880"/><stop offset="0.5" stop-color="#a07050"/><stop offset="1" stop-color="#403020"/></radialGradient>
+          <radialGradient id="bsAmethyst"><stop offset="0" stop-color="#c870e8"/><stop offset="0.6" stop-color="#9430b8"/><stop offset="1" stop-color="#3a1050"/></radialGradient>
+          <radialGradient id="bsBeryl"><stop offset="0" stop-color="#ffd870"/><stop offset="0.6" stop-color="#d8a838"/><stop offset="1" stop-color="#705008"/></radialGradient>
+          <radialGradient id="bsOnyx"><stop offset="0" stop-color="#5a5048"/><stop offset="0.5" stop-color="#1a1810"/><stop offset="1" stop-color="#000"/></radialGradient>
+          <radialGradient id="bsJasper"><stop offset="0" stop-color="#d84040"/><stop offset="0.6" stop-color="#a82828"/><stop offset="1" stop-color="#400808"/></radialGradient>
+        </defs>
+
+        <!-- ambient glow -->
+        <ellipse cx="300" cy="360" rx="280" ry="320" fill="url(#bGold)" opacity="0.04"/>
+
+        <!-- Breastplate frame — square, doubled, gold-edged -->
+        <rect x="140" y="100" width="320" height="380" rx="8" fill="url(#bWeave)" stroke="url(#bGold)" stroke-width="6" opacity="0.95"/>
+        <rect x="155" y="115" width="290" height="350" rx="4" fill="none" stroke="url(#bGold)" stroke-width="2" opacity="0.8"/>
+
+        <!-- Gold corner rings -->
+        <circle cx="148" cy="108" r="10" fill="none" stroke="url(#bGold)" stroke-width="3"/>
+        <circle cx="452" cy="108" r="10" fill="none" stroke="url(#bGold)" stroke-width="3"/>
+        <circle cx="148" cy="435" r="10" fill="none" stroke="url(#bGold)" stroke-width="3"/>
+        <circle cx="452" cy="435" r="10" fill="none" stroke="url(#bGold)" stroke-width="3"/>
+
+        <!-- 12 STONES grid: 4 rows of 3, much larger and clickable -->
+        <g id="stonesGrid">
+          <!-- Row 1 -->
+          <g class="stone" data-stone="reuben">
+            <circle cx="220" cy="180" r="36" fill="url(#bsRed)" stroke="url(#bGold)" stroke-width="3.5"/>
+            <text x="220" y="172" font-family="Georgia,serif" font-size="11" fill="rgba(255,255,200,0.85)" text-anchor="middle" font-style="italic" font-weight="600">רְאוּבֵן</text>
+            <text x="220" y="195" font-family="Cinzel,serif" font-size="9" fill="#d4af37" text-anchor="middle" letter-spacing="1.2">REUBEN</text>
+          </g>
+          <g class="stone" data-stone="simeon">
+            <circle cx="300" cy="180" r="36" fill="url(#bsTopaz)" stroke="url(#bGold)" stroke-width="3.5"/>
+            <text x="300" y="172" font-family="Georgia,serif" font-size="11" fill="rgba(80,60,10,0.9)" text-anchor="middle" font-style="italic" font-weight="600">שִׁמְעוֹן</text>
+            <text x="300" y="195" font-family="Cinzel,serif" font-size="9" fill="#3a2c08" stroke="#000" stroke-width="0.3" paint-order="stroke fill" text-anchor="middle" letter-spacing="1.2">SIMEON</text>
+          </g>
+          <g class="stone" data-stone="levi">
+            <circle cx="380" cy="180" r="36" fill="url(#bsCarbuncle)" stroke="url(#bGold)" stroke-width="3.5"/>
+            <text x="380" y="172" font-family="Georgia,serif" font-size="11" fill="rgba(255,255,200,0.85)" text-anchor="middle" font-style="italic" font-weight="600">לֵוִי</text>
+            <text x="380" y="195" font-family="Cinzel,serif" font-size="9" fill="#d4af37" text-anchor="middle" letter-spacing="1.2">LEVI</text>
+          </g>
+          <!-- Row 2 -->
+          <g class="stone" data-stone="judah">
+            <circle cx="220" cy="260" r="36" fill="url(#bsEmerald)" stroke="url(#bGold)" stroke-width="3.5"/>
+            <text x="220" y="252" font-family="Georgia,serif" font-size="11" fill="rgba(255,255,200,0.9)" text-anchor="middle" font-style="italic" font-weight="600">יְהוּדָה</text>
+            <text x="220" y="275" font-family="Cinzel,serif" font-size="9" fill="#d4af37" text-anchor="middle" letter-spacing="1.2">JUDAH</text>
+          </g>
+          <g class="stone" data-stone="dan">
+            <circle cx="300" cy="260" r="36" fill="url(#bsSapphire)" stroke="url(#bGold)" stroke-width="3.5"/>
+            <text x="300" y="252" font-family="Georgia,serif" font-size="11" fill="rgba(255,255,255,0.9)" text-anchor="middle" font-style="italic" font-weight="600">דָּן</text>
+            <text x="300" y="275" font-family="Cinzel,serif" font-size="9" fill="#d4af37" text-anchor="middle" letter-spacing="1.2">DAN</text>
+          </g>
+          <g class="stone" data-stone="naphtali">
+            <circle cx="380" cy="260" r="36" fill="url(#bsDiamond)" stroke="url(#bGold)" stroke-width="3.5"/>
+            <text x="380" y="252" font-family="Georgia,serif" font-size="10" fill="rgba(40,30,10,0.85)" text-anchor="middle" font-style="italic" font-weight="600">נַפְתָּלִי</text>
+            <text x="380" y="275" font-family="Cinzel,serif" font-size="9" fill="#3a2c08" stroke="#000" stroke-width="0.3" paint-order="stroke fill" text-anchor="middle" letter-spacing="1.2">NAPHTALI</text>
+          </g>
+          <!-- Row 3 -->
+          <g class="stone" data-stone="gad">
+            <circle cx="220" cy="340" r="36" fill="url(#bsLigure)" stroke="url(#bGold)" stroke-width="3.5"/>
+            <text x="220" y="332" font-family="Georgia,serif" font-size="11" fill="rgba(60,30,5,0.9)" text-anchor="middle" font-style="italic" font-weight="600">גָּד</text>
+            <text x="220" y="355" font-family="Cinzel,serif" font-size="9" fill="#d4af37" text-anchor="middle" letter-spacing="1.2">GAD</text>
+          </g>
+          <g class="stone" data-stone="asher">
+            <circle cx="300" cy="340" r="36" fill="url(#bsAgate)" stroke="url(#bGold)" stroke-width="3.5"/>
+            <text x="300" y="332" font-family="Georgia,serif" font-size="11" fill="rgba(255,255,200,0.85)" text-anchor="middle" font-style="italic" font-weight="600">אָשֵׁר</text>
+            <text x="300" y="355" font-family="Cinzel,serif" font-size="9" fill="#d4af37" text-anchor="middle" letter-spacing="1.2">ASHER</text>
+          </g>
+          <g class="stone" data-stone="issachar">
+            <circle cx="380" cy="340" r="36" fill="url(#bsAmethyst)" stroke="url(#bGold)" stroke-width="3.5"/>
+            <text x="380" y="332" font-family="Georgia,serif" font-size="10" fill="rgba(255,255,200,0.85)" text-anchor="middle" font-style="italic" font-weight="600">יִשָּׂשכָר</text>
+            <text x="380" y="355" font-family="Cinzel,serif" font-size="9" fill="#d4af37" text-anchor="middle" letter-spacing="1.2">ISSACHAR</text>
+          </g>
+          <!-- Row 4 -->
+          <g class="stone" data-stone="zebulun">
+            <circle cx="220" cy="420" r="36" fill="url(#bsBeryl)" stroke="url(#bGold)" stroke-width="3.5"/>
+            <text x="220" y="412" font-family="Georgia,serif" font-size="10" fill="rgba(60,40,5,0.95)" text-anchor="middle" font-style="italic" font-weight="600">זְבוּלוּן</text>
+            <text x="220" y="435" font-family="Cinzel,serif" font-size="9" fill="#2a1f04" stroke="#000" stroke-width="0.4" paint-order="stroke fill" text-anchor="middle" letter-spacing="1.2" font-weight="600">ZEBULUN</text>
+          </g>
+          <g class="stone" data-stone="joseph">
+            <circle cx="300" cy="420" r="36" fill="url(#bsOnyx)" stroke="url(#bGold)" stroke-width="3.5"/>
+            <text x="300" y="412" font-family="Georgia,serif" font-size="11" fill="rgba(212,175,55,0.95)" text-anchor="middle" font-style="italic" font-weight="600">יוֹסֵף</text>
+            <text x="300" y="435" font-family="Cinzel,serif" font-size="9" fill="#d4af37" text-anchor="middle" letter-spacing="1.2">JOSEPH</text>
+          </g>
+          <g class="stone" data-stone="benjamin">
+            <circle cx="380" cy="420" r="36" fill="url(#bsJasper)" stroke="url(#bGold)" stroke-width="3.5"/>
+            <text x="380" y="412" font-family="Georgia,serif" font-size="10" fill="rgba(255,255,200,0.9)" text-anchor="middle" font-style="italic" font-weight="600">בִּנְיָמִין</text>
+            <text x="380" y="435" font-family="Cinzel,serif" font-size="9" fill="#d4af37" text-anchor="middle" letter-spacing="1.2">BENJAMIN</text>
+          </g>
+        </g>
+
+        <!-- Title above breastplate -->
+        <text x="300" y="60" font-family="Cinzel,serif" font-size="16" fill="#d4af37" text-anchor="middle" letter-spacing="3" font-weight="600">CHOSHEN MISHPAT</text>
+        <text x="300" y="80" font-family="Georgia,serif" font-size="13" fill="rgba(212,175,55,0.6)" text-anchor="middle" font-style="italic">חֹשֶׁן מִשְׁפָּט · The Breastplate of Judgment</text>
+
+        <!-- Below: Urim and Thummim representation -->
+        <g class="stone" data-stone="urim">
+          <rect x="240" y="540" width="120" height="60" rx="4" fill="rgba(20,15,8,0.9)" stroke="url(#bGold)" stroke-width="2"/>
+          <text x="300" y="565" font-family="Georgia,serif" font-size="13" fill="#d4af37" text-anchor="middle" font-style="italic">אוּרִים וְתֻמִּים</text>
+          <text x="300" y="585" font-family="Cinzel,serif" font-size="9" fill="rgba(212,175,55,0.7)" text-anchor="middle" letter-spacing="1.5">URIM &amp; THUMMIM</text>
+        </g>
+        <text x="300" y="620" font-family="Georgia,serif" font-size="10" fill="rgba(212,175,55,0.5)" text-anchor="middle" font-style="italic">"Lights and Perfections" · placed within the Choshen</text>
+        <text x="300" y="640" font-family="Cinzel,serif" font-size="8" fill="rgba(212,175,55,0.45)" text-anchor="middle" letter-spacing="1.2">CLICK ANY STONE OR THE URIM &amp; THUMMIM</text>
+
+        <!-- Connection chains hint -->
+        <text x="300" y="685" font-family="Georgia,serif" font-size="10" fill="rgba(212,175,55,0.4)" text-anchor="middle" font-style="italic">Bound to the ephod by chains of pure gold (Exodus 28:14)</text>
+      </svg>
+    </div>
+
+  </div>
+
+  <div id="hint">Click any garment to explore · Click the breastplate to enter the stones</div>
+ </div>
+
+ <div id="panel">
+  <div class="ph">
+   <button class="pclose" id="pc">✕</button>
+   <div class="ptitle" id="ptitle"></div>
+   <div class="pheb"   id="pheb"></div>
+  </div>
+  <div class="pbody" id="pbody"></div>
+ </div>
+</div>
+
+<script>
+// ============================================================================
+// DATA — Garments and Tribes
+// ============================================================================
+
+const GARMENTS = {
+  tzitz: {
+    title: "Tzitz — The Holy Crown",
+    hebrew: "צִיץ הַזָּהָב — Tzitz HaZahav · 'The Plate of Gold'\nEngraved: קֹדֶשׁ לַיהוה — 'Holiness to the LORD'\nExodus 28:36-38 · Exodus 39:30",
+    scRef: "Exodus 28:36-38 | Revelation 14:1 | Revelation 22:4",
+    scTx: "And thou shalt make a plate of pure gold, and grave upon it, like the engravings of a signet, HOLINESS TO THE LORD. And thou shalt put it on a blue lace, that it may be upon the mitre... And it shall be upon Aaron's forehead.",
+    sym: "A plate of <strong>pure gold</strong> tied to the front of the turban with a blue cord. Engraved like a signet ring with two Hebrew words: <em>Qodesh L'YHWH</em> — Holiness to the LORD. The High Priest wore God's character on his most prominent feature, his forehead, declaring his entire identity consecrated to God.\n\nThe plate had a specific function (Exodus 28:38): it bore the iniquity of the holy things — meaning it covered any defect in the sacred offerings of Israel so they could be accepted. The High Priest's holiness, mediated by Christ, made the people's worship acceptable.",
+    christ: "Christ wears this crown perfectly. He is the one whose forehead truly says <em>Holiness to the LORD</em>, and through Him our flawed offerings become acceptable. His holiness covers ours.\n\nIn Revelation 22:4, the redeemed will see His face and <strong>His name shall be in their foreheads</strong> — the High Priest's golden plate fulfilled in every exalted Saint who bears the Father's name.",
+    today: "Every Latter-day Saint temple in the world has these exact words engraved on its outer walls: <strong>HOLINESS TO THE LORD · THE HOUSE OF THE LORD</strong>. The temple itself wears the High Priest's golden plate. The phrase has been carried unbroken from Sinai to today.\n\nWhen we enter a temple, we are walking past the same declaration Aaron wore on his forehead. We are entering a space, and a covenant, marked with that crown."
+  },
+
+  mitznephet: {
+    title: "Mitznephet — The Turban",
+    hebrew: "מִצְנֶפֶת — Mitznephet · 'That which is wound'\nFine White Linen\nExodus 28:39 · Exodus 39:28",
+    scRef: "Exodus 28:39 | Zechariah 3:5 | Leviticus 16:4",
+    scTx: "And thou shalt make the mitre of fine linen, and thou shalt make the girdle of needlework... And he set the mitre upon his head; also upon the mitre, even upon his forefront, did he put the golden plate, the holy crown.",
+    sym: "A long band of <strong>fine white linen</strong> wound carefully around the head — the same linen as the priestly garments, signifying righteousness and purity. The turban was the platform on which the golden plate rested. Without the turban, no crown.\n\nIn Zechariah 3, when the High Priest Joshua stands accused before the Lord, the angel commands a clean turban placed on his head as a sign of restored priestly standing. The turban marks one who is authorized to enter holy space.",
+    christ: "Christ is the true Head — <em>kephalē</em> in Greek (Ephesians 1:22, Colossians 1:18). The mind of the High Priest, covered and consecrated, points to the mind of Christ which we are invited to put on (1 Corinthians 2:16, Philippians 2:5).\n\nOn Yom Kippur the turban was simple, plain linen. So Christ in Gethsemane — the King of Kings — wore no earthly crown but bore a crown of thorns. The simplest covering held the highest authority.",
+    today: "The covering of the head in temple worship continues this ancient pattern of consecrated approach to God. The principle: the mind that approaches the holy must be covered, set apart, devoted entirely to the Lord. What you put on your head you have placed under His authority."
+  },
+
+  shoulders: {
+    title: "Shoulder Stones — Avnei Shoham",
+    hebrew: "אַבְנֵי שֹׁהַם — Avnei Shoham · 'Stones of Onyx'\nSix tribes engraved on each, by birth order\nSet in gold ouches on the ephod's shoulders\nExodus 28:9-12 · Exodus 39:6-7",
+    scRef: "Exodus 28:12 | Isaiah 9:6 | Luke 15:5",
+    scTx: "And thou shalt take two onyx stones, and grave on them the names of the children of Israel: Six of their names on one stone, and the other six names of the rest on the other stone, according to their birth... and Aaron shall bear their names before the LORD upon his two shoulders for a memorial.",
+    sym: "Two large stones of <strong>onyx</strong>, each engraved with six tribal names by birth order. The first stone (right shoulder): Reuben, Simeon, Levi, Judah, Dan, Naphtali. The second stone (left shoulder): Gad, Asher, Issachar, Zebulun, Joseph, Benjamin.\n\nThese are called <em>'stones of memorial'</em> (Exodus 28:12). The High Priest carried Israel into the sanctuary on his shoulders — the place of strength and burden bearing. Every time he turned, every step he took, he was carrying twelve tribes through the shadow of God.\n\nHe could not enter the holy place alone. He could not be separated from those he served.",
+    christ: "Isaiah saw this perfectly: <em>'The government shall be upon his shoulder'</em> (Isaiah 9:6). Christ is the High Priest who carries the entire covenant family on His shoulders — every name remembered, every soul borne up.\n\nIn Luke 15, the Good Shepherd finds the lost sheep and <strong>lays it on his shoulders, rejoicing</strong>. The same posture as the High Priest. The same place of strength. The same act of bearing the lost into safety.",
+    today: "Every priesthood holder carries this calling in miniature. When a man stands to bless, to ordain, or to minister, he is taking names onto his shoulders. The names of those he serves are carried by him, before the Lord, every time he acts in Christ's name.\n\nAnd this is not the priesthood holder's strength alone. It is Christ carrying the lost sheep through him. The shoulder is the place of bearing — and the ultimate Bearer is Jesus, on whose shoulders the government rests forever (Isaiah 9:6). Every act of priesthood ministry is participation in His shoulder-borne work."
+  },
+
+  choshen: {
+    title: "Choshen — The Breastplate of Judgment",
+    hebrew: "חֹשֶׁן מִשְׁפָּט — Choshen Mishpat · 'Breastplate of Judgment'\nFour woven colors · Twelve stones · Twelve tribes\nUrim and Thummim within\nExodus 28:15-30 · Exodus 39:8-21",
+    scRef: "Exodus 28:29-30 | Hebrews 9:24 | Revelation 21:19-20",
+    scTx: "And Aaron shall bear the names of the children of Israel in the breastplate of judgment upon his heart, when he goeth in unto the holy place, for a memorial before the LORD continually. And thou shalt put in the breastplate of judgment the Urim and the Thummim.",
+    sym: "Square, doubled fabric — woven of the same four colors as the gate and the veil (blue, purple, scarlet, fine linen) and threaded with gold. Twelve precious stones in four rows of three, each engraved with a tribal name.\n\nNotice <strong>where</strong> God placed it: <em>upon his heart</em>. The shoulder stones bore the people in strength; the breastplate stones bore them in love. The High Priest could not even breathe near the Holy of Holies without the people being over his heart.\n\nInside this fabric pouch were the <strong>Urim and Thummim</strong> — 'Lights and Perfections' — instruments of revelation. Judgment and revelation were carried on the same garment. The High Priest could not seek the mind of God without bearing the people; he could not bear the people without seeking the mind of God.",
+    christ: "Hebrews 9:24 — Christ entered the true Holy of Holies <em>'now to appear in the presence of God for us.'</em> He carries every name on His heart, eternally, in the very throne room. The chains of pure gold that bound the breastplate to the ephod (Exodus 28:14) are not stronger than His grip on those He has redeemed.\n\nIn Revelation 21:19-20, the New Jerusalem's foundations are twelve precious stones — the same stones, now expanded into a city. The breastplate has become the architecture of heaven.",
+    today: "The Restoration was launched through Urim and Thummim. Joseph Smith translated the Book of Mormon by the same divine instrument carried in the High Priest's breastplate (D&C 17:1, JS-H 1:35). The line of revelation that began on Aaron's chest runs unbroken through Joseph Smith and into living prophets today.\n\n<strong>Click on any stone to explore that tribe.</strong>"
+  },
+
+  ephod: {
+    title: "Ephod — The Priestly Apron",
+    hebrew: "אֵפוֹד — Ephod · 'The Bound Garment'\nGold, blue, purple, scarlet, fine linen\nWoven with cunning work\nExodus 28:6-14 · Exodus 39:2-7",
+    scRef: "Exodus 28:6-7 | Isaiah 22:21 | Hebrews 4:14",
+    scTx: "And they shall make the ephod of gold, of blue, and of purple, of scarlet, and fine twined linen, with cunning work. It shall have the two shoulderpieces thereof joined at the two edges thereof; and so it shall be joined together.",
+    sym: "The ephod was the High Priest's distinctive overgarment — an apron-like piece bound at the shoulders and waist. It carried <strong>gold thread woven into the fabric</strong>, an extraordinary craftsmanship described in Exodus 39:3: gold beaten into thin plates and cut into wires, then woven through the colored linen.\n\nGold woven into cloth — divine glory bound into mortal threads. The ephod is where the four colors of the gate and the veil come together with gold, summarizing every dimension of who Christ is in a single garment.\n\nThe ephod also held the breastplate in place by chains. The Choshen could not function without the Ephod beneath it.",
+    christ: "Christ is the perfect ephod — divinity (gold) woven inseparably into humanity (the colored linen). He bears the names; He holds the revelation; He is the foundation on which the breastplate of all our prayers rests.\n\nIsaiah 22:20-22 prophesies of Eliakim, a type of Christ: <em>'I will clothe him with thy robe, and strengthen him with thy girdle... and I will lay the key of the house of David upon his shoulder.'</em>",
+    today: "The temple endowment continues the language of being clothed in priestly robes. To put on the robes of the priesthood is to put on the office of one who stands between God and His people. The ephod tradition has not ended; it has been universalized."
+  },
+
+  meil: {
+    title: "Me'il — The Robe of the Ephod",
+    hebrew: "מְעִיל — Me'il · 'The Robe'\nWoven entirely of blue (tekhelet)\nHem: alternating golden bells and pomegranates\nExodus 28:31-35 · Exodus 39:22-26",
+    scRef: "Exodus 28:33-35 | Mark 5:27-29 | Revelation 1:13",
+    scTx: "And beneath upon the hem of it thou shalt make pomegranates of blue, and of purple, and of scarlet, round about the hem thereof; and bells of gold between them round about... And his sound shall be heard when he goeth in unto the holy place before the LORD.",
+    sym: "A long robe of <strong>solid blue (tekhelet)</strong> — the color of heaven — worn directly under the ephod. No seams: woven in one piece from a single thread (Exodus 39:22-23). The neck opening was bound so it could not tear.\n\nThe hem was extraordinary. Around the bottom, alternating: <strong>golden bells</strong> and <strong>pomegranates</strong> embroidered in blue, purple, and scarlet. The bells rang as the High Priest moved.\n\nThe theological purpose stated in Exodus 28:35 is staggering: <em>'his sound shall be heard when he goeth in unto the holy place before the LORD, and when he cometh out, that he die not.'</em> The bells were the people's audible proof that the High Priest, carrying their names, was still alive in the presence of God.",
+    christ: "Mark 5 — the woman with the issue of blood reaches for the <strong>hem of His garment</strong>. She was reaching for the hem of the High Priest. The bells and pomegranates of mercy. And she was healed.\n\nChrist's seamless robe at the crucifixion (John 19:23-24) — the soldiers refused to tear it because it was woven in one piece, top to bottom. <strong>The High Priest's robe of the ephod.</strong> Even at His death, the priestly garment was preserved unbroken.\n\nRevelation 1:13 — the resurrected Christ appears <em>'clothed with a garment down to the foot, and girt about the paps with a golden girdle.'</em> The Me'il, eternally worn.",
+    today: "The pomegranate in Hebrew tradition contains 613 seeds — said to match the 613 commandments of the Torah. Bells of joyful sound and the fruit of obedience, woven together at the hem. The covenant life makes a sound, and bears fruit.\n\nWhen we covenant in the temple, we put on robes that descend from this Me'il. We are clothed in heaven's blue."
+  },
+
+  avnet: {
+    title: "Avnet — The Sash",
+    hebrew: "אַבְנֵט — Avnet · 'The Girdle'\nBlue · Purple · Scarlet · Fine Linen\nWound around the waist\nExodus 28:39 · Exodus 39:29",
+    scRef: "Exodus 28:39 | Isaiah 11:5 | Revelation 1:13",
+    scTx: "And thou shalt make the girdle of needlework... And a girdle of fine twined linen, and blue, and purple, and scarlet, of needlework; as the LORD commanded Moses.",
+    sym: "A long sash of <strong>fine linen with blue, purple, and scarlet embroidery</strong> — the same four colors of the gate, veil, and breastplate. Wound around the waist over the white tunic.\n\nIn ancient Israel, a sash bound the long robes for service. To gird oneself was to prepare for action. The High Priest's sash declared: <em>I am at work. I am ministering. I have set my robes for service.</em>",
+    christ: "Isaiah 11:5 of the Messiah: <em>'Righteousness shall be the girdle of his loins, and faithfulness the girdle of his reins.'</em> Christ's belt is righteousness. He is forever girt for service.\n\nJohn 13 — Christ <strong>laid aside His garments and girded Himself with a towel</strong> to wash His disciples' feet. The High Priest set aside His glory and bound Himself to serve. The Avnet is the posture of the consecrated servant.\n\nRevelation 1:13 — the resurrected Lord wears a golden girdle. Eternally girded. Eternally at work for our salvation (Hebrews 7:25).",
+    today: "Paul tells the Saints: <em>'Stand therefore, having your loins girt about with truth'</em> (Ephesians 6:14). The Avnet is the first piece of the armor of God. To begin the day in covenant is to wrap truth around our waist before anything else."
+  },
+
+  kethoneth: {
+    title: "Kethoneth — The Tunic",
+    hebrew: "כְּתֹנֶת — Kethoneth · 'The Coat'\nFine White Linen, embroidered/checkered\nWoven seamlessly\nExodus 28:39 · Exodus 39:27",
+    scRef: "Exodus 28:39-40 | John 19:23-24 | Revelation 19:8",
+    scTx: "And thou shalt embroider the coat of fine linen... And they made coats of fine linen of woven work for Aaron, and for his sons.",
+    sym: "A long, sleeved tunic of <strong>fine white linen</strong>, woven in one piece without seams (the rabbinic tradition emphasizes this). The first garment put on, lying directly against the body. White linen consistently signifies <strong>righteousness</strong> in scripture.\n\nThis is the High Priest's identity garment. Before the colors, before the ephod, before the breastplate, before the crown — pure white righteousness against the skin. Everything else was put on over this foundation.",
+    christ: "John 19:23 — at the crucifixion, the soldiers divided Christ's garments but cast lots for His <em>coat (chiton in Greek, the equivalent of kethoneth) which was without seam, woven from the top throughout.</em> The High Priest's seamless tunic was on the cross.\n\nThe garment that signified perfect righteousness was worn by the only one who actually possessed it. And then He gave it up so His righteousness could be imputed to us.\n\nRevelation 19:8 — the bride of the Lamb is <em>'arrayed in fine linen, clean and white: for the fine linen is the righteousness of saints.'</em>",
+    today: "Every Latter-day Saint who enters the temple wears white. Every covenant ordinance is performed in white. The Kethoneth has not disappeared; it has been democratized. <strong>What was reserved for one is now required for all.</strong>\n\nThe garment worn beneath all other clothing remains a covenant signal — the foundation under everything else, the daily reminder that righteousness is the first layer of who we are."
+  },
+
+  mikhnesei: {
+    title: "Mikhnesei-Bad — The Linen Breeches",
+    hebrew: "מִכְנְסֵי בָד — Mikhnesei-Bad · 'Linen Breeches'\nWhite Linen · From loins to thighs\nExodus 28:42-43 · Leviticus 16:4",
+    scRef: "Exodus 28:42-43 | Genesis 3:21 | 1 Timothy 2:9",
+    scTx: "And thou shalt make them linen breeches to cover their nakedness; from the loins even unto the thighs they shall reach: and they shall be upon Aaron, and upon his sons, when they come in unto the tabernacle.",
+    sym: "The first garment of the priestly vestments and the most hidden. <strong>White linen breeches</strong> from waist to thigh, worn directly on the skin. Without these, no priest could approach the altar — Exodus 28:43 makes the requirement on pain of death.\n\nThe theological statement is profound: <em>before any service, modesty. Before any holiness, the covering of nakedness.</em> This goes back to Genesis 3:21, where after the Fall, God Himself made coats of skins to cover Adam and Eve. The priest's first act of dressing repeats Eden's first act of grace.\n\nNothing in the High Priest's appearance to the people would betray this layer. But God required it of him. The hidden garment was not less important than the visible crown.",
+    christ: "Genesis 3:21 — God killed an animal to cover the nakedness of fallen humanity. The first sacrifice. The first covering. <strong>The first foreshadowing of Christ.</strong> The Mikhnesei-Bad is a continuing memorial of that original act of divine clothing.\n\nChrist clothes us in His righteousness from the most fundamental layer outward (Isaiah 61:10, Galatians 3:27). What He gives us is not display garment — it is the deepest covering of our exposed selves.",
+    today: "Modest dress is not a cultural preference in the gospel; it is the first article of priestly clothing. The covering of the body is a covenant act, traceable directly to Aaron and even further back to Eden.\n\nWhat is hidden is sacred. What is closest to the skin matters most. The Lord cares about the layer no one else sees."
+  }
+};
+
+const TRIBES = {
+  reuben: {
+    name: "Reuben", hebrew: "רְאוּבֵן", meaning: "'See, a Son'",
+    stoneEng: "Sardius / Ruby", stoneHeb: "אֹדֶם — Odem", stoneColor: "#d92020",
+    order: "Firstborn · Son of Leah",
+    gen49: "My firstborn, my might, the beginning of my strength, the excellency of dignity, and the excellency of power: Unstable as water, thou shalt not excel; because thou wentest up to thy father's bed.",
+    gen49ref: "Genesis 49:3-4",
+    deut33: "Let Reuben live, and not die; and let not his men be few.",
+    deut33ref: "Deuteronomy 33:6",
+    sym: "<strong>The lost firstborn.</strong> Reuben was Jacob's first son and the rightful heir to the birthright, but he forfeited it by sinning with Bilhah, his father's concubine (Genesis 35:22, 1 Chronicles 5:1-2). The birthright passed to Joseph.\n\nThe red sardius — the color of blood and of earth (Adam, <em>adamah</em>) — sits in the first position. The first stone is a <strong>warning</strong>: birthright without faithfulness is forfeit.\n\nMoses' blessing simply pleads, <em>let Reuben live, and not die.</em> No grand promise. Just preservation.",
+    christ: "Christ is the True Firstborn (Colossians 1:15) who never falls. Where Adam fell, where Reuben fell, where every firstborn man before Him fell — Christ stands. The red of the sardius is His blood, which restores what every Reuben in us has forfeited.",
+    today: "Reuben's stone is mercy: even the disqualified are given a place on the High Priest's heart. The first stone is the most pastoral one. The Lord still carries those who have forfeited their birthright.\n\nFor LDS readers: the sealing power restores birthright lines that have been broken. What was lost can be reclaimed through covenant. <em>Let him live, and not die.</em>"
+  },
+
+  simeon: {
+    name: "Simeon", hebrew: "שִׁמְעוֹן", meaning: "'Heard'",
+    stoneEng: "Topaz", stoneHeb: "פִּטְדָה — Pitdah", stoneColor: "#d4d020",
+    order: "Second · Son of Leah",
+    gen49: "Simeon and Levi are brethren; instruments of cruelty are in their habitations... Cursed be their anger, for it was fierce; and their wrath, for it was cruel: I will divide them in Jacob, and scatter them in Israel.",
+    gen49ref: "Genesis 49:5-7",
+    deut33: "(Notably absent — Moses does not bless Simeon by name.)",
+    deut33ref: "Deuteronomy 33",
+    sym: "Simeon and Levi together massacred Shechem (Genesis 34) in vengeance for their sister Dinah. Jacob's blessing curses their anger and prophesies they will be <strong>scattered in Israel</strong>.\n\nSimeon's tribal territory was eventually absorbed into Judah (Joshua 19:1-9). The tribe effectively disappeared as an independent entity. Moses, blessing the tribes before his death, omits Simeon by name — an extraordinary silence.\n\nThe yellow topaz still remains on the breastplate. Even the silent tribe is borne over the heart of the High Priest.",
+    christ: "Two brothers, one curse, two destinies. Simeon and Levi committed the same sin, but Levi later turned to the Lord at the golden calf (Exodus 32:26-29) and was redeemed into the priesthood. Simeon did not have a comparable turning point.\n\n<strong>Christ alone determines whether wrath becomes consecration or curse.</strong> The same sin in Levi became priesthood; in Simeon it became scattering. Repentance is the divider.",
+    today: "Simeon is the warning beside Levi's redemption. The breastplate carries both — they are next to each other on the row, in the actual order of birth — to remind every priest: <em>your office is one repentance away from being either Levi or Simeon</em>.\n\nThe scattering of Simeon also points to the gathering. What was scattered will be gathered when Christ returns. No tribe is finally lost on the High Priest's heart."
+  },
+
+  levi: {
+    name: "Levi", hebrew: "לֵוִי", meaning: "'Joined / Attached'",
+    stoneEng: "Carbuncle / Emerald", stoneHeb: "בָּרֶקֶת — Bareketh ('flashing')", stoneColor: "#0d9c4a",
+    order: "Third · Son of Leah",
+    gen49: "Simeon and Levi are brethren; instruments of cruelty are in their habitations... I will divide them in Jacob, and scatter them in Israel.",
+    gen49ref: "Genesis 49:5-7",
+    deut33: "Let thy Thummim and thy Urim be with thy holy one... They shall teach Jacob thy judgments, and Israel thy law: they shall put incense before thee, and whole burnt sacrifice upon thine altar.",
+    deut33ref: "Deuteronomy 33:8-11",
+    sym: "<strong>The redeemed brother.</strong> Cursed with Simeon under Jacob, Levi was utterly transformed at the golden calf. When Moses cried <em>'Who is on the Lord's side? let him come unto me'</em> (Exodus 32:26), all the sons of Levi gathered to him. They were consecrated to the Lord that day, and the priesthood became theirs.\n\nMoses' blessing on Levi is the longest of all the tribes — and it explicitly mentions <strong>Urim and Thummim</strong>. The cursed scattering became a holy distribution: the Levites were placed throughout Israel as teachers and priests, with no land of their own (<em>'the LORD is their inheritance,'</em> Numbers 18:20).\n\nThe flashing green carbuncle — light catching in a precious stone — fits a tribe whose calling is to bear God's light to every other tribe.",
+    christ: "Hebrews 7 — Christ is High Priest after the order of Melchizedek, not after Aaron. But Aaron's line was the visible historical priesthood that pointed to Him. Levi's redemption from curse to consecration is the gospel pattern: <strong>what was disqualified becomes the very channel of grace.</strong>\n\nThe Aaronic priesthood is explicitly <em>'after the manner of the order of Aaron, who was a descendant of Levi'</em> (D&C 84:18). The curse became the keys.",
+    today: "Levi's stone is the priesthood stone. The Aaronic Priesthood that every young man and every bishopric in the restored Church holds today flows directly from Levi's redemption at the golden calf. D&C 84:18 says the Aaronic Priesthood is <em>'after the manner of the order of Aaron, who was a descendant of Levi.'</em>\n\nMoses' blessing on Levi is the perfect prayer for any servant of Christ in this office: <em>let thy Thummim and thy Urim be with thy holy one... they shall teach Jacob thy judgments... they shall put incense before thee.</em> Teaching, intercession, and sacrifice are how every disciple participates in the priestly work that Christ holds in fullness.\n\nThe whole point of Levi's redemption is that Christ alone is the true High Priest (Hebrews 7-10). Every Aaronic priesthood holder, ancient or modern, is a small mirror of His mediation. The keys are His. The office only has meaning because He stands behind it."
+  },
+
+  judah: {
+    name: "Judah", hebrew: "יְהוּדָה", meaning: "'Praise'",
+    stoneEng: "Emerald", stoneHeb: "נֹפֶךְ — Nofech", stoneColor: "#1cb578",
+    order: "Fourth · Son of Leah",
+    gen49: "Judah, thou art he whom thy brethren shall praise: thy hand shall be in the neck of thine enemies; thy father's children shall bow down before thee. Judah is a lion's whelp... The sceptre shall not depart from Judah, nor a lawgiver from between his feet, until Shiloh come; and unto him shall the gathering of the people be.",
+    gen49ref: "Genesis 49:8-12",
+    deut33: "Hear, LORD, the voice of Judah, and bring him unto his people: let his hands be sufficient for him; and be thou an help to him from his enemies.",
+    deut33ref: "Deuteronomy 33:7",
+    sym: "<strong>The royal tribe.</strong> Jacob's prophecy is one of the great messianic texts of the Old Testament. The kingship is given to Judah, and it shall not depart <em>until Shiloh come</em> — Shiloh being a messianic title meaning <em>'he to whom it belongs.'</em>\n\nDavid was of Judah. Solomon was of Judah. Every king of the southern kingdom was of Judah. The lion is Judah's emblem. The royal scepter is Judah's inheritance.\n\nThe deep green emerald sits in the most prominent center-left position on the second row — directly over the High Priest's heart.",
+    christ: "<strong>Jesus of Nazareth was of the tribe of Judah</strong> (Hebrews 7:14, Matthew 1:1-3, Luke 3:33). He is the <em>Lion of the tribe of Judah</em> (Revelation 5:5). He is Shiloh, the One to whom the kingship belongs.\n\nThe entire prophecy of Genesis 49:10 fulfilled in Him: the gathering of the people unto Him, the sceptre eternally His. Every other tribe ultimately bows the knee to the King who came from Judah.",
+    today: "Judah's stone is the gathering of the Jews — the literal descendants of this tribe — being prepared for the Second Coming when they will recognize their Messiah (Zechariah 12:10, D&C 45:48-53).\n\nWhen Joseph Smith was given the keys of the gathering of Israel by Moses in the Kirtland Temple (D&C 110:11), the gathering of Judah was part of the commission. The royal tribe is being brought home."
+  },
+
+  dan: {
+    name: "Dan", hebrew: "דָּן", meaning: "'Judge'",
+    stoneEng: "Sapphire", stoneHeb: "סַפִּיר — Sappir", stoneColor: "#1438a8",
+    order: "Fifth · Son of Bilhah (Rachel's handmaid)",
+    gen49: "Dan shall judge his people, as one of the tribes of Israel. Dan shall be a serpent by the way, an adder in the path... I have waited for thy salvation, O LORD.",
+    gen49ref: "Genesis 49:16-18",
+    deut33: "Dan is a lion's whelp: he shall leap from Bashan.",
+    deut33ref: "Deuteronomy 33:22",
+    sym: "Dan's name itself means <em>judgment</em>. Jacob's blessing both elevates and warns: Dan shall judge, but Dan shall also be a serpent — and Jacob suddenly interrupts his own prophecy with a desperate prayer: <em>'I have waited for thy salvation, O LORD.'</em>\n\nDan's history was troubled. Judges 18 records the tribe abandoning its allotment and seizing Laish, then setting up a graven image. When Jeroboam later created the golden calves of the divided kingdom, one of them was <strong>at Dan</strong> (1 Kings 12:29).\n\nMost remarkably: in Revelation 7's list of the 144,000 sealed from each tribe, <strong>Dan is omitted</strong> and Manasseh takes its place. Some Jewish traditions associated Dan with the Antichrist precisely because of this absence.\n\nThe deep blue sapphire — the same blue as the Me'il and the heavens — still sits on the breastplate. Dan is borne on the heart even when scripture cannot find him in the final list.",
+    christ: "Jacob's interrupted prophecy is striking — in the middle of describing Dan, he cries out for the salvation of the LORD. As if the only answer to the most troubled tribe is the Messiah Himself.\n\nChrist is the true Judge (John 5:22). What Dan was meant to be, Christ fully is. And the salvation Jacob waited for is the One who alone can restore even the lost tribes.",
+    today: "Dan is the tribe of <strong>those who have wandered</strong>. The breastplate still carries them. The High Priest, who is Christ, still bears their name on His heart, even when their visible testimony has fallen silent.\n\nThis matters pastorally. In every ward, in every family, there are those who have drifted, who feel they have abandoned their inheritance. The Choshen says: <em>your name is still over the heart of the Savior. The lost tribes will be gathered. The wanderer is still loved.</em>\n\n<em>'I am the good shepherd... and other sheep I have, which are not of this fold: them also I must bring'</em> (John 10:14, 16). Even Dan. Especially Dan."
+  },
+
+  naphtali: {
+    name: "Naphtali", hebrew: "נַפְתָּלִי", meaning: "'My Wrestling'",
+    stoneEng: "Diamond", stoneHeb: "יַהֲלֹם — Yahalom", stoneColor: "#f0f0e8",
+    order: "Sixth · Son of Bilhah",
+    gen49: "Naphtali is a hind let loose: he giveth goodly words.",
+    gen49ref: "Genesis 49:21",
+    deut33: "O Naphtali, satisfied with favour, and full with the blessing of the LORD: possess thou the west and the south.",
+    deut33ref: "Deuteronomy 33:23",
+    sym: "Naphtali was Bilhah's second son, and his name records Rachel's struggle to bear children: <em>'with great wrestlings have I wrestled with my sister, and I have prevailed'</em> (Genesis 30:8).\n\nA <strong>hind let loose</strong> — a freed deer, swift and graceful. <em>'He giveth goodly words.'</em> Naphtali was the eloquent, free-running tribe.\n\nThe clear diamond — purest light, hardest stone — captures the freedom and brilliance promised here. Naphtali's territory included the Sea of Galilee and the lands north of it.",
+    christ: "<strong>Naphtali's territory is where Jesus lived and ministered.</strong> Matthew 4:13-16 quotes Isaiah 9:1-2 directly: <em>'The land of Zabulon, and the land of Nephthalim... the people which sat in darkness saw great light.'</em> Capernaum, where Christ headquartered His ministry, was in Naphtali. Most of the Galilean ministry was in Naphtali's borders.\n\nThe goodly words of Naphtali found their fulfillment when the Word Himself walked through their territory speaking the Sermon on the Mount, the parables, and the discourses on the Bread of Life.",
+    today: "Naphtali is the tribe of <strong>the spoken gospel reaching the Gentile world</strong>. From this region the apostolic preaching went out to the nations. The freed hind became the running messenger.\n\nFor every missionary who carries Christ's name across borders, who speaks His goodly words in another tongue, the diamond is your stone. The clearest light, the swiftest feet, the freest mouth — placed over the heart of the High Priest because Christ Himself is the Word being carried.\n\nMoroni's promise (Moroni 10:4) is Naphtali's gift in latter-day form: the Spirit confirms the Word that has been spoken. The hind still runs."
+  },
+
+  gad: {
+    name: "Gad", hebrew: "גָּד", meaning: "'Troop / Fortune'",
+    stoneEng: "Ligure / Jacinth", stoneHeb: "לֶשֶׁם — Leshem", stoneColor: "#e07020",
+    order: "Seventh · Son of Zilpah (Leah's handmaid)",
+    gen49: "Gad, a troop shall overcome him: but he shall overcome at the last.",
+    gen49ref: "Genesis 49:19",
+    deut33: "Blessed be he that enlargeth Gad: he dwelleth as a lion, and teareth the arm with the crown of the head.",
+    deut33ref: "Deuteronomy 33:20-21",
+    sym: "Gad is the <strong>warrior tribe</strong>. Their territory was east of the Jordan, exposed to constant attack from desert peoples. Jacob's prophecy is brutal but hopeful: <em>a troop shall overcome him: but he shall overcome at the last.</em>\n\n1 Chronicles 12:8 describes Gadites who came to David: <em>'men of might, and men of war fit for the battle, that could handle shield and buckler, whose faces were like the faces of lions, and were as swift as the roes upon the mountains.'</em>\n\nThe orange-yellow ligure — fire-colored — fits a tribe that lived in constant defensive warfare and yet was promised final victory.",
+    christ: "Christ overcame at the last. The pattern of Gad — overrun in the short term, victorious in the long term — is the messianic pattern. Calvary looked like absolute defeat for three days. Then He overcame at the last.\n\nRevelation 19 — the Lord on the white horse, leading the armies of heaven, returning to overcome at the last forever.",
+    today: "Gad's stone is the assurance of <strong>final victory in Christ through faithful endurance</strong>. The Saints in the latter days will face overrunning troops in many forms (D&C 1:35-36, D&C 87). Like Gad, we may be pressed in the short term. Like Gad, we are promised to overcome at the last.\n\nBut the victory is not ours by strength. It is His given to us. <em>'Be of good cheer; I have overcome the world'</em> (John 16:33). Christ has already overcome at the last. Our task is to hold the line until His finished work becomes our visible inheritance.\n\n<em>Blessed be he that enlargeth Gad.</em> The Lord enlarges those who hold to Christ when the troops come."
+  },
+
+  asher: {
+    name: "Asher", hebrew: "אָשֵׁר", meaning: "'Blessed / Happy'",
+    stoneEng: "Agate", stoneHeb: "שְׁבוֹ — Shevo", stoneColor: "#a07050",
+    order: "Eighth · Son of Zilpah",
+    gen49: "Out of Asher his bread shall be fat, and he shall yield royal dainties.",
+    gen49ref: "Genesis 49:20",
+    deut33: "Let Asher be blessed with children; let him be acceptable to his brethren, and let him dip his foot in oil. Thy shoes shall be iron and brass; and as thy days, so thy strength shall be.",
+    deut33ref: "Deuteronomy 33:24-25",
+    sym: "Asher's name means <em>blessed</em> — Leah declared at his birth, <em>'Happy am I, for the daughters will call me blessed'</em> (Genesis 30:13). The tribe inherited fertile coastal land, rich in olive groves and grain.\n\nMoses' blessing is one of the most beautiful in all of Deuteronomy 33: <em>let him dip his foot in oil... thy shoes shall be iron and brass; and as thy days, so thy strength shall be.</em>\n\nThe banded agate stone — formed in patient layers — fits a tribe whose blessing was abundance built over generations.",
+    christ: "Christ is the bread <em>fat</em> with grace and the royal dainty of the messianic feast (Isaiah 25:6). He is the One who anoints with oil the head of the weary (Psalm 23:5).\n\nThe great promise — <em>as thy days, so shall thy strength be</em> — is fulfilled in Christ's daily grace (2 Corinthians 12:9). Every day He measures out exactly the strength required for that day.",
+    today: "Asher's stone is the doctrine of <strong>sufficient grace</strong>. The Lord matches your strength to your days. He does not give tomorrow's strength today, and He will not give today's strength tomorrow. He gives what is needed when it is needed.\n\nAnna the prophetess in Luke 2 was <em>'of the tribe of Aser'</em> (Asher) — and at the temple, she recognized the Christ child. The tribe of blessing recognized the Source of all blessing."
+  },
+
+  issachar: {
+    name: "Issachar", hebrew: "יִשָּׂשכָר", meaning: "'Reward / Hired'",
+    stoneEng: "Amethyst", stoneHeb: "אַחְלָמָה — Achlamah", stoneColor: "#9430b8",
+    order: "Ninth · Son of Leah",
+    gen49: "Issachar is a strong ass crouching down between two burdens: And he saw that rest was good, and the land that it was pleasant; and bowed his shoulder to bear, and became a servant unto tribute.",
+    gen49ref: "Genesis 49:14-15",
+    deut33: "Rejoice, Zebulun, in thy going out; and, Issachar, in thy tents... they shall offer sacrifices of righteousness.",
+    deut33ref: "Deuteronomy 33:18-19",
+    sym: "Issachar's blessing in Genesis 49 is unusual — described as a <em>strong ass</em> bearing burdens. The tribe was known for steady labor and willingness to serve.\n\nBut 1 Chronicles 12:32 reveals their most famous gift: <em>'children of Issachar, which were men that had understanding of the times, to know what Israel ought to do.'</em>\n\nIssachar was the tribe of <strong>spiritual discernment</strong>. They understood their generation. They could read the times.\n\nThe royal purple amethyst — long associated in the ancient world with sobriety and clear thinking — fits the tribe whose gift was to perceive what God was doing in the present moment.",
+    christ: "Christ <em>'understood the times'</em> with perfect clarity. He repeatedly confronted His generation with their inability to discern (Matthew 16:1-3, Luke 12:54-56). He is the One who knows what Israel ought to do.\n\nThe burdens Issachar bore were a shadow of the burden Christ bore — <em>'Surely he hath borne our griefs, and carried our sorrows'</em> (Isaiah 53:4).",
+    today: "Issachar's stone is the gift of <strong>discerning Christ's work in the latter days</strong>. President Nelson and the apostles repeatedly call us to be a people of Issachar — to understand the times and know what the Lord requires of us.\n\nBut spiritual discernment is not just reading the signs. It is recognizing Christ <em>in</em> the signs. The men of Issachar knew what Israel ought to do because they understood whose work was unfolding around them.\n\nThe Restoration itself depended on a young man's spiritual discernment — Joseph Smith, in the grove, asking which church to join, and being shown directly to Christ Himself: <em>'This is My Beloved Son. Hear Him!'</em> (JS-H 1:17). Every generation needs sons and daughters of Issachar who can discern where the Savior is moving and follow."
+  },
+
+  zebulun: {
+    name: "Zebulun", hebrew: "זְבוּלוּן", meaning: "'Dwelling'",
+    stoneEng: "Beryl / Chrysolite", stoneHeb: "תַּרְשִׁישׁ — Tarshish", stoneColor: "#d8a838",
+    order: "Tenth · Son of Leah",
+    gen49: "Zebulun shall dwell at the haven of the sea; and he shall be for an haven of ships; and his border shall be unto Zidon.",
+    gen49ref: "Genesis 49:13",
+    deut33: "Rejoice, Zebulun, in thy going out... they shall call the people unto the mountain; there they shall offer sacrifices of righteousness.",
+    deut33ref: "Deuteronomy 33:18-19",
+    sym: "Zebulun's territory ran from the Mediterranean coast to the Sea of Galilee. They were <strong>a maritime tribe</strong>, traders with the nations, harboring ships from distant lands.\n\nThe stone <em>Tarshish</em> is named after a famous distant trading port (the same Tarshish Jonah fled toward, 1 Kings 10:22). The golden beryl was carried in the ships of Tarshish from the ends of the known world.\n\nMoses' blessing pairs Zebulun with Issachar: <em>they shall call the people unto the mountain; there they shall offer sacrifices of righteousness.</em> Zebulun is the tribe that <strong>brings the nations to the Lord's house</strong>.",
+    christ: "Like Naphtali, Zebulun's territory was the seat of Christ's Galilean ministry (Matthew 4:13-16). Capernaum lay on the border between the two tribes.\n\nChrist is the One to whom the nations are called. <em>'And I, if I be lifted up from the earth, will draw all men unto me'</em> (John 12:32). What Zebulun did with sea trade — bringing the nations into contact with Israel — Christ does eternally with the cross.",
+    today: "Zebulun is the tribe of <strong>missionary outreach to the world</strong>. The vision of D&C 133:37 — <em>'this gospel shall be preached unto every nation, and kindred, and tongue, and people'</em> — is Zebulun's calling fulfilled in the latter days.\n\nThe ships of Tarshish are now jetliners and digital networks carrying the gospel to the ends of the earth. Every missionary is a Zebulunite."
+  },
+
+  joseph: {
+    name: "Joseph", hebrew: "יוֹסֵף", meaning: "'He Will Add'",
+    stoneEng: "Onyx", stoneHeb: "שֹׁהַם — Shoham", stoneColor: "#1a1810",
+    order: "Eleventh · Son of Rachel · The Birthright Tribe",
+    gen49: "Joseph is a fruitful bough, even a fruitful bough by a well; whose branches run over the wall... The blessings of thy father have prevailed above the blessings of my progenitors unto the utmost bound of the everlasting hills: they shall be on the head of Joseph.",
+    gen49ref: "Genesis 49:22-26",
+    deut33: "Blessed of the LORD be his land, for the precious things of heaven, for the dew, and for the deep that coucheth beneath... His glory is like the firstling of his bullock, and his horns are like the horns of unicorns: with them he shall push the people together to the ends of the earth: and they are the ten thousands of EPHRAIM, and they are the thousands of MANASSEH.",
+    deut33ref: "Deuteronomy 33:13-17",
+    sym: "<strong>The birthright tribe.</strong> When Reuben forfeited the birthright through sin, it passed to Joseph (1 Chronicles 5:1-2). Joseph received <em>two portions</em> through his sons Ephraim and Manasseh (Genesis 48), each adopted as a tribe in their own right.\n\nThe blessings on Joseph in Genesis 49 and Deuteronomy 33 are the <strong>longest and richest of all the tribes</strong>. <em>'The blessings of thy father have prevailed above the blessings of my progenitors unto the utmost bound of the everlasting hills.'</em>\n\nThe black onyx — the same stone as the shoulder stones — sits on the chest. Joseph is the only tribe whose stone color appears twice on the High Priest's garments.\n\nThe phrase <em>branches run over the wall</em> is critical: Joseph's posterity would extend beyond the borders of Israel. <strong>Across the sea.</strong>",
+    christ: "Joseph in Egypt is one of the most extensive types of Christ in scripture: rejected by his brothers, sold for silver, falsely accused, descending into the pit, raised up to the right hand of Pharaoh, becoming the savior of his people in famine, providing bread for the world.\n\n<em>'With them shall he push the people together to the ends of the earth'</em> (Deuteronomy 33:17) — Christ through the seed of Joseph gathers the nations.",
+    today: "<strong>This is the latter-day work.</strong> The Restoration was launched through Joseph Smith — bearing the very name of the patriarch. The Book of Mormon is <em>the stick of Joseph</em> in Ezekiel 37:15-19, joined to the stick of Judah in the latter days so that <em>'they may be one in mine hand'</em> (v.17). The two sticks come together for one purpose: to bear united witness of Jesus Christ.\n\nLehi was a descendant of Manasseh (Alma 10:3). The Book of Mormon record is Joseph's voice across the sea — branches that ran over the wall — and that voice declares one message: <em>'we talk of Christ, we rejoice in Christ, we preach of Christ, we prophesy of Christ'</em> (2 Nephi 25:26).\n\nMost members of the restored Church are declared <strong>Ephraim</strong> in their patriarchal blessings — the birthright tribe gathered in the latter days. <em>'And they shall bring forth their rich treasures unto the children of Ephraim, my servants'</em> (D&C 133:30-32). The treasures are the gospel of Christ. The gathering is unto Him.\n\nThe onyx is the stone of the Restoration because the Restoration is the gathering of all things in Christ (Ephesians 1:10). Every Saint who carries the gospel anywhere in the world is one of Joseph's branches running over the wall — bringing souls to Jesus."
+  },
+
+  benjamin: {
+    name: "Benjamin", hebrew: "בִּנְיָמִין", meaning: "'Son of My Right Hand'",
+    stoneEng: "Jasper", stoneHeb: "יָשְׁפֵה — Yashfeh", stoneColor: "#a82828",
+    order: "Twelfth · Son of Rachel",
+    gen49: "Benjamin shall ravin as a wolf: in the morning he shall devour the prey, and at night he shall divide the spoil.",
+    gen49ref: "Genesis 49:27",
+    deut33: "The beloved of the LORD shall dwell in safety by him; and the LORD shall cover him all the day long, and he shall dwell between his shoulders.",
+    deut33ref: "Deuteronomy 33:12",
+    sym: "<strong>The beloved.</strong> Benjamin was Rachel's second son, born as she died — she named him <em>Benoni</em> (son of my sorrow), but Jacob renamed him <em>Benyamin</em> (son of my right hand).\n\nJacob's blessing calls him a wolf — fierce in battle. The tribe was known for warriors (Judges 20).\n\nBut Moses' blessing is breathtaking: <em>the beloved of the LORD shall dwell in safety by him; and the LORD shall cover him all the day long, and he shall dwell between his shoulders.</em>\n\n<strong>Between his shoulders</strong> — exactly where the High Priest carried the names of all the tribes. Benjamin, the youngest, dwells in the place of greatest love and protection.\n\nThe red jasper — the final stone — closes the breastplate with the color of blood and covenant.",
+    christ: "Saul, the first king of Israel, was a Benjamite. Paul (originally Saul of Tarsus) was a Benjamite (Romans 11:1, Philippians 3:5). King Benjamin in the Book of Mormon bore the name.\n\nMost beautifully: Christ Himself dwells <em>between His shoulders</em> as the High Priest, bearing every covenant name in the place of greatest love. Deuteronomy 33:12 prophetically describes the relationship every Saint will have with the Savior.\n\nWe are all, in Christ, beloved Benjamins.",
+    today: "Benjamin closes the breastplate with the doctrine of <strong>belovedness and safety in Christ</strong>. The youngest, the smallest, the last — and yet the one whose home is between the High Priest's shoulders.\n\nKing Benjamin's discourse in Mosiah 2-5 is one of the great covenant texts of the Restoration. He gathered his people, taught them of Christ, and they covenanted to take upon themselves the name of Christ. The pattern of the breastplate fulfilled: <em>names borne over the heart of the High Priest, in covenant, forever</em>.\n\nThe last stone is grace. The youngest is the most loved. Whoever a soul has been before Christ, when the redemption is laid on them, they become Benjamin. Beloved. Covered. Dwelling between His shoulders. <em>'For I am persuaded, that neither death, nor life, nor angels, nor principalities, nor powers... shall be able to separate us from the love of God, which is in Christ Jesus our Lord'</em> (Romans 8:38-39)."
+  },
+
+  urim: {
+    name: "Urim and Thummim", hebrew: "אוּרִים וְתֻמִּים", meaning: "'Lights and Perfections'",
+    stoneEng: "Hidden within the breastplate", stoneHeb: "Inside the Choshen Mishpat", stoneColor: "#1a1408",
+    order: "Instrument of Revelation",
+    gen49: "(Not described — kept hidden, sacred, within the fold of the breastplate)",
+    gen49ref: "Exodus 28:30",
+    deut33: "Let thy Thummim and thy Urim be with thy holy one... they shall teach Jacob thy judgments, and Israel thy law.",
+    deut33ref: "Deuteronomy 33:8-10",
+    sym: "<strong>Lights and Perfections.</strong> The Urim and Thummim were placed within the breastplate (Exodus 28:30) — the exact form is never described in scripture, but they were the instruments through which the High Priest sought divine guidance for the people.\n\nNumbers 27:21 — Joshua was to <em>'stand before Eleazar the priest, who shall ask counsel for him after the judgment of Urim before the LORD.'</em> The High Priest could not lead Israel from his own wisdom; he had to inquire through the Urim and Thummim.\n\n1 Samuel 28:6 — when Saul was finally cut off from God, scripture lists three withdrawn channels: <em>'the LORD answered him not, neither by dreams, nor by Urim, nor by prophets.'</em> The Urim and Thummim was a recognized line of revelation alongside dreams and prophets.\n\n<strong>Judgment and revelation, woven together on the High Priest's heart.</strong>",
+    christ: "Christ is the perfection of both <em>Urim</em> (Lights — He is the Light of the world, John 8:12) and <em>Thummim</em> (Perfections — He alone is perfect, Matthew 5:48, Hebrews 5:9). He is the answer to every inquiry made before God.\n\nWhere the High Priest had to seek counsel through external instruments, Christ <em>is</em> the counsel — <em>'his name shall be called Wonderful, Counsellor'</em> (Isaiah 9:6).",
+    today: "<strong>The Restoration itself was launched through Urim and Thummim.</strong> Joseph Smith received the ancient instrument with the gold plates and translated the Book of Mormon by its power (D&C 17:1, JS-H 1:35, D&C 10:1).\n\nThe line of revelation that began on Aaron's chest in Exodus 28, ran through Israelite history, was lost in Saul's apostasy, restored to the Nephites, then carried in the Hill Cumorah through the centuries — was placed in the hands of the Prophet of the Restoration. The breastplate's lights still shine.\n\nD&C 130:8-9 reveals that the celestial earth itself will become a great Urim and Thummim, and every exalted Saint will receive a personal one. <em>The instrument of priestly revelation is the inheritance of every faithful covenant keeper.</em>"
+  }
+};
+
+// ============================================================================
+// PANEL RENDERING
+// ============================================================================
+
+const panel = document.getElementById('panel');
+const ptitle = document.getElementById('ptitle');
+const pheb = document.getElementById('pheb');
+const pbody = document.getElementById('pbody');
+
+function renderGarment(key) {
+  const d = GARMENTS[key];
+  if (!d) return;
+  ptitle.textContent = d.title;
+  pheb.textContent = d.hebrew;
+  pbody.innerHTML = `
+    <div class="ps">
+      <div class="psl">Scripture</div>
+      <div class="psc">${d.scTx}<div class="ref">— ${d.scRef}</div></div>
+    </div>
+    <hr class="dv">
+    <div class="ps"><div class="psl">Symbolism &amp; Meaning</div><div class="ptx">${d.sym.replace(/\n/g,'<br><br>')}</div></div>
+    <hr class="dv">
+    <div class="ps"><div class="psl">Christ as Fulfillment</div><div class="ptx">${d.christ.replace(/\n/g,'<br><br>')}</div></div>
+    <hr class="dv">
+    <div class="ps"><div class="psl">Today · The Restored Gospel</div><div class="ptx">${d.today.replace(/\n/g,'<br><br>')}</div></div>
+  `;
+  panel.classList.add('open');
+}
+
+function renderTribe(key) {
+  const t = TRIBES[key];
+  if (!t) return;
+  ptitle.textContent = `${t.name} · ${t.meaning}`;
+  pheb.textContent = `${t.hebrew}\n${t.order}`;
+
+  const isUrim = key === 'urim';
+
+  pbody.innerHTML = `
+    ${!isUrim ? `
+      <div class="stone-display">
+        <div class="stone-vis" style="background:radial-gradient(circle at 35% 35%, ${lighten(t.stoneColor)}, ${t.stoneColor}, ${darken(t.stoneColor)})"></div>
+        <div class="stone-info">${t.stoneEng}<br><span>${t.stoneHeb}</span></div>
+      </div>
+    ` : `
+      <div class="stone-display" style="background:rgba(0,0,0,0.4)">
+        <div class="stone-vis" style="background:radial-gradient(circle at 35% 35%, #d4af37, #1a1408, #000); border-color:#d4af37"></div>
+        <div class="stone-info">${t.stoneEng}<br><span>${t.stoneHeb}</span></div>
+      </div>
+    `}
+
+    <div class="ps">
+      <div class="psl">Jacob's Blessing</div>
+      <div class="psc">${t.gen49}<div class="ref">— ${t.gen49ref}</div></div>
+    </div>
+    <div class="ps">
+      <div class="psl">Moses' Blessing</div>
+      <div class="psc">${t.deut33}<div class="ref">— ${t.deut33ref}</div></div>
+    </div>
+    <hr class="dv">
+    <div class="ps"><div class="psl">The Tribe &amp; Its Stone</div><div class="ptx">${t.sym.replace(/\n/g,'<br><br>')}</div></div>
+    <hr class="dv">
+    <div class="ps"><div class="psl">Christ as Fulfillment</div><div class="ptx">${t.christ.replace(/\n/g,'<br><br>')}</div></div>
+    <hr class="dv">
+    <div class="ps"><div class="psl">Today · The Restored Gospel</div><div class="ptx">${t.today.replace(/\n/g,'<br><br>')}</div></div>
+  `;
+  panel.classList.add('open');
+}
+
+function lighten(hex) {
+  const n = parseInt(hex.replace('#',''),16);
+  const r = Math.min(255, ((n>>16)&255) + 80);
+  const g = Math.min(255, ((n>>8)&255) + 80);
+  const b = Math.min(255, (n&255) + 80);
+  return `rgb(${r},${g},${b})`;
+}
+function darken(hex) {
+  const n = parseInt(hex.replace('#',''),16);
+  const r = Math.max(0, ((n>>16)&255) - 60);
+  const g = Math.max(0, ((n>>8)&255) - 60);
+  const b = Math.max(0, (n&255) - 60);
+  return `rgb(${r},${g},${b})`;
+}
+
+// ============================================================================
+// SCENE NAVIGATION
+// ============================================================================
+
+const sceneMain = document.getElementById('sceneMain');
+const sceneBreastplate = document.getElementById('sceneBreastplate');
+const backbtn = document.getElementById('backbtn');
+
+function showBreastplateScene() {
+  sceneMain.classList.remove('active');
+  sceneBreastplate.classList.add('active');
+  backbtn.classList.add('on');
+  clearActive();
+}
+function showMainScene() {
+  sceneBreastplate.classList.remove('active');
+  sceneMain.classList.add('active');
+  backbtn.classList.remove('on');
+  clearActive();
+  panel.classList.remove('open');
+}
+
+backbtn.addEventListener('click', showMainScene);
+
+// ============================================================================
+// CLICK HANDLERS
+// ============================================================================
+
+function clearActive() {
+  document.querySelectorAll('.garment.active, .stone.active, .label-link.active').forEach(el => el.classList.remove('active'));
+}
+
+// Helper — handle a click on either a garment OR its label, since they should behave identically
+function activateGarment(key) {
+  if (key === 'choshen') {
+    showBreastplateScene();
+    return;
+  }
+  // If we were in Yom Kippur or Christ mode, drop back to Full so the panel content is the garment, not the synthesis
+  if (currentMode !== 'full') setMode('full');
+  clearActive();
+  const g = document.querySelector(`.garment[data-key="${key}"]`);
+  const l = document.querySelector(`.label-link[data-key="${key}"]`);
+  if (g) g.classList.add('active');
+  if (l) l.classList.add('active');
+  renderGarment(key);
+}
+
+document.querySelectorAll('.garment').forEach(el => {
+  el.addEventListener('click', e => {
+    e.stopPropagation();
+    activateGarment(el.dataset.key);
+  });
+});
+
+document.querySelectorAll('.label-link').forEach(el => {
+  el.addEventListener('click', e => {
+    e.stopPropagation();
+    activateGarment(el.dataset.key);
+  });
+});
+
+document.querySelectorAll('.stone').forEach(el => {
+  el.addEventListener('click', e => {
+    e.stopPropagation();
+    const key = el.dataset.stone;
+    clearActive();
+    el.classList.add('active');
+    renderTribe(key);
+  });
+});
+
+// Close panel
+document.getElementById('pc').addEventListener('click', () => {
+  panel.classList.remove('open');
+  clearActive();
+  // If a mode panel was open, dropping the panel returns to Full mode
+  if (currentMode !== 'full') setMode('full');
+});
+
+// ============================================================================
+// MODE TOGGLES — Full Vestments / Yom Kippur Linen / Christ Fulfills All
+// ============================================================================
+
+const vFull = document.getElementById('vFull');
+const vYom = document.getElementById('vYom');
+const vChrist = document.getElementById('vChrist');
+const stage = document.getElementById('stage');
+const priestSvg = document.getElementById('priestSvg');
+
+let currentMode = 'full';
+
+function applyYomKippurDimming(on) {
+  const keys = ['meil','ephod','choshen','shoulders','avnet','tzitz'];
+  if (on) {
+    priestSvg.querySelector('[data-key="meil"]').style.opacity = '0.18';
+    priestSvg.querySelector('[data-key="ephod"]').style.opacity = '0.15';
+    priestSvg.querySelector('[data-key="choshen"]').style.opacity = '0.18';
+    priestSvg.querySelector('[data-key="shoulders"]').style.opacity = '0.2';
+    priestSvg.querySelector('[data-key="avnet"]').style.opacity = '0.25';
+    priestSvg.querySelector('[data-key="tzitz"]').style.opacity = '0.25';
+  } else {
+    keys.forEach(k => {
+      priestSvg.querySelector(`[data-key="${k}"]`).style.opacity = '';
+    });
+  }
+}
+
+function setMode(mode) {
+  // Reset visual state
+  applyYomKippurDimming(false);
+  priestSvg.classList.remove('christ-mode');
+
+  // Apply new mode visuals
+  if (mode === 'yom') {
+    applyYomKippurDimming(true);
+  } else if (mode === 'christ') {
+    priestSvg.classList.add('christ-mode');
+  }
+
+  // Update button states
+  [vFull, vYom, vChrist].forEach(b => b.classList.remove('on'));
+  if (mode === 'full') vFull.classList.add('on');
+  else if (mode === 'yom') vYom.classList.add('on');
+  else if (mode === 'christ') vChrist.classList.add('on');
+
+  currentMode = mode;
+
+  // Open relevant teaching panel
+  if (mode === 'yom') openYomKippurPanel();
+  else if (mode === 'christ') openChristFulfillsPanel();
+  else { panel.classList.remove('open'); clearActive(); }
+}
+
+vFull.addEventListener('click', () => setMode('full'));
+vYom.addEventListener('click', () => setMode('yom'));
+vChrist.addEventListener('click', () => setMode('christ'));
+
+function openYomKippurPanel() {
+  ptitle.textContent = "Yom Kippur — The White Linen";
+  pheb.textContent = "בִּגְדֵי הַלָּבָן — Bigdei HaLavan · 'The White Garments'\nLeviticus 16:4 · Worn only on the Day of Atonement";
+  pbody.innerHTML = `
+    <div class="ps">
+      <div class="psl">Scripture</div>
+      <div class="psc">He shall put on the holy linen coat, and he shall have the linen breeches upon his flesh, and shall be girded with a linen girdle, and with the linen mitre shall he be attired: these are holy garments; therefore shall he wash his flesh in water, and so put them on.<div class="ref">— Leviticus 16:4</div></div>
+    </div>
+    <hr class="dv">
+    <div class="ps">
+      <div class="psl">The Stripping of Glory</div>
+      <div class="ptx">On the holiest day of the year — the Day of Atonement — the High Priest <strong>set aside</strong> his ornate gold-and-color vestments and put on <strong>simple white linen</strong>.<br><br>No breastplate. No ephod. No bells. No golden plate. No royal purple. Only the four white linen pieces:<br><br>· The linen breeches (mikhnesei-bad)<br>· The linen tunic (kethoneth)<br>· The linen sash (avnet)<br>· The linen turban (mitznephet)<br><br>The garment of <strong>humility</strong>. The garment of the servant. The garment of mortality.</div>
+    </div>
+    <hr class="dv">
+    <div class="ps">
+      <div class="psl">Christ in Gethsemane</div>
+      <div class="ptx">This is what Christ wore symbolically in Gethsemane — stripped of divine prerogatives, clothed in the simplicity of full human vulnerability.<br><br>Philippians 2:6-8 — He <em>'made himself of no reputation, and took upon him the form of a servant... and being found in fashion as a man, he humbled himself.'</em><br><br>The colored, ornate garments stayed in the Holy Place. The white linen entered the Holy of Holies. <strong>Glory cannot enter the place of atonement. Only humility can.</strong></div>
+    </div>
+    <hr class="dv">
+    <div class="ps">
+      <div class="psl">Today · The Restored Gospel</div>
+      <div class="ptx">Every covenant ordinance in the restored Church is performed in <strong>white</strong>. Baptism. Endowment. Sealing. Funeral.<br><br>The white garment is the constant. The colors come and go with seasons of life. The white remains.<br><br>What the High Priest wore one day a year, every covenant Saint puts on every time we approach the Lord's altar.</div>
+    </div>
+  `;
+  panel.classList.add('open');
+}
+
+function openChristFulfillsPanel() {
+  ptitle.textContent = "Christ Fulfills All — The Whole Garment Is Him";
+  pheb.textContent = "כֹּהֵן גָּדוֹל לְעוֹלָם — Kohen Gadol L'Olam · 'High Priest Forever'\nאַחֲרֵי סֵדֶר מַלְכִּי־צֶדֶק — After the Order of Melchizedek\nHebrews 4:14 — 10:25";
+  pbody.innerHTML = `
+    <div class="ps">
+      <div class="psl">Scripture · The Whole Argument of Hebrews</div>
+      <div class="psc">Seeing then that we have a great high priest, that is passed into the heavens, Jesus the Son of God, let us hold fast our profession... Let us therefore come boldly unto the throne of grace, that we may obtain mercy, and find grace to help in time of need.<div class="ref">— Hebrews 4:14, 16</div></div>
+    </div>
+    <hr class="dv">
+
+    <div class="ps">
+      <div class="psl">He IS the High Priest</div>
+      <div class="ptx">Hebrews says it directly. Jesus is not <em>like</em> the High Priest. Jesus <strong>is</strong> the High Priest. After the order of Melchizedek (Hebrews 6:20). With <em>'an unchangeable priesthood'</em> (Hebrews 7:24). Who <em>'ever liveth to make intercession'</em> for us (Hebrews 7:25). Who <em>'by his own blood... entered in once into the holy place, having obtained eternal redemption'</em> (Hebrews 9:12).<br><br>Every garment we have just walked through — every word, every color, every stone, every thread — was a shadow cast backward through time from one Person. The whole vestment is His Person.</div>
+    </div>
+    <hr class="dv">
+
+    <div class="ps">
+      <div class="psl">Every Piece Becomes One Portrait</div>
+      <div class="ptx">
+        <strong>Tzitz · Holiness to the LORD</strong> — He alone is wholly holy. <em>'Holy, harmless, undefiled, separate from sinners, and made higher than the heavens'</em> (Hebrews 7:26).<br><br>
+        <strong>Mitznephet · The Turban</strong> — His mind perfectly consecrated to the Father. <em>'Let this mind be in you, which was also in Christ Jesus'</em> (Philippians 2:5).<br><br>
+        <strong>Shoulder Stones · Twelve Names</strong> — every soul carried in His government. <em>'The government shall be upon his shoulder'</em> (Isaiah 9:6). <em>'He layeth it on his shoulders, rejoicing'</em> (Luke 15:5).<br><br>
+        <strong>Choshen · The Breastplate</strong> — every covenant name held over His heart in the very throne room of God. <em>'For Christ is not entered into the holy places made with hands... but into heaven itself, now to appear in the presence of God for us'</em> (Hebrews 9:24).<br><br>
+        <strong>Ephod · Gold Woven Into Linen</strong> — divinity inseparable from humanity. <em>'And the Word was made flesh, and dwelt among us, and we beheld his glory'</em> (John 1:14).<br><br>
+        <strong>Me'il · The Seamless Robe</strong> — His priestly identity unbroken even at the cross. <em>'Now the coat was without seam, woven from the top throughout'</em> (John 19:23).<br><br>
+        <strong>Bells &amp; Pomegranates</strong> — the sound of mercy still ringing as He moves in the holy place. <em>'And, behold, a woman... touched the hem of his garment... And straightway the fountain of her blood was dried up'</em> (Mark 5:27, 29).<br><br>
+        <strong>Avnet · The Sash</strong> — the girded servant who laid aside His glory to wash our feet. <em>'He riseth from supper, and laid aside his garments; and took a towel, and girded himself'</em> (John 13:4).<br><br>
+        <strong>Kethoneth · White Linen Tunic</strong> — His righteousness given to us. <em>'For he hath made him to be sin for us, who knew no sin; that we might be made the righteousness of God in him'</em> (2 Corinthians 5:21).<br><br>
+        <strong>Mikhnesei · The Hidden Linen</strong> — the first covering, His grace clothing our exposed selves. <em>'Unto Adam also and to his wife did the LORD God make coats of skins, and clothed them'</em> (Genesis 3:21).<br><br>
+        <strong>Urim and Thummim · Lights and Perfections</strong> — He is the Light. He is the Perfection. <em>'I am the light of the world'</em> (John 8:12). <em>'For by one offering he hath perfected for ever them that are sanctified'</em> (Hebrews 10:14).
+      </div>
+    </div>
+    <hr class="dv">
+
+    <div class="ps">
+      <div class="psl">He Entered, And We Enter Through Him</div>
+      <div class="ptx">The veil that separated the Holy Place from the Holy of Holies — Hebrews names it directly: <em>'a new and living way, which he hath consecrated for us, through the veil, that is to say, his flesh'</em> (Hebrews 10:19-20).<br><br>The veil <strong>is</strong> His body. When the curtain in the temple tore from top to bottom at His death (Matthew 27:51), it was God Himself rending the barrier from the divine side. The wall came down because the body that was the wall had been broken open in love.<br><br>The blood — once for all. The Greek word is <em>ephapax</em>: <em>'once into the holy place... eternal redemption'</em> (Hebrews 9:12). No second sacrifice. No additional payment. No insufficiency that needs supplementing. The High Priest entered, the names were carried, the blood was applied, and the work was finished.<br><br>We do not approach God hoping a priest will plead our case. We approach knowing the Priest is Christ Himself. He has already entered. He is carrying us. He stands eternally before the Father with our names on His heart and His blood on the mercy seat.</div>
+    </div>
+    <hr class="dv">
+
+    <div class="ps">
+      <div class="psl">The High Priest Who Lives Forever</div>
+      <div class="ptx">Aaron took off the garments at the end of the day. Christ does not.<br><br><strong>Right now</strong>, in this moment, He is clothed in the eternal vestment. <strong>Right now</strong>, every covenant name is over His heart. <strong>Right now</strong>, the bells of His mercy are ringing because the High Priest is alive in the Holy Place. <strong>Right now</strong>, the blood He offered is satisfying every demand of justice forever.<br><br><em>'Wherefore he is able also to save them to the uttermost that come unto God by him, seeing he ever liveth to make intercession for them'</em> (Hebrews 7:25).<br><br>The whole vestment is Him. The whole law was always pointing here. The whole story is one Savior, fully clothed, eternally interceding, infinitely able.<br><br><strong>Come boldly. The High Priest is Christ.</strong></div>
+    </div>
+  `;
+  panel.classList.add('open');
+}
+
+// ============================================================================
+// END
+// ============================================================================
+
+</script>
+</body>
+</html>
