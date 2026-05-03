@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Tabernacle — Isometric View</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{background:#0e0a02;font-family:'Crimson Text',Georgia,serif;color:#e8dfc0;overflow:hidden;user-select:none;-webkit-user-select:none;touch-action:none}
+#wrap{display:flex;flex-direction:column;width:100vw;height:100vh;overflow:hidden}
+#canvasWrap{flex:1;position:relative;overflow:hidden;min-height:0}
+#header{position:absolute;top:8px;left:0;right:0;text-align:center;pointer-events:none;z-index:10}
+#header h1{font-family:'Cinzel',serif;font-size:clamp(12px,3.5vw,17px);color:#d4af37;letter-spacing:2px;text-shadow:0 2px 8px #000}
+#header p{font-size:clamp(9px,2vw,10px);color:rgba(212,175,55,.5);font-style:italic;letter-spacing:1px;margin-top:2px}
+#hint{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);font-size:clamp(9px,2.2vw,10px);color:rgba(212,175,55,.42);letter-spacing:1px;pointer-events:none;background:rgba(0,0,0,.6);padding:4px 10px;white-space:nowrap;max-width:95vw;overflow:hidden;text-overflow:ellipsis}
+#controls{position:absolute;bottom:36px;right:8px;display:flex;flex-direction:column;gap:5px;z-index:10}
+.cbtn{background:rgba(6,4,0,.9);border:1px solid rgba(212,175,55,.35);color:#d4af37;font-family:'Cinzel',serif;font-size:clamp(11px,3vw,13px);width:clamp(30px,8vw,34px);height:clamp(30px,8vw,34px);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s;-webkit-user-select:none;user-select:none;border-radius:2px}
+.cbtn:hover{background:rgba(212,175,55,.18);border-color:#d4af37}
+.cbtn:active{background:rgba(212,175,55,.3)}
+.sep{height:5px}
+#modebar{position:absolute;top:52px;right:8px;display:flex;flex-direction:column;gap:4px;z-index:10}
+.mbtn{background:rgba(6,4,0,.9);border:1px solid rgba(212,175,55,.3);color:rgba(212,175,55,.65);font-family:'Cinzel',serif;font-size:clamp(7px,1.8vw,8px);letter-spacing:1px;padding:5px 7px;cursor:pointer;transition:all .15s;white-space:nowrap;text-align:center}
+.mbtn:hover,.mbtn.on{background:rgba(212,175,55,.18);border-color:#d4af37;color:#d4af37}
+.mbtn:active{background:rgba(212,175,55,.3);color:#d4af37}
+canvas{display:block;width:100%;height:100%}
+
+/* PANEL — full screen overlay on mobile, side panel on desktop */
+#panel{
+  position:fixed;bottom:-100%;left:0;right:0;
+  height:75vh;
+  background:linear-gradient(170deg,#130f04,#080500);
+  border-top:1px solid rgba(212,175,55,.28);
+  border-radius:16px 16px 0 0;
+  overflow:hidden;
+  transition:bottom .35s cubic-bezier(.4,0,.2,1);
+  display:flex;flex-direction:column;
+  z-index:200;
+}
+#panel.open{bottom:0}
+
+/* On wider screens, use the original side-panel layout */
+@media(min-width:640px){
+  #wrap{flex-direction:row}
+  #panel{
+    position:relative;
+    bottom:auto;left:auto;right:auto;
+    width:0;min-width:0;
+    height:100vh;
+    border-top:none;
+    border-left:1px solid rgba(212,175,55,.18);
+    border-radius:0;
+    transition:width .32s cubic-bezier(.4,0,.2,1);
+  }
+  #panel.open{width:400px;min-width:400px;bottom:auto}
+}
+
+/* Panel drag handle (mobile only) */
+#dragHandle{height:22px;display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:grab}
+#dragHandle div{width:36px;height:4px;background:rgba(212,175,55,.3);border-radius:2px}
+@media(min-width:640px){#dragHandle{display:none}}
+
+.ph{padding:10px 20px 12px;border-bottom:1px solid rgba(212,175,55,.1);position:relative;flex-shrink:0}
+.pclose{position:absolute;top:10px;right:14px;background:none;border:none;color:rgba(212,175,55,.4);font-size:22px;cursor:pointer;padding:4px 8px;line-height:1}
+.pclose:hover,.pclose:active{color:#d4af37}
+.ptitle{font-family:'Cinzel',serif;font-size:clamp(13px,3.5vw,15px);font-weight:700;color:#d4af37;margin-bottom:4px;line-height:1.3;padding-right:32px}
+.pheb{font-size:clamp(10px,2.5vw,11.5px);color:rgba(212,175,55,.55);font-style:italic;line-height:1.6;white-space:pre-line}
+.pbody{padding:14px 20px 40px;overflow-y:auto;flex:1;-webkit-overflow-scrolling:touch}
+.pbody::-webkit-scrollbar{width:3px}
+.pbody::-webkit-scrollbar-thumb{background:rgba(212,175,55,.3)}
+/* Ark item cards */
+.ark-items{display:flex;flex-direction:column;gap:10px;margin:14px 0}
+.ark-item-card{background:rgba(212,175,55,.06);border:1px solid rgba(212,175,55,.2);border-radius:3px;padding:12px 14px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:12px}
+.ark-item-card:hover{background:rgba(212,175,55,.14);border-color:rgba(212,175,55,.5)}
+.ark-item-icon{font-size:20px;flex-shrink:0;width:28px;text-align:center}
+.ark-item-text strong{display:block;font-family:'Cinzel',serif;font-size:11px;color:#d4af37;letter-spacing:1px;margin-bottom:3px}
+.ark-item-text span{font-size:11px;color:rgba(212,175,55,.55);font-style:italic}
+.ark-back{background:none;border:1px solid rgba(212,175,55,.3);color:rgba(212,175,55,.6);font-family:'Cinzel',serif;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;padding:6px 12px;cursor:pointer;border-radius:2px;margin-bottom:14px;transition:all .2s}
+.ark-back:hover{border-color:#d4af37;color:#d4af37}
+.ps{margin-bottom:14px}
+.psl{font-family:'Cinzel',serif;font-size:7.5px;letter-spacing:2.5px;color:rgba(212,175,55,.36);text-transform:uppercase;margin-bottom:5px}
+.psc{background:rgba(212,175,55,.05);border-left:2px solid rgba(212,175,55,.32);padding:9px 11px;font-style:italic;font-size:clamp(11px,3vw,12px);line-height:1.65;color:#d4c98a;margin-bottom:8px}
+.ref{font-size:9.5px;color:rgba(212,175,55,.36);font-style:normal;margin-top:3px;font-family:'Cinzel',serif}
+.ptx{font-size:clamp(11px,3vw,12px);line-height:1.8;color:#a0987a}
+hr.dv{border:none;border-top:1px solid rgba(212,175,55,.07);margin:12px 0}
+</style>
+</head>
+<body>
+<div id="wrap">
+ <div id="canvasWrap">
+  <div id="header">
+   <h1>THE TABERNACLE · מִשְׁכָּן</h1>
+   <p>The Dwelling Place of God</p>
+  </div>
+  <canvas id="cv"></canvas>
+  <div id="hint">Drag to pan · ◁▷ or two-finger swipe to rotate · Pinch to zoom · Tap to explore</div>
+
+  <!-- rotation + zoom controls -->
+  <div id="controls">
+   <div class="cbtn" id="rotL" title="Rotate left">◁</div>
+   <div class="cbtn" id="rotR" title="Rotate right">▷</div>
+   <div class="sep"></div>
+   <div class="cbtn" id="zin"  title="Zoom in">+</div>
+   <div class="cbtn" id="zout" title="Zoom out">−</div>
+   <div class="sep"></div>
+   <div class="cbtn" id="zreset" title="Reset view" style="font-size:11px">↺</div>
+  </div>
+
+  <!-- preset view buttons -->
+  <div id="modebar">
+   <div class="mbtn" id="vEast">View from East</div>
+   <div class="mbtn" id="vWest">View from West</div>
+   <div class="mbtn" id="vTop">Top Down</div>
+  </div>
+ </div>
+
+ <div id="panel">
+  <div id="dragHandle"><div></div></div>
+  <div class="ph">
+   <button class="pclose" id="pc">✕</button>
+   <div class="ptitle" id="ptitle"></div>
+   <div class="pheb"   id="pheb"></div>
+  </div>
+  <div class="pbody" id="pbody"></div>
+ </div>
+</div>
+<script>
+// ── DATA ──────────────────────────────────────────────────────────────────────
+const DATA={
+  gate:{title:"The Gate — Eastern Entrance",hebrew:"שַׁעַר — Sha'ar · One opening, facing East\nExodus 27:16 — Blue · Purple · Scarlet · Fine White Linen\nThe four colors woven together",scRef:"John 10:9 | Malachi 4:2 | Exodus 27:16",scTx:"I am the door: by me if any man enter in, he shall be saved, and shall go in and out, and find pasture.",sym:"One entrance only — always facing east toward the rising sun. No side doors, no back entrance. Every person from High Priest to humblest Israelite entered through this single gate.\n\nThe screen was woven of four specific colors (Exodus 27:16):\n\n· BLUE (תְּכֵלֶת — tekhelet) — the color of heaven, the divine realm. It declared the heavenly origin of what lay within. In Israel, this specific blue was made from a sea creature called the chilazon and was extraordinarily costly — worn only on priestly and royal garments.\n\n· PURPLE (אַרְגָּמָן — argaman) — the color of royalty and kingship, made from a rare dye extracted from thousands of sea snails. Kings and emperors wore purple. The gate declared: a King is inside.\n\n· SCARLET (שָׁנִי — shani) — bright crimson red, made from the coccus ilicis insect. The color of blood sacrifice. Before you even enter, the gate announces: entrance costs blood.\n\n· FINE WHITE LINEN (שֵׁשׁ — shesh) — righteousness, purity, the garments of the priests and the angels. What is inside is holy.",christ:"The four colors together are a woven portrait of Christ displayed at the entrance — His nature announced before you even step through the door. Blue: He came from heaven (John 6:38). Purple: He is King of Kings (Revelation 19:16). Scarlet: His blood is the price of entrance (Hebrews 9:22). White linen: He is the righteous one, our righteousness (2 Corinthians 5:21). You cannot look at the gate without seeing all four dimensions of who He is simultaneously.",today:"Baptism is the gate — the single covenant entrance into the path leading toward God's presence. Every covenant journey begins at the same door. And every time you enter a temple, you pass through an entrance that echoes this same declaration: here is heaven's King, whose blood purchased your entry, and whose righteousness covers you."},
+  altar:{title:"Altar of Burnt Offering",hebrew:"מִזְבֵּחַ עֹלָה — Mizbeach Olah\n'Altar of the Ascending One' · Bronze\nBronze = Divine Judgment",scRef:"Alma 34:14 | Leviticus 1:4",scTx:"The whole meaning of the law, every whit pointing to that great and last sacrifice; and that great and last sacrifice will be the Son of God, yea, infinite and eternal.",sym:"The first object after the gate — made entirely of bronze, symbol of divine judgment. Before washing, before entering — the sacrifice. The olah (עֹלָה) means 'the ascending one' — the entire animal consumed by fire, nothing reserved. Bronze horns at each corner: where blood was applied and where the condemned could flee for refuge.",christ:"Christ is the ultimate Olah — completely given, ascending entirely to the Father, nothing held back. Amulek declares this the infinite and eternal sacrifice ending all animal sacrifice — ephapax, once for all. He is simultaneously the priest, the altar, and the sacrifice.",today:"The sacrament table is our weekly altar. 3 Nephi 9:20 declares the new offering: a broken heart and contrite spirit — the internal olah replacing the external. We cannot proceed toward God without first passing through the atonement."},
+  laver:{title:"The Laver",hebrew:"כִּיּוֹר — Kiyyor · (basin, round vessel)\nMade from the women's bronze mirrors\nExodus 38:8",scRef:"John 13:5 | Titus 3:5",scTx:"He began to wash the disciples' feet, and to wipe them with the towel wherewith he was girded.",sym:"Made from the bronze mirrors of women who served at the tabernacle entrance. Instruments of self-examination — melted down into a vessel of purification. Between the altar and the tent: after sacrifice, before entering. Priests washed before every service. To approach without washing risked death.",christ:"At the Last Supper, Christ performed the laver's function Himself — washing His disciples' feet. True purification requires honest self-examination first, then surrendering that self-focus to be washed by another. You do not wash yourself at the laver.",today:"Baptism — the great washing. The initiatory ordinance continues this pattern. The order is always: sacrifice first, then cleansing, then entering. The laver cannot be bypassed."},
+  menorah:{title:"The Menorah — Golden Lampstand",hebrew:"מְנוֹרָה — Menorah\nBeaten from ONE piece of gold — מִקְשָׁה miqqshah\nSeven branches · South side of Holy Place",scRef:"John 8:12 | Zechariah 4:6 | Revelation 1:20",scTx:"I am the light of the world: he that followeth me shall not walk in darkness, but shall have the light of life.",sym:"Seven branches beaten from a single piece of pure gold — no seams, no joints. Seven = covenant completeness. The only light source inside the tent — without it, total darkness. Tended every morning and evening. The design was shown to Moses on Sinai — he could not design it himself.",christ:"Christ is the Menorah — the single source of all covenant light. The beating process — hammered from one solid piece — His suffering produced the light. The oil = the Holy Ghost. Revelation 1 shows the risen Christ walking among seven golden lampstands — still tending His Church.",today:"Each covenant member keeps their lamp filled — the parable of the ten virgins is the menorah parable. The restored Church shines as the menorah — seven branches of a single light, beaten from one piece by one Maker."},
+  shewbread:{title:"Table of Shewbread",hebrew:"לֶחֶם הַפָּנִים — Lechem HaPanim\n'Bread of the Face · Bread of His Presence'\nNorth side · Twelve loaves, replaced every Sabbath",scRef:"John 6:35 | Exodus 25:30",scTx:"I am the bread of life: he that cometh to me shall never hunger; and he that believeth on me shall never thirst.",sym:"Twelve loaves set before the Lord continuously, replaced every Sabbath. Never withdrawn, never absent. Panim means both 'face' and 'presence' — bread placed directly before the face of God. The menorah's light fell across it — light and bread facing each other across the Holy Place.",christ:"Christ is the Lechem HaPanim. His face always turned toward us. Weekly replacement: His offering is never stale, never withdrawn. The sacrament bread is the shewbread renewed — offered now to every covenant member, not just priests.",today:"The sacrament — weekly bread of His presence. The white cloth over the sacrament table is the covering over the shewbread — the Bread of His Presence waiting to be revealed each Sabbath."},
+  incense:{title:"Golden Altar of Incense",hebrew:"מִזְבַּח הַקְּטֹרֶת — Mizbeach HaQetoret\n'Altar of Fragrance' · Gold, not bronze\nClosest object to the Veil",scRef:"Hebrews 7:25 | Revelation 8:3-4",scTx:"He ever liveth to make intercession for them... the smoke of the incense, with the prayers of the saints, ascended up before God.",sym:"Placed immediately before the veil — the last object before the Holy of Holies. Gold, not bronze — communion and intercession, not judgment. Incense burned morning and evening without ceasing. The formula was sacred — to replicate it privately meant being cut off from the people.",christ:"Christ is our eternal intercessor — His intercession never ceases. John 17 is the great incense offering — His prayer ascending to the Father the night before Gethsemane for every person who would ever believe.",today:"Prayer is our incense ascending through Him. Every prayer offered in His name passes through the golden altar. Temple prayer circles are the highest form of this ascending intercession."},
+  veil:{title:"The Veil — Parokhet",hebrew:"פָּרֹכֶת — Parokhet · 'That Which Separates'\nExodus 26:31 — Blue · Purple · Scarlet · Fine Linen\nEmbroidered Cherubim · Sacred, Not Secret",scRef:"Hebrews 10:19-20 | Matthew 27:51 | Exodus 26:31",scTx:"Having boldness to enter into the holiest by the blood of Jesus, by a new and living way, which he hath consecrated for us, through the veil, that is to say, his flesh.",sym:"60 feet tall, 30 feet wide, as thick as a man's hand. Embroidered with cherubim — the same guardians stationed at Eden's gate after the Fall. Sacred not secret: Israel knew exactly what lay beyond it.\n\nThe four woven colors of the veil (Exodus 26:31) are the same four as the gate — the same portrait of Christ framing both the outermost entrance and the innermost barrier:\n\n· BLUE (tekhelet) — the divine and heavenly realm. The barrier itself declares it is of divine origin and must be approached on God's terms.\n\n· PURPLE (argaman) — kingship. You are at the threshold of the King's private chamber. The King is directly behind this curtain.\n\n· SCARLET (shani) — blood sacrifice. No one passes without blood. On Yom Kippur the High Priest applied blood to the mercy seat directly behind this veil. The scarlet threads carry the weight of that annual sacrifice.\n\n· WHITE LINEN (shesh) — righteousness. Only the wholly righteous may enter. The veil declares the condition of entry: perfection.\n\nThe cherubim woven in are the Eden guardians — signaling that the Holy of Holies is Eden restored, and this veil is the recovered boundary of sacred space.",christ:"Paul states with stunning directness: the veil IS His flesh — Hebrews 10:20. The four colors map directly onto the Incarnation: He came from heaven (blue), He is King (purple), His blood was the price (scarlet), His righteousness is the condition satisfied (white). When His body was broken on the cross, the temple veil tore from top to bottom — God tore it from the divine side. Every stripe in that curtain was answered at Calvary. The barrier became the door.",today:"The temple veil ceremony enacts this passage — through His flesh, into the presence of the Father. Notice that the four colors you see in the veil are identical to those at the gate — the whole journey from the outermost entrance to the innermost sanctuary is framed by the same declaration of who Christ is."},
+  ark:{title:"The Ark of the Covenant",hebrew:"אֲרוֹן הַבְּרִית — Aron HaBrit · 'Box of the Covenant'\nAcacia wood overlaid with gold — inside AND outside\nTwo natures unified in one object\nHebrews 9:4 — Three Contents",scRef:"Hebrews 9:4 | Exodus 25:10-16 | Numbers 17",scTx:"The ark overlaid with gold, wherein was the golden pot with manna, Aaron's rod that budded, and the tables of the covenant.",sym:"Acacia wood overlaid with gold inside AND outside — two natures inseparably unified. Acacia is desert hardwood, incorruptible, nearly indestructible. Gold is divine. The material is not accidental: the Ark declares what it contains before you open it. Two natures. One object.\n\nHebrews 9:4 names three things inside:\n\n· THE GOLDEN POT OF MANNA — Israel grumbled in the wilderness and God sent bread from heaven. Every morning. Forty years. The manna appeared whether Israel deserved it or not, whether they were grateful or not, whether they had just sinned or just worshipped. It was mercy on a daily schedule. Moses commanded a golden omer of it to be preserved 'before the Lord' — kept not as a trophy but as a witness. The God who fed you in the wilderness is still the God you serve.\n\n· AARON'S ROD THAT BUDDED — Numbers 17. Korah's rebellion had just challenged Aaron's priesthood authority. God commanded the leaders of all twelve tribes to place their staffs in the tabernacle overnight. Dead wood. Cut staves. In the morning, Aaron's rod had blossomed, budded, and produced ripe almonds overnight. Dead things do not bloom. Dead things do not produce fruit. This was not slow growth — it was resurrection life in a single night, in a dead piece of wood, behind the veil. God preserved it as permanent witness to legitimate priesthood authority.\n\n· THE TABLETS OF THE COVENANT — Jewish tradition holds that Moses placed both the broken first tablets and the second whole tablets inside the Ark. The shattered law and the restored law. Both present. Both beneath the mercy seat. The whole covenant history — failure, restoration, and the covering that makes both possible — sealed inside one box.",christ:"Christ is the fulfillment of all three simultaneously.\n\nTHE MANNA: He said it plainly — 'I am the bread of life: he that cometh to me shall never hunger' (John 6:35). The manna in the wilderness sustained physical life for forty years. Christ sustains eternal life forever. The manna came down from heaven; He came down from heaven. The manna appeared daily whether deserved or not; His grace is new every morning regardless of what the previous day held. John 6 is the most sustained bread-of-life discourse in scripture precisely because Jesus wants you to trace the manna back to Him.\n\nAARON'S ROD: Dead wood. Single night. Resurrection life. This is the type of the Resurrection that no other symbol in the Old Testament quite captures — not gradual growth, not restoration of something already living, but life returning to what was definitively dead. Paul calls Christ 'the firstfruits of them that slept' (1 Corinthians 15:20). The rod budded first. Every resurrection that follows is fruit from that first impossible bloom. And the rod was preserved as evidence of legitimate priesthood authority — Christ holds that authority not inherited but inherent, not conferred but eternal, after the order of Melchizedek.\n\nTHE TABLETS: Christ did not come to destroy the law but to fulfill it (Matthew 5:17). The broken tablets beneath the mercy seat declare that the law has been violated. The whole tablets beside them declare that God gave it again. And the mercy seat above them declares that blood covers what the law condemns. He is simultaneously the giver of the law, the keeper of the law in our place, and the covering for our failure to keep it.",today:"The Ark held three witnesses — provision, priesthood, and covenant. Every time you take the sacrament you are touching all three. The bread is the manna. The one who blessed and broke it holds Aaron's priesthood, restored through the line that never stopped running. And the covenant you renew was written first on stone, then shattered, then restored, and finally written on your heart by the One who kept every word of it on your behalf.\n\nEvery covenant member is called to become a living ark — the law written on the heart (Jeremiah 31:33), carrying God's presence through the wilderness of mortality, until the journey ends and the ark is no longer needed because we are with the One the ark always pointed to."},
+  mercy:{title:"The Mercy Seat — Kapporet",hebrew:"כַּפֹּרֶת — Kapporet · 'Instrument of Atonement'\nfrom כִּפֶּר — to cover and to wipe away\nGreek: ἱλαστήριον — Hilastērion (Romans 3:25)\nPURE GOLD · Cherubim beaten from the same piece",scRef:"Romans 3:25 | Leviticus 16:15 | Exodus 25:22",scTx:"Whom God hath set forth to be a propitiation [hilastērion — mercy seat] through faith in his blood, that he might be just, and the justifier of him which believeth in Jesus.",sym:"Pure gold — no wood anywhere. The atonement is entirely divine, no human contribution. Same dimensions as the Ark — designed to fit it perfectly. Broken law beneath; God's presence above; blood applied once yearly on Yom Kippur. Two golden cherubim beaten from the same piece — wings stretching over, both gazing downward at the place of atonement. 'There I will meet with thee' (Exodus 25:22).",christ:"Paul explicitly calls Christ the hilastērion — the mercy seat — in Romans 3:25. He IS the mercy seat. Pure gold: the atonement is entirely divine. His blood covers the broken law beneath. The cherubim who once blocked Eden now gaze permanently at the atonement that reopens it.",today:"Every approach to God — prayer, sacrament, temple — is an approach to the kapporet. The blood has already been applied. Ephapax — once for all. The only question remaining is whether we will draw near — qorban — and receive what has been fully provided."}
+};
+
+// ── CANVAS ────────────────────────────────────────────────────────────────────
+const cv=document.getElementById('cv');
+const ctx=cv.getContext('2d');
+let W,H;
+
+// ── VIEWPORT STATE ────────────────────────────────────────────────────────────
+let OX,OY,SC,ROT=0;        // current
+let defOX,defOY,defSC;     // defaults
+
+// Scene center (for rotation)
+const CX=10, CZ=6;
+
+function setDefaults(){
+  W=document.getElementById('canvasWrap').clientWidth;
+  H=document.getElementById('canvasWrap').clientHeight||window.innerHeight;
+  cv.width=W; cv.height=H;
+  defSC=Math.min(W/860,H/600)*0.88;
+  defOX=W*0.65; defOY=H*0.52;
+  if(!SC){SC=defSC;OX=defOX;OY=defOY;}
+}
+
+// ── ISOMETRIC PROJECTION WITH ROTATION ───────────────────────────────────────
+function iso(wx,wy,wz){
+  // rotate around scene center in XZ plane
+  const dx=wx-CX, dz=wz-CZ;
+  const rx= dx*Math.cos(ROT)-dz*Math.sin(ROT);
+  const rz= dx*Math.sin(ROT)+dz*Math.cos(ROT);
+  const fx=rx+CX, fz=rz+CZ;
+  return {
+    x: OX+(fx-fz)*36*SC,
+    y: OY+(fx+fz)*18*SC - wy*36*SC
+  };
+}
+
+// ── HIT ZONES ─────────────────────────────────────────────────────────────────
+let hitZones=[];
+function pip(px,py,poly){
+  let inside=false;
+  for(let i=0,j=poly.length-1;i<poly.length;j=i++){
+    const xi=poly[i].x,yi=poly[i].y,xj=poly[j].x,yj=poly[j].y;
+    if(((yi>py)!==(yj>py))&&(px<(xj-xi)*(py-yi)/(yj-yi)+xi))inside=!inside;
+  }
+  return inside;
+}
+function hitTest(ex,ey){
+  for(let i=hitZones.length-1;i>=0;i--)
+    if(pip(ex,ey,hitZones[i].poly))return hitZones[i].key;
+  return null;
+}
+
+// ── DRAW PRIMITIVES ───────────────────────────────────────────────────────────
+function face(pts,fill,stroke,lw){
+  ctx.beginPath();
+  ctx.moveTo(pts[0].x,pts[0].y);
+  for(let i=1;i<pts.length;i++)ctx.lineTo(pts[i].x,pts[i].y);
+  ctx.closePath();
+  if(fill){ctx.fillStyle=fill;ctx.fill();}
+  if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=lw||0.8;ctx.stroke();}
+}
+
+function isoBox(wx,wy,wz,sw,sh,sd,cTop,cLeft,cRight,sCol,lw,key){
+  const x1=wx,x2=wx+sw,z1=wz,z2=wz+sd,y0=wy,y1=wy+sh;
+  const BFL=iso(x1,y0,z2),BFR=iso(x2,y0,z2);
+  const BBL=iso(x1,y0,z1),BBR=iso(x2,y0,z1);
+  const TFL=iso(x1,y1,z2),TFR=iso(x2,y1,z2);
+  const TBL=iso(x1,y1,z1),TBR=iso(x2,y1,z1);
+  // draw all six visible faces depending on rotation
+  face([BFR,BBR,TBR,TFR],cRight,sCol,lw);
+  face([BFL,BFR,TFR,TFL],cLeft,sCol,lw);
+  face([TFL,TFR,TBR,TBL],cTop,sCol,lw);
+  if(key)hitZones.push({key,poly:[TFL,TFR,TBR,TBL,BFR,BFL,BBL,BBR]});
+}
+
+function isoCyl(wx,wy,wz,r,h,cTop,cSide,sCol,key){
+  const segs=12;
+  const top=[],bot=[];
+  for(let i=0;i<segs;i++){
+    const a=i/segs*Math.PI*2;
+    top.push(iso(wx+Math.cos(a)*r,wy+h,wz+Math.sin(a)*r*0.5));
+    bot.push(iso(wx+Math.cos(a)*r,wy,  wz+Math.sin(a)*r*0.5));
+  }
+  ctx.beginPath();ctx.moveTo(bot[0].x,bot[0].y);
+  for(let i=1;i<segs;i++)ctx.lineTo(bot[i].x,bot[i].y);
+  for(let i=segs-1;i>=0;i--)ctx.lineTo(top[i].x,top[i].y);
+  ctx.closePath();ctx.fillStyle=cSide;ctx.fill();
+  ctx.strokeStyle=sCol;ctx.lineWidth=0.7;ctx.stroke();
+  ctx.beginPath();ctx.moveTo(top[0].x,top[0].y);
+  for(let i=1;i<segs;i++)ctx.lineTo(top[i].x,top[i].y);
+  ctx.closePath();ctx.fillStyle=cTop;ctx.fill();
+  ctx.strokeStyle=sCol;ctx.lineWidth=0.7;ctx.stroke();
+  if(key)hitZones.push({key,poly:top});
+}
+
+// Draw a parallelogram face with vertical colour stripes (for veil & gate)
+function stripedFace(pts,colors,strokeCol,lw){
+  // pts = [bottom-left, bottom-right, top-right, top-left]
+  const n=20, nc=colors.length;
+  ctx.save();
+  ctx.beginPath();ctx.moveTo(pts[0].x,pts[0].y);
+  pts.forEach(p=>ctx.lineTo(p.x,p.y));ctx.closePath();ctx.clip();
+  for(let i=0;i<n;i++){
+    const t0=i/n,t1=(i+1)/n;
+    const bl={x:pts[0].x*(1-t0)+pts[1].x*t0,y:pts[0].y*(1-t0)+pts[1].y*t0};
+    const br={x:pts[0].x*(1-t1)+pts[1].x*t1,y:pts[0].y*(1-t1)+pts[1].y*t1};
+    const tl={x:pts[3].x*(1-t0)+pts[2].x*t0,y:pts[3].y*(1-t0)+pts[2].y*t0};
+    const tr={x:pts[3].x*(1-t1)+pts[2].x*t1,y:pts[3].y*(1-t1)+pts[2].y*t1};
+    ctx.beginPath();ctx.moveTo(bl.x,bl.y);ctx.lineTo(br.x,br.y);
+    ctx.lineTo(tr.x,tr.y);ctx.lineTo(tl.x,tl.y);ctx.closePath();
+    ctx.fillStyle=colors[i%nc];ctx.fill();
+  }
+  ctx.restore();
+  if(strokeCol){
+    ctx.beginPath();ctx.moveTo(pts[0].x,pts[0].y);
+    pts.forEach(p=>ctx.lineTo(p.x,p.y));ctx.closePath();
+    ctx.strokeStyle=strokeCol;ctx.lineWidth=lw||1;ctx.stroke();
+  }
+}
+
+function isoLabel(wx,wy,wz,text,col,size){
+  const p=iso(wx,wy,wz);
+  ctx.font=`${(size||7)*SC}px Cinzel,serif`;
+  ctx.textAlign='center';ctx.fillStyle=col||'rgba(255,240,120,0.78)';
+  ctx.shadowColor='#000';ctx.shadowBlur=5;
+  text.split('\n').forEach((l,i)=>ctx.fillText(l,p.x,p.y+i*(size||7)*SC*1.35));
+  ctx.shadowBlur=0;
+}
+
+function dk(hex,amt){
+  const n=parseInt(hex.replace('#',''),16);
+  return `rgb(${Math.max(0,((n>>16)&255)-amt)},${Math.max(0,((n>>8)&255)-amt)},${Math.max(0,(n&255)-amt)})`;
+}
+
+// ── MAIN DRAW ─────────────────────────────────────────────────────────────────
+let activeKey=null,hoveredKey=null;
+
+function draw(){
+  hitZones=[];
+  ctx.clearRect(0,0,W,H);
+
+  // Background
+  ctx.fillStyle='#120e04';ctx.fillRect(0,0,W,H);
+
+  // Ground quad
+  const gA=iso(-3,0,-3),gB=iso(23,0,-3),gC=iso(23,0,15),gD=iso(-3,0,15);
+  ctx.beginPath();ctx.moveTo(gA.x,gA.y);ctx.lineTo(gB.x,gB.y);ctx.lineTo(gC.x,gC.y);ctx.lineTo(gD.x,gD.y);ctx.closePath();
+  const gr=ctx.createLinearGradient(gB.x,gB.y,gD.x,gD.y);
+  gr.addColorStop(0,'#c09838');gr.addColorStop(1,'#7a5818');
+  ctx.fillStyle=gr;ctx.fill();
+
+  // Court floor
+  const cf1=iso(0,0,0),cf2=iso(20,0,0),cf3=iso(20,0,12),cf4=iso(0,0,12);
+  ctx.beginPath();ctx.moveTo(cf1.x,cf1.y);ctx.lineTo(cf2.x,cf2.y);ctx.lineTo(cf3.x,cf3.y);ctx.lineTo(cf4.x,cf4.y);ctx.closePath();
+  ctx.fillStyle='#b89030';ctx.fill();
+  ctx.strokeStyle='rgba(200,160,30,0.28)';ctx.lineWidth=0.8;ctx.stroke();
+
+  // ── OUTER COURT WALLS ──
+  const WH=3.5,WT=0.28;
+  const wC='#f0e49e',wL='#d6ca78',wR='#e2d686',wS='rgba(195,175,45,0.4)';
+  isoBox(0,0,0,  20,WH,WT, wC,wL,wR,wS,0.8);
+  isoBox(0,0,11.72,20,WH,WT,wC,wL,wR,wS,0.8);
+  isoBox(0,0,0,  WT,WH,12, wC,wL,wR,wS,0.8);
+  isoBox(19.72,0,0,  WT,WH,4.5, wC,wL,wR,wS,0.8);
+  isoBox(19.72,0,7.5,WT,WH,4.5, wC,wL,wR,wS,0.8);
+  [[0,0],[5,0],[10,0],[15,0],[20,0],[0,6],[0,12],[5,12],[10,12],[15,12],[20,12],[20,4.5],[20,7.5]].forEach(([px,pz])=>
+    isoCyl(px,0,pz,0.22,WH+0.3,'#e8c820','#c0a010','rgba(155,125,5,0.45)'));
+
+  // ── GATE — blue, purple, scarlet, white linen (Exodus 27:16) ──
+  const gAct=activeKey==='gate'||hoveredKey==='gate';
+  const gX1=19.5,gX2=20.05,gZ1=4.5,gZ2=7.5;
+  const gVC=['#1a3ecc','#7722aa','#cc1122','#f0e4a0']; // blue,purple,scarlet,white
+  const gVCA=['#3355ee','#9933cc','#ee2233','#ffffff']; // brighter when active
+  const gCols=gAct?gVCA:gVC;
+  // right face (east-facing, what you see approaching from outside)
+  const gBFR=iso(gX2,0,gZ2),gBBR=iso(gX2,0,gZ1),gTBR=iso(gX2,WH,gZ1),gTFR=iso(gX2,WH,gZ2);
+  stripedFace([gBFR,gBBR,gTBR,gTFR],gCols,gAct?'rgba(255,255,255,0.6)':'rgba(180,140,80,0.5)',1.2);
+  // left narrow face
+  const gBFL=iso(gX1,0,gZ2),gTFL=iso(gX1,WH,gZ2);
+  face([gBFL,gBFR,gTFR,gTFL],'rgba(80,60,100,0.5)',null);
+  // top narrow face
+  const gTBL=iso(gX1,WH,gZ1);
+  face([gTFL,gTFR,gTBR,gTBL],'rgba(100,80,120,0.4)',null);
+  // hit zone
+  hitZones.push({key:'gate',poly:[gBFR,gBBR,gTBR,gTFR,gTFL,gBFL]});
+  isoLabel(19.2,WH+0.6,6,'GATE\nשַׁעַר',gAct?'#aabbff':'rgba(155,175,255,0.82)',6.5);
+
+  // ── ALTAR ── (positioned close to gate, first thing you encounter — Exodus 40:6)
+  const aAct=activeKey==='altar'||hoveredKey==='altar';
+  isoBox(15.5,0,4.5,3,1.8,3,
+    aAct?'#cc8844':'#8b5a28',aAct?'#aa6622':'#6b3a18',aAct?'#bb7733':'#7a4820',
+    'rgba(150,85,18,0.5)',1,'altar');
+  const fp=iso(17,1.8,6);
+  const fg=ctx.createRadialGradient(fp.x,fp.y,1*SC,fp.x,fp.y-10*SC,28*SC);
+  fg.addColorStop(0,'rgba(255,240,80,0.98)');fg.addColorStop(0.35,'rgba(255,130,10,0.88)');
+  fg.addColorStop(0.75,'rgba(255,50,0,0.44)');fg.addColorStop(1,'rgba(255,0,0,0)');
+  ctx.fillStyle=fg;ctx.beginPath();ctx.ellipse(fp.x,fp.y,22*SC,30*SC,0,0,Math.PI*2);ctx.fill();
+  isoLabel(17,2.6,6,'ALTAR · עֹלָה',aAct?'#ffcc88':'rgba(255,185,75,0.82)',7);
+
+  // ── LAVER — bronze basin, between altar and tent (Exodus 40:7) ──
+  // Order east→west: Gate → Altar → [open space] → Laver → [open space] → Tent entrance
+  const lAct=activeKey==='laver'||hoveredKey==='laver';
+  isoCyl(12.8,0,5.8,1.0,1.3,
+    lAct?'#bb8844':'#8b5a22',lAct?'#9b6830':'#6b3e10',
+    lAct?'rgba(185,130,55,0.65)':'rgba(130,85,25,0.45)','laver');
+  const lwp=iso(12.8,1.3,5.8);
+  const lwg=ctx.createRadialGradient(lwp.x,lwp.y,0,lwp.x,lwp.y,11*SC);
+  lwg.addColorStop(0,'rgba(155,220,255,0.92)');lwg.addColorStop(1,'rgba(55,135,195,0.42)');
+  ctx.fillStyle=lwg;ctx.beginPath();ctx.ellipse(lwp.x,lwp.y,11*SC,5.5*SC,0,0,Math.PI*2);ctx.fill();
+  isoLabel(12.8,2.1,5.8,'LAVER · כִּיּוֹר',lAct?'#ddbb88':'rgba(220,175,100,0.88)',6.5);
+
+  // ── TENT FLOOR — proportioned 30×10 cubits (1/3 of court length) ──
+  const TFX=1,TFZ=1.5,TFW=8.0,TFZD=9,TTH=5.8,TW=0.2;
+  const tf1=iso(TFX,0.05,TFZ),tf2=iso(TFX+TFW,0.05,TFZ);
+  const tf3=iso(TFX+TFW,0.05,TFZ+TFZD),tf4=iso(TFX,0.05,TFZ+TFZD);
+  ctx.beginPath();ctx.moveTo(tf1.x,tf1.y);ctx.lineTo(tf2.x,tf2.y);ctx.lineTo(tf3.x,tf3.y);ctx.lineTo(tf4.x,tf4.y);ctx.closePath();
+  ctx.fillStyle='#9a7820';ctx.fill();
+
+  // HOH glow
+  const hcp=iso(2.5,0.06,6);
+  const hg=ctx.createRadialGradient(hcp.x,hcp.y,0,hcp.x,hcp.y,68*SC);
+  hg.addColorStop(0,'rgba(255,245,100,0.44)');hg.addColorStop(1,'transparent');
+  ctx.fillStyle=hg;ctx.beginPath();ctx.arc(hcp.x,hcp.y,68*SC,0,Math.PI*2);ctx.fill();
+  isoLabel(2.5,0.3,6,'HOLY OF\nHOLIES','rgba(255,240,100,0.52)',6.5);
+
+  // ── TENT WALLS — outer covering = tachash (badger/dugong) skins, dark & plain ──
+  // Exodus 26:14 — outermost covering is plain, dark, utilitarian hide
+  const tC='#4a3a1c',tL='#362a10',tR='#41321a',tS='rgba(55,42,12,0.55)';
+  isoBox(TFX,0,TFZ,      TFW,TTH,TW, tC,tL,tR,tS,0.9);
+  isoBox(TFX,0,TFZ+TFZD-TW,TFW,TTH,TW,tC,tL,tR,tS,0.9);
+  isoBox(TFX,0,TFZ,      TW,TTH,TFZD,tC,tL,tR,tS,0.9);
+  // East tent wall with gap
+  const gz1=TFZ+2.2,gz2=TFZ+TFZD-2.2;
+  isoBox(TFX+TFW-TW,0,TFZ,  TW,TTH,2.2,       tC,tL,tR,tS,0.9);
+  isoBox(TFX+TFW-TW,0,gz2,  TW,TTH,TFZ+TFZD-gz2,tC,tL,tR,tS,0.9);
+  // entrance screen — four colors like gate (Exodus 26:36)
+  const esX1=TFX+TFW-TW-0.05,esX2=TFX+TFW-TW+0.3;
+  const esZ1=gz1,esZ2=gz2,esH=TTH*0.8;
+  const esCols=['#1a3ecc','#7722aa','#cc1122','#f0e4a0'];
+  const esBFR=iso(esX2,0,esZ2),esBBR=iso(esX2,0,esZ1),esTBR=iso(esX2,esH,esZ1),esTFR=iso(esX2,esH,esZ2);
+  stripedFace([esBFR,esBBR,esTBR,esTFR],esCols,'rgba(160,130,60,0.5)',0.8);
+  const esBFL=iso(esX1,0,esZ2),esTFL=iso(esX1,esH,esZ2);
+  face([esBFL,esBFR,esTFR,esTFL],'rgba(50,40,80,0.4)',null);
+
+  // ── ROOF — dark tachash outer covering ──
+  const rp=[iso(TFX,TTH,TFZ),iso(TFX+TFW,TTH,TFZ),iso(TFX+TFW,TTH,TFZ+TFZD),iso(TFX,TTH,TFZ+TFZD)];
+  ctx.beginPath();ctx.moveTo(rp[0].x,rp[0].y);rp.forEach(p=>ctx.lineTo(p.x,p.y));ctx.closePath();
+  ctx.fillStyle='rgba(38,28,10,0.95)';ctx.fill();
+  ctx.strokeStyle='#6a5020';ctx.lineWidth=1.5;ctx.stroke();
+  const r1=iso(TFX,TTH+0.25,TFZ+TFZD/2),r2=iso(TFX+TFW,TTH+0.25,TFZ+TFZD/2);
+  ctx.beginPath();ctx.moveTo(r1.x,r1.y);ctx.lineTo(r2.x,r2.y);
+  ctx.strokeStyle='#d4a820';ctx.lineWidth=3.5*SC;ctx.stroke();
+
+  // ── VEIL — blue, purple, scarlet, fine linen with cherubim (Exodus 26:31) ──
+  const vX=TFX+TFW*0.27;
+  const vAct=activeKey==='veil'||hoveredKey==='veil';
+  const vCols=vAct
+    ?['#3355ee','#9933cc','#ee2233','#f8f0d0']
+    :['#1a3ecc','#7722aa','#cc1122','#f0e4a0'];
+  const vX2=vX+0.32, vZ1=TFZ+0.1, vZ2=TFZ+TFZD-0.1, vH=TTH*0.92;
+  // main face — the east-facing side seen from Holy Place
+  const vBFR=iso(vX2,0,vZ2),vBBR=iso(vX2,0,vZ1),vTBR=iso(vX2,vH,vZ1),vTFR=iso(vX2,vH,vZ2);
+  stripedFace([vBFR,vBBR,vTBR,vTFR],vCols,vAct?'rgba(255,255,200,0.65)':'rgba(180,140,60,0.5)',1.5);
+  // west face (seen from Holy of Holies side)
+  const vBFL=iso(vX,0,vZ2),vTFL=iso(vX,vH,vZ2),vBBL=iso(vX,0,vZ1),vTBL=iso(vX,vH,vZ1);
+  stripedFace([vBFL,vBFR,vTFR,vTFL],vCols,'rgba(120,100,40,0.35)',0.8);
+  // top face thin
+  face([vTFL,vTFR,vTBR,vTBL],'rgba(100,80,120,0.35)',null);
+  // gold frame rods top and sides
+  const gfC=vAct?'#ffe840':'#d4a820';
+  ctx.strokeStyle=gfC;ctx.lineWidth=2.2*SC;
+  ctx.beginPath();ctx.moveTo(iso(vX,vH+0.08,vZ1).x,iso(vX,vH+0.08,vZ1).y);ctx.lineTo(iso(vX,vH+0.08,vZ2).x,iso(vX,vH+0.08,vZ2).y);ctx.stroke();
+  // cherubim marks — now visible on the correct colored stripes
+  const vc1=iso(vX+0.15,vH*0.55,vZ1+(vZ2-vZ1)*0.28),vc2=iso(vX+0.15,vH*0.55,vZ1+(vZ2-vZ1)*0.72);
+  ctx.font=`${13*SC}px serif`;ctx.textAlign='center';
+  ctx.fillStyle=vAct?'rgba(255,255,200,0.92)':'rgba(255,240,180,0.6)';
+  ctx.shadowColor='#000';ctx.shadowBlur=4;
+  ctx.fillText('✦',vc1.x,vc1.y);ctx.fillText('✦',vc2.x,vc2.y);ctx.shadowBlur=0;
+  // hit zone
+  hitZones.push({key:'veil',poly:[vBFR,vBBR,vTBR,vTFR,vTFL,vBFL,vBBL,vTBL]});
+  isoLabel(vX,vH+0.48,TFZ+TFZD/2,'VEIL\nפָּרֹכֶת',vAct?'#aabbff':'rgba(200,170,255,0.88)',7);
+
+  // ── MENORAH ──
+  const mAct=activeKey==='menorah'||hoveredKey==='menorah';
+  const mX=4.4,mZ=TFZ+2.0;
+  isoCyl(mX,0,mZ,0.32,0.28,'#f0c820','#c0a010','rgba(185,145,5,0.42)');
+  isoCyl(mX,0.28,mZ,0.09,1.3,'#f0c820','#c0a010','rgba(185,145,5,0.42)');
+  [[-0.72,0.72],[-0.48,0.87],[-0.24,0.97],[0,1.03],[0.24,0.97],[0.48,0.87],[0.72,0.72]].forEach(([ox,bh])=>{
+    isoCyl(mX+ox*0.27,0,mZ,0.068,bh,'#f0c820','#c0a010','rgba(185,145,5,0.32)');
+    const fp2=iso(mX+ox*0.27,bh+0.12,mZ);
+    const flg=ctx.createRadialGradient(fp2.x,fp2.y,0,fp2.x,fp2.y-7*SC,7.5*SC);
+    flg.addColorStop(0,'rgba(255,255,125,0.98)');flg.addColorStop(1,'rgba(255,100,0,0)');
+    ctx.fillStyle=flg;ctx.beginPath();ctx.ellipse(fp2.x,fp2.y,6*SC,9*SC,0,0,Math.PI*2);ctx.fill();
+  });
+  const mgp=iso(mX,0.9,mZ);
+  const mgl=ctx.createRadialGradient(mgp.x,mgp.y,0,mgp.x,mgp.y,33*SC);
+  mgl.addColorStop(0,mAct?'rgba(255,245,80,0.4)':'rgba(255,215,45,0.22)');mgl.addColorStop(1,'transparent');
+  ctx.fillStyle=mgl;ctx.beginPath();ctx.arc(mgp.x,mgp.y,33*SC,0,Math.PI*2);ctx.fill();
+  hitZones.push({key:'menorah',poly:[iso(mX-0.88,0,mZ-0.72),iso(mX+0.88,0,mZ-0.72),iso(mX+0.88,0,mZ+0.72),iso(mX-0.88,0,mZ+0.72)]});
+  isoLabel(mX,1.75,mZ,'MENORAH',mAct?'#ffee88':'rgba(255,215,75,0.82)',7);
+
+  // ── SHEWBREAD TABLE ──
+  const sbAct=activeKey==='shewbread'||hoveredKey==='shewbread';
+  const sbX=4.4,sbZ=TFZ+TFZD-2.2;
+  isoBox(sbX-0.72,0,sbZ-0.5,1.44,0.88,1.0,
+    sbAct?'#f8d840':'#d4af20',sbAct?'#d0b010':'#a88010',sbAct?'#e8c830':'#c49818',
+    sbAct?'rgba(252,210,42,0.72)':'rgba(192,162,12,0.42)',1,'shewbread');
+  for(let i=0;i<3;i++)for(let j=0;j<2;j++)
+    isoBox(sbX-0.58+i*0.4,0.88,sbZ-0.42+j*0.46,0.32,0.22,0.34,
+      '#c08020',dk('#c08020',20),dk('#c08020',10),'rgba(0,0,0,0.18)',0.4);
+  isoLabel(sbX,1.25,sbZ-0.15,'SHEWBREAD',sbAct?'#ffee88':'rgba(255,215,75,0.82)',6.5);
+
+  // ── INCENSE ALTAR ──
+  const icAct=activeKey==='incense'||hoveredKey==='incense';
+  const icX=vX+1.3,icZ=TFZ+TFZD/2;
+  isoBox(icX-0.46,0,icZ-0.46,0.92,1.28,0.92,
+    icAct?'#f8d840':'#e8c030',icAct?'#d0b010':'#c0a020',icAct?'#e4c430':'#d4b028',
+    icAct?'rgba(252,210,42,0.72)':'rgba(198,162,12,0.48)',1,'incense');
+  [[icX-0.38,icZ-0.38],[icX+0.38,icZ-0.38],[icX-0.38,icZ+0.38],[icX+0.38,icZ+0.38]].forEach(([cx2,cz2])=>
+    isoCyl(cx2,1.28,cz2,0.1,0.24,icAct?'#ffe840':'#d4b020',icAct?'#ddcc30':'#b89010','rgba(0,0,0,0.22)'));
+  for(let i=0;i<3;i++){
+    const sp=iso(icX+(i-1)*0.13,1.6,icZ);
+    ctx.strokeStyle=`rgba(218,218,195,${0.25-i*0.05})`;ctx.lineWidth=(2.2-i*0.5)*SC;
+    ctx.setLineDash([3*SC,3*SC]);
+    ctx.beginPath();ctx.moveTo(sp.x,sp.y);
+    ctx.bezierCurveTo(sp.x+6*SC,sp.y-14*SC,sp.x-6*SC,sp.y-28*SC,sp.x+4*SC,sp.y-44*SC);
+    ctx.stroke();ctx.setLineDash([]);
+  }
+  isoLabel(icX,1.75,icZ,'INCENSE',icAct?'#ffee88':'rgba(255,215,75,0.82)',7);
+
+  // ── ARK OF COVENANT ──
+  const arkAct=activeKey==='ark'||hoveredKey==='ark';
+  const arkX=2.1,arkZ=5.4;
+  isoBox(arkX-0.78,0,arkZ-0.48,1.56,1.05,0.96,
+    arkAct?'#d49030':'#8b5a18',arkAct?'#aa6010':'#6b3a08',arkAct?'#c07020':'#7a4810',
+    arkAct?'rgba(195,120,22,0.72)':'rgba(125,72,12,0.42)',1.2);
+  isoBox(arkX-0.66,0.08,arkZ-0.38,1.32,0.9,0.76,
+    arkAct?'#f8e040':'#d4af20',arkAct?'#d0b010':'#a88010',arkAct?'#e4cc30':'#c09818',
+    arkAct?'rgba(252,222,42,0.82)':'rgba(195,162,12,0.52)',1.0,'ark');
+  ctx.strokeStyle=arkAct?'#ffe840':'#d4a820';ctx.lineWidth=2.8*SC;
+  [[arkX-0.78,arkZ-0.72],[arkX+0.78,arkZ-0.72]].forEach(([ax,az],i)=>{
+    const bx2=i===0?arkX-0.78:arkX+0.78, bz2=arkZ+0.72;
+    const p1=iso(ax,0.32,az),p2=iso(bx2,0.32,bz2);
+    ctx.beginPath();ctx.moveTo(p1.x,p1.y);ctx.lineTo(p2.x,p2.y);ctx.stroke();
+  });
+  isoLabel(arkX,1.1,arkZ,'ARK · אֲרוֹן',arkAct?'#ffee88':'rgba(255,215,75,0.82)',7);
+
+  // ── MERCY SEAT ──
+  const msAct=activeKey==='mercy'||hoveredKey==='mercy';
+  isoBox(arkX-0.78,1.05,arkZ-0.48,1.56,0.2,0.96,
+    msAct?'#ffee50':'#f0d020',msAct?'#e0cc10':'#d0b010',msAct?'#f0da30':'#e0c020',
+    msAct?'rgba(255,255,95,0.88)':'rgba(238,202,12,0.62)',1.8,'mercy');
+
+  // Shekinah
+  const skp=iso(arkX,1.55,arkZ);
+  const skg=ctx.createRadialGradient(skp.x,skp.y,0,skp.x,skp.y-8*SC,58*SC);
+  skg.addColorStop(0,msAct?'rgba(255,255,175,0.72)':'rgba(255,248,135,0.48)');
+  skg.addColorStop(0.5,msAct?'rgba(255,228,75,0.36)':'rgba(255,215,65,0.22)');
+  skg.addColorStop(1,'transparent');
+  ctx.fillStyle=skg;ctx.beginPath();ctx.ellipse(skp.x,skp.y,58*SC,68*SC,0,0,Math.PI*2);ctx.fill();
+
+  // Cherubim
+  function cherub(cx2,cz2,flip){
+    const base=iso(cx2,1.25,cz2);
+    ctx.fillStyle=msAct?'#ffe840':'#e8cc20';ctx.strokeStyle='rgba(175,140,5,0.48)';ctx.lineWidth=0.8;
+    ctx.beginPath();ctx.ellipse(base.x,base.y,8.5*SC,11*SC,0,0,Math.PI*2);ctx.fill();ctx.stroke();
+    const hd=iso(cx2,1.54,cz2);
+    ctx.beginPath();ctx.arc(hd.x+(flip?6:-6)*SC,hd.y,6*SC,0,Math.PI*2);ctx.fill();ctx.stroke();
+    const wTip=iso(cx2+(flip?0.58:-0.58),1.58,arkZ);
+    ctx.beginPath();ctx.moveTo(base.x,base.y-10*SC);
+    ctx.quadraticCurveTo((base.x+wTip.x)/2,base.y-24*SC,wTip.x,wTip.y);
+    ctx.quadraticCurveTo((base.x+wTip.x)/2,base.y-6*SC,base.x,base.y-4*SC);
+    ctx.fillStyle=msAct?'rgba(255,238,75,0.7)':'rgba(212,182,12,0.48)';ctx.fill();
+    ctx.strokeStyle=msAct?'rgba(255,248,115,0.55)':'rgba(195,168,8,0.32)';ctx.lineWidth=0.8;ctx.stroke();
+  }
+  cherub(arkX-0.46,arkZ-0.62,false);
+  cherub(arkX+0.46,arkZ+0.62,true);
+
+  isoLabel(arkX,2.35,arkZ,'MERCY SEAT\nכַּפֹּרֶת',msAct?'#ffffff':'rgba(255,250,155,0.92)',7.5);
+
+  // ── ACTIVE HIGHLIGHT ──
+  if(activeKey){
+    hitZones.filter(h=>h.key===activeKey).forEach(h=>{
+      ctx.strokeStyle='rgba(255,240,100,0.82)';ctx.lineWidth=2.5;
+      ctx.setLineDash([6,3]);
+      ctx.beginPath();ctx.moveTo(h.poly[0].x,h.poly[0].y);
+      h.poly.forEach(p=>ctx.lineTo(p.x,p.y));ctx.closePath();ctx.stroke();
+      ctx.setLineDash([]);
+    });
+  }
+
+  // Compass labels
+  ctx.font=`${8*SC}px Cinzel,serif`;ctx.textAlign='center';
+  ctx.fillStyle='rgba(212,175,55,0.3)';ctx.shadowColor='#000';ctx.shadowBlur=4;
+  const ep=iso(21,0,6),wp=iso(-0.8,0,6);
+  ctx.fillText('← EAST',ep.x+24*SC,ep.y);
+  ctx.fillText('WEST →',wp.x-24*SC,wp.y);
+  ctx.shadowBlur=0;
+}
+
+// ── PAN, ROTATE, ZOOM ─────────────────────────────────────────────────────────
+let dragging=false,rotating=false,moved=false;
+let dragSX=0,dragSY=0,dragSOX=0,dragSOY=0,dragSROT=0;
+
+function getButton(e){return e.button;}
+
+cv.addEventListener('contextmenu',e=>e.preventDefault());
+
+cv.addEventListener('mousedown',e=>{
+  e.preventDefault();
+  moved=false;
+  if(e.button===2||e.button===1){
+    rotating=true;
+    dragSX=e.clientX;dragSROT=ROT;
+  } else {
+    dragging=true;
+    dragSX=e.clientX;dragSY=e.clientY;dragSOX=OX;dragSOY=OY;
+  }
+  cv.style.cursor='grabbing';
+});
+
+window.addEventListener('mousemove',e=>{
+  if(rotating){
+    const dx=e.clientX-dragSX;
+    if(Math.abs(dx)>2)moved=true;
+    ROT=dragSROT+dx*0.008;
+    draw();
+  } else if(dragging){
+    const dx=e.clientX-dragSX,dy=e.clientY-dragSY;
+    if(Math.abs(dx)>2||Math.abs(dy)>2)moved=true;
+    OX=dragSOX+dx;OY=dragSOY+dy;draw();
+  } else {
+    const r=cv.getBoundingClientRect();
+    const k=hitTest(e.clientX-r.left,e.clientY-r.top);
+    if(k!==hoveredKey){hoveredKey=k;cv.style.cursor=k?'pointer':'grab';draw();}
+  }
+});
+
+window.addEventListener('mouseup',e=>{
+  if(!moved){
+    const r=cv.getBoundingClientRect();
+    const k=hitTest(e.clientX-r.left,e.clientY-r.top);
+    if(k)showPanel(k);
+  }
+  dragging=false;rotating=false;
+  cv.style.cursor=hoveredKey?'pointer':'grab';
+});
+
+cv.addEventListener('wheel',e=>{
+  e.preventDefault();
+  const r=cv.getBoundingClientRect();
+  const mx=e.clientX-r.left,my=e.clientY-r.top;
+  const factor=e.deltaY<0?1.11:0.9;
+  const nSC=Math.max(defSC*0.3,Math.min(defSC*6,SC*factor));
+  OX=mx+(OX-mx)*(nSC/SC);OY=my+(OY-my)*(nSC/SC);SC=nSC;draw();
+},{passive:false});
+
+// Touch
+let touches2={};let pinchD0=null,pinchSC0=null,pinchOX0=null,pinchOY0=null,pinchROT0=null;
+let tMoved=false,tRotStart=null;
+
+cv.addEventListener('touchstart',e=>{
+  e.preventDefault();tMoved=false;
+  if(e.touches.length===1){
+    dragging=true;
+    dragSX=e.touches[0].clientX;dragSY=e.touches[0].clientY;dragSOX=OX;dragSOY=OY;
+  } else if(e.touches.length===2){
+    dragging=false;
+    const dx=e.touches[0].clientX-e.touches[1].clientX;
+    const dy=e.touches[0].clientY-e.touches[1].clientY;
+    pinchD0=Math.sqrt(dx*dx+dy*dy);
+    pinchSC0=SC;pinchOX0=OX;pinchOY0=OY;pinchROT0=ROT;
+    tRotStart=(e.touches[0].clientX+e.touches[1].clientX)/2;
+  }
+},{passive:false});
+
+cv.addEventListener('touchmove',e=>{
+  e.preventDefault();tMoved=true;
+  if(e.touches.length===1&&dragging){
+    OX=dragSOX+(e.touches[0].clientX-dragSX);
+    OY=dragSOY+(e.touches[0].clientY-dragSY);
+    draw();
+  } else if(e.touches.length===2&&pinchD0){
+    const dx=e.touches[0].clientX-e.touches[1].clientX;
+    const dy=e.touches[0].clientY-e.touches[1].clientY;
+    const dist=Math.sqrt(dx*dx+dy*dy);
+    const nSC=Math.max(defSC*0.3,Math.min(defSC*6,pinchSC0*(dist/pinchD0)));
+    const cx2=(e.touches[0].clientX+e.touches[1].clientX)/2;
+    const cy2=(e.touches[0].clientY+e.touches[1].clientY)/2;
+    const r=cv.getBoundingClientRect();
+    const lx=cx2-r.left,ly=cy2-r.top;
+    OX=lx+(pinchOX0-lx)*(nSC/pinchSC0);
+    OY=ly+(pinchOY0-ly)*(nSC/pinchSC0);
+    SC=nSC;
+    // two-finger horizontal drag = rotate
+    ROT=pinchROT0+(cx2-tRotStart)*0.006;
+    draw();
+  }
+},{passive:false});
+
+cv.addEventListener('touchend',e=>{
+  if(!tMoved&&e.changedTouches.length===1){
+    const r=cv.getBoundingClientRect();
+    const t=e.changedTouches[0];
+    const k=hitTest(t.clientX-r.left,t.clientY-r.top);
+    if(k)showPanel(k);
+  }
+  dragging=false;pinchD0=null;
+},{passive:false});
+
+// ── BUTTONS ───────────────────────────────────────────────────────────────────
+document.getElementById('rotL').addEventListener('click',()=>{ROT-=Math.PI/8;draw();});
+document.getElementById('rotR').addEventListener('click',()=>{ROT+=Math.PI/8;draw();});
+document.getElementById('zin').addEventListener('click',()=>{
+  const cx2=W/2,cy2=H/2;
+  const nSC=Math.min(defSC*6,SC*1.18);
+  OX=cx2+(OX-cx2)*(nSC/SC);OY=cy2+(OY-cy2)*(nSC/SC);SC=nSC;draw();
+});
+document.getElementById('zout').addEventListener('click',()=>{SC=Math.max(defSC*0.3,SC*0.85);draw();});
+document.getElementById('zreset').addEventListener('click',()=>{SC=defSC;OX=defOX;OY=defOY;ROT=0;draw();});
+
+// Preset views
+document.getElementById('vEast').addEventListener('click',()=>{ROT=0;SC=defSC;OX=defOX;OY=defOY;draw();});
+document.getElementById('vWest').addEventListener('click',()=>{ROT=Math.PI;SC=defSC;OX=defOX;OY=defOY;draw();});
+document.getElementById('vTop').addEventListener('click',()=>{
+  // top-down: squash the Y by making SC tiny and adjusting
+  ROT=Math.PI/4;SC=defSC;OX=defOX;OY=defOY;draw();
+});
+
+// ── PANEL ─────────────────────────────────────────────────────────────────────
+// ── ARK SUB-ITEMS ─────────────────────────────────────────────────────────────
+const ARK_ITEMS = {
+  manna: {
+    icon: '🫙',
+    title: 'The Golden Pot of Manna',
+    hebrew: 'צִנְצֶנֶת הַמָּן — Tzintzeneth HaMan\n"A golden omer preserved before the Lord"\nExodus 16:33-34 | John 6:31-35',
+    scTx: 'I am the bread of life: he that cometh to me shall never hunger; and he that believeth on me shall never thirst.',
+    scRef: 'John 6:35',
+    sym: 'Israel grumbled in the wilderness and God sent bread from heaven. Every morning. Forty years. The manna appeared whether Israel deserved it or not — whether they had just sinned or just worshipped. It came in exactly the right amount. Not too much, not too little. It could not be hoarded — it rotted by morning if kept overnight, except on the Sabbath. God was teaching them a theology of daily dependence.\n\nMoses commanded a golden omer of it to be preserved before the Lord — not as a trophy but as a permanent witness. The generation that entered Canaan would never taste manna again. The jar in the Ark said: remember what sustained you in the wilderness. Remember who fed you when you had nothing.',
+    christ: 'Jesus traces the manna directly to Himself in John 6, and then goes further. "Your fathers did eat manna in the wilderness and are dead. This is the bread which cometh down from heaven, that a man may eat thereof and not die."\n\nThe manna came from heaven. He came from heaven. The manna appeared daily by grace not merit. His mercies are new every morning regardless of the previous day. The manna sustained physical life for forty years. He sustains eternal life forever.\n\nThe golden pot was sealed inside the Ark — hidden, preserved, waiting. Christ in His mortal ministry was also largely hidden: the bread of life walking among people who mostly did not recognize the food in front of them.',
+    today: 'The sacrament bread is the manna renewed. Every Sunday, the bread of life is placed on a table and offered to anyone who will come. Like the manna, it appears by covenant whether we feel we deserve it or not. The invitation is always the same — come, eat, live. The only difference is that this bread does not rot. This bread is for eternity.'
+  },
+  rod: {
+    icon: '🌿',
+    title: "Aaron's Rod That Budded",
+    hebrew: 'מַטֵּה אַהֲרֹן — Matteh Aharon\n"Dead wood. One night. Ripe almonds."\nNumbers 17 | Hebrews 9:4',
+    scTx: "And it came to pass, that on the morrow Moses went into the tabernacle of witness; and, behold, the rod of Aaron for the house of Levi was budded, and brought forth buds, and bloomed blossoms, and yielded almonds.",
+    scRef: 'Numbers 17:8',
+    sym: 'Korah\'s rebellion had just challenged Aaron\'s priesthood authority. The argument was simple: all Israel is holy, all the congregation are the Lord\'s — why do you lift yourselves above the assembly?\n\nGod\'s answer was not an argument. It was an overnight experiment. He commanded the leaders of all twelve tribes to place their staffs in the tabernacle before the Lord. Dead wood. Cut staves. Symbols of authority that had no life in themselves. In the morning, eleven staffs were exactly as they had been placed. Aaron\'s rod had budded, bloomed, and produced ripe almonds overnight.\n\nThis was not gradual growth. Not restoration of something already living. This was resurrection life inserted into dead matter in a single night. God preserved the rod permanently in the Ark as an ongoing answer to the question of legitimate authority.',
+    christ: "Aaron's rod is the most direct type of the Resurrection in the entire Old Testament.\n\nDead wood. One night behind the veil. Life that should not be possible.\n\nPaul calls Christ \"the firstfruits of them that slept\" (1 Corinthians 15:20). The rod budded first. Every resurrection that follows is fruit from that first impossible bloom in the sealed darkness of the tomb on the third day. The same power that put life into dead almond wood put life back into a dead body behind a sealed stone.\n\nThe rod also witnessed to legitimate priesthood authority — not inherited by succession, not conferred by human appointment, but verified by God Himself overnight. Christ holds His priesthood not after the order of Aaron but after the order of Melchizedek — not conferred but inherent, not temporary but eternal (Hebrews 7:24).",
+    today: 'The Restoration is the rod budding again. The priesthood authority that had been cut off — dead wood, no life in itself — was restored through heavenly messengers. John the Baptist restored the Aaronic Priesthood on the banks of the Susquehanna River in Pennsylvania. Peter, James, and John restored the Melchizedek Priesthood, though the exact location is not precisely recorded. The same power God verified in the tabernacle overnight was restored in our dispensation.\n\nThe rod in the Ark is the permanent witness that God does not leave authority questions unresolved. He answers them with unmistakable evidence. The Restoration is that answer for our dispensation.'
+  },
+  tablets: {
+    icon: '📜',
+    title: 'The Tablets of the Covenant',
+    hebrew: 'לֻחוֹת הַבְּרִית — Luchot HaBrit\n"The first: the higher law. The second: the law of carnal commandment."\nJST Exodus 34:1-2 | D&C 84:21-26',
+    scTx: 'It shall not be according to the first, for I will take away the priesthood out of their midst; therefore my holy order, and the ordinances thereof, shall not go before them... But I will give unto them the law as at the first, but it shall be after the law of a carnal commandment.',
+    scRef: 'JST Exodus 34:1-2',
+    sym: 'Most people read the two sets of tablets as essentially the same — Moses broke the first ones, God gave him replacement copies. The Joseph Smith Translation reveals that this reading misses everything.\n\nThe two sets of tablets are not the same. They contain two different laws.\n\nTHE FIRST TABLETS contained the higher law — the everlasting covenant of the holy priesthood, the Melchizedek order, the ordinances that would bring Israel into the presence of God. The JST of Deuteronomy 10:2 states plainly: "On the first set of tablets God revealed the everlasting covenant of the holy priesthood." These were not just commandments. They were covenant keys. Temple ordinances. The initiatory. The endowment. The sealing power extended to the whole covenant people.\n\nThen Israel made the golden calf.\n\nWhen Moses descended and saw what had happened, he shattered the tablets. The shattering was not just anger — it was the physical declaration of what Israel had done spiritually. They had broken the higher covenant before the ink was dry.\n\nTHE SECOND TABLETS contained the lesser law. The JST of Exodus 34:1-2 records the Lord saying: "I will take away the priesthood out of their midst; therefore my holy order, and the ordinances thereof, shall not go before them... But I will give unto them the law as at the first, but it shall be after the law of a carnal commandment."\n\nThe Melchizedek Priesthood and its ordinances were withdrawn from the general body of Israel. What remained was the Aaronic Priesthood — the preparatory gospel, the law of Moses, the schoolmaster that Paul would later describe as pointing toward Christ. Moses himself still held the Melchizedek Priesthood, received through his father-in-law Jethro who held it through an unbroken line. D&C 84:25-26 confirms: "Therefore, he took Moses out of their midst, and the Holy Priesthood also." The higher order left with Moses. The lesser continued.',
+    christ: 'Both tablets are in the Ark. Both rest beneath the mercy seat.\n\nThe broken first tablets represent the higher law Israel could not keep — the covenant they violated before they had even begun. The whole second tablets represent the lesser law given in mercy as a preparatory schoolmaster. And the kapporet above both declares: the blood of the Atonement covers every failure, under both laws, for all dispensations.\n\nChrist is the fulfillment of both tablets simultaneously. He is the end of the law of Moses (Romans 10:4) — He kept every carnal commandment perfectly, rendering the second tablets complete. And He is also the restoration of what the first tablets contained — the fullness of the Melchizedek priesthood, the ordinances of the gospel, access to the presence of God — that the golden calf generation forfeited.\n\nThis is precisely what Hebrews is arguing. The entire book of Hebrews is making the case that Christ restores the first-tablet order. He is a priest after the order of Melchizedek, not Levi (Hebrews 7). He enters the true Holy of Holies, not the copy (Hebrews 9). His blood establishes a better covenant on better promises (Hebrews 8:6). What was on the first tablets — direct access to God, Melchizedek ordinances, the sealing power — Christ restores through His own body and blood.',
+    today: 'D&C 110 is the restoration of the first tablets.\n\nWhat Elijah restored in the Kirtland Temple on April 3, 1836 was specifically the sealing power — the power to bind on earth and in heaven, the power that was on the first tablets and was withdrawn with Moses when Israel chose the calf. The sealing keys were the crown of the higher law. They were what the golden calf generation forfeited. They are what Elijah returned.\n\nThe temple initiatory, endowment, and sealing ordinances are not additions to the gospel. They are the restoration of what was always on the first tablets — the holy order and the ordinances thereof that the Lord said would no longer go before Israel after the golden calf. They went with Moses. They went with Elijah. They returned through Joseph Smith.\n\nThe two tablets in the Ark together — the broken higher law and the whole lesser law — tell the whole story of the covenant. The Restoration is God saying what He has always said: I still want to give you the first tablets. The ordinances are still available. The presence of God is still the destination. Come back.'
+  }
+};
+
+function showPanel(key){
+  const d=DATA[key];if(!d)return;
+  activeKey=key;
+  document.getElementById('ptitle').textContent=d.title;
+  document.getElementById('pheb').textContent=d.hebrew;
+
+  // Special drill-down for Ark
+  if(key==='ark'){
+    document.getElementById('pbody').innerHTML=`
+      <div class="ps"><div class="psl">Scripture</div>
+      <div class="psc">${d.scTx}<div class="ref">— ${d.scRef}</div></div></div>
+      <hr class="dv">
+      <div class="ps"><div class="psl">The Ark Itself</div><div class="ptx">${d.sym.split('\n\n')[0]}</div></div>
+      <hr class="dv">
+      <div class="ps"><div class="psl">Three Contents — Tap to Explore</div>
+        <div class="ark-items">
+          <div class="ark-item-card" onclick="showArkItem('manna')">
+            <div class="ark-item-icon">🫙</div>
+            <div class="ark-item-text"><strong>The Golden Pot of Manna</strong><span>Bread from heaven · John 6:35</span></div>
+          </div>
+          <div class="ark-item-card" onclick="showArkItem('rod')">
+            <div class="ark-item-icon">🌿</div>
+            <div class="ark-item-text"><strong>Aaron's Rod That Budded</strong><span>Dead wood. One night. Resurrection. · Numbers 17</span></div>
+          </div>
+          <div class="ark-item-card" onclick="showArkItem('tablets')">
+            <div class="ark-item-icon">📜</div>
+            <div class="ark-item-text"><strong>The Tablets of the Covenant</strong><span>Both the broken and the whole · Matthew 5:17</span></div>
+          </div>
+        </div>
+      </div>
+      <hr class="dv">
+      <div class="ps"><div class="psl">Christ as Fulfillment</div><div class="ptx">${d.christ}</div></div>
+      <hr class="dv">
+      <div class="ps"><div class="psl">Today · The Restored Gospel</div><div class="ptx">${d.today}</div></div>`;
+  } else {
+    document.getElementById('pbody').innerHTML=`
+      <div class="ps"><div class="psl">Scripture</div>
+      <div class="psc">${d.scTx}<div class="ref">— ${d.scRef}</div></div></div>
+      <hr class="dv">
+      <div class="ps"><div class="psl">Symbolism</div><div class="ptx">${d.sym}</div></div>
+      <hr class="dv">
+      <div class="ps"><div class="psl">Christ as Fulfillment</div><div class="ptx">${d.christ}</div></div>
+      <hr class="dv">
+      <div class="ps"><div class="psl">Today · The Restored Gospel</div><div class="ptx">${d.today}</div></div>`;
+  }
+
+  document.getElementById('panel').classList.add('open');
+  draw();
+}
+
+function showArkItem(itemKey){
+  const item=ARK_ITEMS[itemKey];if(!item)return;
+  document.getElementById('ptitle').textContent=item.title;
+  document.getElementById('pheb').textContent=item.hebrew;
+  document.getElementById('pbody').innerHTML=`
+    <button class="ark-back" onclick="showPanel('ark')">← Back to the Ark</button>
+    <div class="ps"><div class="psl">Scripture</div>
+    <div class="psc">${item.scTx}<div class="ref">— ${item.scRef}</div></div></div>
+    <hr class="dv">
+    <div class="ps"><div class="psl">Symbolism</div><div class="ptx">${item.sym}</div></div>
+    <hr class="dv">
+    <div class="ps"><div class="psl">Christ as Fulfillment</div><div class="ptx">${item.christ}</div></div>
+    <hr class="dv">
+    <div class="ps"><div class="psl">Today · The Restored Gospel</div><div class="ptx">${item.today}</div></div>`;
+  // Scroll panel back to top
+  document.getElementById('pbody').scrollTop=0;
+}
+document.getElementById('pc').onclick=()=>{
+  document.getElementById('panel').classList.remove('open');
+  activeKey=null;draw();
+};
+document.getElementById('panel').addEventListener('transitionend',()=>{
+  W=document.getElementById('canvasWrap').clientWidth;
+  H=document.getElementById('canvasWrap').clientHeight;
+  cv.width=W;cv.height=H;draw();
+});
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+window.addEventListener('resize',()=>{setDefaults();cv.width=W;cv.height=H;draw();});
+setDefaults();
+cv.style.cursor='grab';
+draw();
+</script>
+</body>
+</html>
