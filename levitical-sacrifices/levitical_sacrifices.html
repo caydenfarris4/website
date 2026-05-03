@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Sacrifices of Leviticus — Korbanot</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0e0a02;font-family:'Crimson Text',Georgia,serif;color:#e8dfc0;overflow:hidden;user-select:none}
+#wrap{display:flex;width:100vw;height:100vh;overflow:hidden}
+#main{flex:1;position:relative;overflow-y:auto;overflow-x:hidden;scrollbar-width:thin;scrollbar-color:rgba(212,175,55,.3) transparent}
+#main::-webkit-scrollbar{width:5px}
+#main::-webkit-scrollbar-thumb{background:rgba(212,175,55,.3)}
+
+#header{padding:18px 0 6px;text-align:center;pointer-events:none;position:sticky;top:0;background:linear-gradient(180deg,#0e0a02 60%,transparent);z-index:5}
+#header h1{font-family:'Cinzel',serif;font-size:18px;color:#d4af37;letter-spacing:3px;text-shadow:0 2px 8px #000}
+#header .heb{font-family:Georgia,serif;font-size:13px;font-style:italic;color:rgba(212,175,55,.6);margin-top:3px}
+#header p{font-size:11px;color:rgba(212,175,55,.5);font-style:italic;letter-spacing:1px;margin-top:4px}
+
+/* Central altar visualization */
+#altar-zone{display:flex;justify-content:center;align-items:center;padding:10px 0 30px;position:relative}
+#altar-svg{width:min(680px,90vw);height:auto;display:block}
+
+/* Sacrifice groups */
+#groups{padding:10px 30px 60px;max-width:1100px;margin:0 auto}
+.group{margin-bottom:34px}
+.group-label{font-family:'Cinzel',serif;font-size:10px;letter-spacing:3px;color:rgba(212,175,55,.55);text-align:center;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid rgba(212,175,55,.12)}
+.group-label .ref{font-family:Georgia,serif;font-style:italic;font-size:10px;color:rgba(212,175,55,.4);letter-spacing:0.5px;margin-left:8px;text-transform:none}
+
+.cards{display:flex;flex-wrap:wrap;justify-content:center;gap:14px}
+.card{background:rgba(20,15,8,.7);border:1px solid rgba(212,175,55,.22);border-radius:6px;padding:14px 12px 12px;width:170px;text-align:center;cursor:pointer;transition:all .25s ease;display:flex;flex-direction:column;align-items:center;gap:8px}
+.card:hover{background:rgba(40,30,12,.85);border-color:#d4af37;transform:translateY(-2px);box-shadow:0 6px 16px rgba(212,175,55,.18)}
+.card.active{background:rgba(50,38,16,.95);border-color:#d4af37;box-shadow:0 0 18px rgba(212,175,55,.3)}
+.card-icon{width:60px;height:60px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.card-icon svg{width:60px;height:60px;display:block}
+.card-heb{font-family:Georgia,serif;font-style:italic;font-size:13px;color:rgba(212,175,55,.85)}
+.card-en{font-family:'Cinzel',serif;font-size:9.5px;letter-spacing:1.4px;color:#d4af37;line-height:1.3}
+.card-tag{font-size:10px;color:rgba(212,175,55,.5);font-style:italic;line-height:1.35;margin-top:2px}
+
+/* Featured / climactic card (Yom Kippur) */
+.card.featured{width:240px;border-color:rgba(212,175,55,.4)}
+.card.featured .card-icon{width:80px;height:80px}
+.card.featured .card-icon svg{width:80px;height:80px}
+.card.featured .card-heb{font-size:15px}
+
+/* Christ Fulfills All button */
+#modebar{position:fixed;top:18px;right:18px;display:flex;flex-direction:column;gap:6px;z-index:20}
+.mbtn{background:rgba(6,4,0,.92);border:1px solid rgba(212,175,55,.35);color:rgba(212,175,55,.7);font-family:'Cinzel',serif;font-size:9px;letter-spacing:1.4px;padding:8px 14px;cursor:pointer;transition:all .15s;white-space:nowrap;text-align:center;border-radius:2px}
+.mbtn:hover,.mbtn.on{background:rgba(212,175,55,.18);border-color:#d4af37;color:#d4af37}
+
+/* Side panel — matching tabernacle/high priest aesthetic */
+#panel{width:0;min-width:0;height:100vh;background:linear-gradient(170deg,#130f04,#080500);border-left:1px solid rgba(212,175,55,.18);overflow:hidden;transition:width .32s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;flex-shrink:0}
+#panel.open{width:430px;min-width:430px}
+.ph{padding:22px 22px 14px;border-bottom:1px solid rgba(212,175,55,.1);position:relative;flex-shrink:0}
+.pclose{position:absolute;top:14px;right:14px;background:none;border:none;color:rgba(212,175,55,.4);font-size:18px;cursor:pointer}
+.pclose:hover{color:#d4af37}
+.ptitle{font-family:'Cinzel',serif;font-size:15px;font-weight:700;color:#d4af37;margin-bottom:5px;line-height:1.3}
+.pheb{font-size:11.5px;color:rgba(212,175,55,.55);font-style:italic;line-height:1.6;white-space:pre-line}
+
+.pbody{padding:16px 22px 40px;overflow-y:auto;flex:1;scrollbar-width:thin;scrollbar-color:rgba(212,175,55,.3) transparent}
+.pbody::-webkit-scrollbar{width:3px}
+.pbody::-webkit-scrollbar-thumb{background:rgba(212,175,55,.3)}
+
+.ps{margin-bottom:16px}
+.psl{font-family:'Cinzel',serif;font-size:7.5px;letter-spacing:2.5px;color:rgba(212,175,55,.36);text-transform:uppercase;margin-bottom:6px}
+.psc{background:rgba(212,175,55,.05);border-left:2px solid rgba(212,175,55,.32);padding:10px 12px;font-style:italic;font-size:12px;line-height:1.65;color:#d4c98a;margin-bottom:8px}
+.ref{font-size:9.5px;color:rgba(212,175,55,.36);font-style:normal;margin-top:4px;font-family:'Cinzel',serif;letter-spacing:0.8px}
+.ptx{font-size:12px;line-height:1.85;color:#a0987a}
+.ptx strong{color:#d4af37;font-weight:600}
+.ptx em{color:#c4b078}
+hr.dv{border:none;border-top:1px solid rgba(212,175,55,.07);margin:14px 0}
+</style>
+</head>
+<body>
+<div id="wrap">
+ <div id="main">
+  <div id="header">
+   <h1>THE SACRIFICES OF LEVITICUS</h1>
+   <div class="heb">קָרְבָּנוֹת · Korbanot · "That Which Draws Near"</div>
+   <p>Every offering points to Christ · Click any sacrifice to explore</p>
+  </div>
+
+  <div id="modebar">
+   <div class="mbtn" id="vChrist">Christ Fulfills All</div>
+  </div>
+
+  <!-- ALTAR + CHRIST VISUALIZATION -->
+  <div id="altar-zone">
+    <svg id="altar-svg" viewBox="0 0 680 320" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="lambGlow" cx="0.5" cy="0.5" r="0.5">
+          <stop offset="0" stop-color="#fff8d4" stop-opacity="0.95"/>
+          <stop offset="0.5" stop-color="#ffd870" stop-opacity="0.5"/>
+          <stop offset="1" stop-color="#ffae20" stop-opacity="0"/>
+        </radialGradient>
+        <linearGradient id="smokeGrad" x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0" stop-color="rgba(255,240,180,0.55)"/>
+          <stop offset="1" stop-color="rgba(255,240,180,0)"/>
+        </linearGradient>
+        <linearGradient id="bronzeAltar" x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0" stop-color="#a06820"/>
+          <stop offset="1" stop-color="#5a3810"/>
+        </linearGradient>
+        <radialGradient id="flameGrad" cx="0.5" cy="0.6">
+          <stop offset="0" stop-color="rgba(255,240,80,0.95)"/>
+          <stop offset="0.4" stop-color="rgba(255,140,20,0.85)"/>
+          <stop offset="0.8" stop-color="rgba(255,60,10,0.4)"/>
+          <stop offset="1" stop-color="rgba(180,30,0,0)"/>
+        </radialGradient>
+        <filter id="softBlur"><feGaussianBlur stdDeviation="2"/></filter>
+      </defs>
+
+      <!-- CHRIST symbol at top: glowing center with rays + cross -->
+      <ellipse cx="340" cy="50" rx="160" ry="50" fill="url(#lambGlow)" filter="url(#softBlur)"/>
+      <!-- rays radiating outward -->
+      <g opacity="0.45" stroke="#ffe488" stroke-width="0.6" stroke-linecap="round">
+        <line x1="340" y1="55" x2="180" y2="20"/>
+        <line x1="340" y1="55" x2="220" y2="10"/>
+        <line x1="340" y1="55" x2="265" y2="5"/>
+        <line x1="340" y1="55" x2="340" y2="2"/>
+        <line x1="340" y1="55" x2="415" y2="5"/>
+        <line x1="340" y1="55" x2="460" y2="10"/>
+        <line x1="340" y1="55" x2="500" y2="20"/>
+      </g>
+      <!-- a subtle cross at the center of the glow -->
+      <g opacity="0.35">
+        <line x1="340" y1="36" x2="340" y2="68" stroke="#7a5818" stroke-width="2" stroke-linecap="round"/>
+        <line x1="328" y1="46" x2="352" y2="46" stroke="#7a5818" stroke-width="2" stroke-linecap="round"/>
+      </g>
+      <text x="340" y="52" font-family="Cinzel,serif" font-size="11" fill="#7a5818" text-anchor="middle" letter-spacing="2.5" font-weight="700">CHRIST</text>
+      <text x="340" y="65" font-family="Georgia,serif" font-size="9" fill="rgba(122,88,24,0.85)" text-anchor="middle" font-style="italic">The Lamb of God · John 1:29</text>
+
+      <!-- SMOKE rising from altar to Christ -->
+      <path d="M 320,260 Q 290,210 310,170 Q 340,130 330,95" fill="none" stroke="url(#smokeGrad)" stroke-width="14" stroke-linecap="round" opacity="0.7"/>
+      <path d="M 360,260 Q 380,210 350,170 Q 330,130 348,95" fill="none" stroke="url(#smokeGrad)" stroke-width="11" stroke-linecap="round" opacity="0.6"/>
+      <path d="M 340,260 Q 335,210 345,170 Q 335,130 340,95" fill="none" stroke="url(#smokeGrad)" stroke-width="9" stroke-linecap="round" opacity="0.5"/>
+
+      <!-- FLAMES on altar -->
+      <ellipse cx="340" cy="240" rx="55" ry="28" fill="url(#flameGrad)"/>
+      <ellipse cx="320" cy="232" rx="14" ry="22" fill="url(#flameGrad)"/>
+      <ellipse cx="360" cy="232" rx="14" ry="22" fill="url(#flameGrad)"/>
+      <ellipse cx="340" cy="225" rx="18" ry="26" fill="url(#flameGrad)" opacity="0.95"/>
+
+      <!-- BRONZE ALTAR -->
+      <!-- Top of altar -->
+      <path d="M 270,255 L 410,255 L 422,265 L 258,265 Z" fill="url(#bronzeAltar)" stroke="#3a2008" stroke-width="1.2"/>
+      <!-- Body -->
+      <path d="M 258,265 L 422,265 L 425,310 L 255,310 Z" fill="url(#bronzeAltar)" stroke="#3a2008" stroke-width="1.2"/>
+      <!-- Horns at the four corners (Lev 4:7) -->
+      <path d="M 258,265 L 256,250 L 268,253 L 270,265 Z" fill="url(#bronzeAltar)" stroke="#3a2008" stroke-width="1"/>
+      <path d="M 410,265 L 412,253 L 424,250 L 422,265 Z" fill="url(#bronzeAltar)" stroke="#3a2008" stroke-width="1"/>
+      <!-- subtle vertical paneling lines -->
+      <line x1="290" y1="265" x2="290" y2="310" stroke="#3a2008" stroke-width="0.4" opacity="0.5"/>
+      <line x1="340" y1="265" x2="340" y2="310" stroke="#3a2008" stroke-width="0.4" opacity="0.5"/>
+      <line x1="390" y1="265" x2="390" y2="310" stroke="#3a2008" stroke-width="0.4" opacity="0.5"/>
+
+      <!-- Altar label -->
+      <text x="340" y="302" font-family="Cinzel,serif" font-size="9" fill="rgba(255,220,140,0.7)" text-anchor="middle" letter-spacing="2">MIZBEACH</text>
+      <text x="340" y="315" font-family="Georgia,serif" font-size="9" fill="rgba(255,220,140,0.5)" text-anchor="middle" font-style="italic">מִזְבֵּחַ · The Altar</text>
+
+      <!-- Side annotations -->
+      <text x="125" y="50" font-family="Cinzel,serif" font-size="8" fill="rgba(212,175,55,0.5)" letter-spacing="1.5">EVERY SACRIFICE</text>
+      <text x="125" y="64" font-family="Cinzel,serif" font-size="8" fill="rgba(212,175,55,0.5)" letter-spacing="1.5">RISES TO ONE PERSON</text>
+      <line x1="125" y1="70" x2="200" y2="60" stroke="rgba(212,175,55,0.25)" stroke-width="0.5" stroke-dasharray="2,2"/>
+
+      <text x="555" y="270" font-family="Cinzel,serif" font-size="8" fill="rgba(212,175,55,0.5)" letter-spacing="1.5">THE FIRE</text>
+      <text x="555" y="284" font-family="Cinzel,serif" font-size="8" fill="rgba(212,175,55,0.5)" letter-spacing="1.5">NEVER GOES OUT</text>
+      <text x="555" y="298" font-family="Georgia,serif" font-size="8" fill="rgba(212,175,55,0.4)" font-style="italic">Lev 6:13</text>
+      <line x1="550" y1="270" x2="430" y2="245" stroke="rgba(212,175,55,0.25)" stroke-width="0.5" stroke-dasharray="2,2"/>
+    </svg>
+  </div>
+
+  <!-- SACRIFICE GROUPS -->
+  <div id="groups">
+    <div class="group">
+      <div class="group-label">THE FIVE FOUNDATIONS<span class="ref">Leviticus 1–7</span></div>
+      <div class="cards">
+        <div class="card" data-key="olah">
+          <div class="card-icon"><svg viewBox="0 0 60 60"><defs><radialGradient id="i_flame" cx="0.5" cy="0.7"><stop offset="0" stop-color="rgba(255,240,80,0.95)"/><stop offset="0.5" stop-color="rgba(255,140,20,0.85)"/><stop offset="1" stop-color="rgba(180,30,0,0)"/></radialGradient></defs><path d="M30,8 Q22,18 24,28 Q26,22 30,18 Q34,22 36,28 Q38,18 30,8 Z M22,30 Q14,40 18,50 Q22,42 24,38 Q24,46 30,52 Q36,46 36,38 Q38,42 42,50 Q46,40 38,30 Q34,38 30,40 Q26,38 22,30 Z" fill="url(#i_flame)" stroke="#7a3810" stroke-width="0.5"/></svg></div>
+          <div class="card-heb">עֹלָה</div>
+          <div class="card-en">OLAH</div>
+          <div class="card-tag">The Ascending One<br>Total consecration</div>
+        </div>
+        <div class="card" data-key="minchah">
+          <div class="card-icon"><svg viewBox="0 0 60 60"><g stroke="#7a5818" stroke-width="0.6" fill="#d8a838"><ellipse cx="30" cy="22" rx="2" ry="6"/><ellipse cx="26" cy="24" rx="2" ry="6" transform="rotate(-15 26 24)"/><ellipse cx="34" cy="24" rx="2" ry="6" transform="rotate(15 34 24)"/><ellipse cx="22" cy="28" rx="2" ry="6" transform="rotate(-25 22 28)"/><ellipse cx="38" cy="28" rx="2" ry="6" transform="rotate(25 38 28)"/><path d="M 18,32 L 30,52 L 42,32" stroke="#7a5818" stroke-width="1" fill="none"/><path d="M 30,30 L 30,50" stroke="#7a5818" stroke-width="1" fill="none"/><path d="M 22,40 Q 30,42 38,40" stroke="#5a3818" stroke-width="0.8" fill="none"/></g></svg></div>
+          <div class="card-heb">מִנְחָה</div>
+          <div class="card-en">MINCHAH</div>
+          <div class="card-tag">Grain Offering<br>Tribute of labor</div>
+        </div>
+        <div class="card" data-key="shelamim">
+          <div class="card-icon"><svg viewBox="0 0 60 60"><g stroke="#7a5818" stroke-width="0.6"><ellipse cx="30" cy="36" rx="14" ry="11" fill="#f0e4c8"/><circle cx="22" cy="32" r="6" fill="#f0e4c8"/><circle cx="20" cy="34" r="1" fill="#3a2812"/><line x1="26" y1="44" x2="26" y2="50" stroke-width="1.2"/><line x1="32" y1="44" x2="32" y2="50" stroke-width="1.2"/><line x1="38" y1="44" x2="38" y2="50" stroke-width="1.2"/><path d="M 19,28 Q 17,26 18,30" stroke-width="0.8" fill="none"/><path d="M 25,28 Q 27,26 26,30" stroke-width="0.8" fill="none"/></g></svg></div>
+          <div class="card-heb">שְׁלָמִים</div>
+          <div class="card-en">SHELAMIM</div>
+          <div class="card-tag">Peace Offering<br>Communion meal</div>
+        </div>
+        <div class="card" data-key="chatat">
+          <div class="card-icon"><svg viewBox="0 0 60 60"><g stroke="#7a5818" stroke-width="0.6"><ellipse cx="30" cy="38" rx="13" ry="10" fill="#a07050"/><circle cx="22" cy="34" r="5.5" fill="#a07050"/><path d="M 18,30 Q 16,24 19,26" stroke-width="1" fill="none"/><path d="M 25,30 Q 27,24 24,26" stroke-width="1" fill="none"/><circle cx="20" cy="34" r="0.9" fill="#1a0a04"/><line x1="26" y1="46" x2="26" y2="52" stroke-width="1.2"/><line x1="32" y1="46" x2="32" y2="52" stroke-width="1.2"/><line x1="38" y1="46" x2="38" y2="52" stroke-width="1.2"/><line x1="20" y1="42" x2="20" y2="48" stroke-width="1"/></g></svg></div>
+          <div class="card-heb">חַטָּאת</div>
+          <div class="card-en">CHATAT</div>
+          <div class="card-tag">Sin Offering<br>Purification</div>
+        </div>
+        <div class="card" data-key="asham">
+          <div class="card-icon"><svg viewBox="0 0 60 60"><g stroke="#7a5818" stroke-width="0.6"><ellipse cx="30" cy="38" rx="14" ry="11" fill="#c89858"/><circle cx="22" cy="34" r="6" fill="#c89858"/><path d="M 17,30 Q 12,26 13,32 Q 15,32 18,32" stroke-width="1.2" fill="none"/><path d="M 26,30 Q 31,26 30,32 Q 28,32 25,32" stroke-width="1.2" fill="none"/><circle cx="20" cy="34" r="0.9" fill="#1a0a04"/><line x1="26" y1="46" x2="26" y2="52" stroke-width="1.2"/><line x1="32" y1="46" x2="32" y2="52" stroke-width="1.2"/><line x1="38" y1="46" x2="38" y2="52" stroke-width="1.2"/><line x1="20" y1="42" x2="20" y2="48" stroke-width="1"/></g></svg></div>
+          <div class="card-heb">אָשָׁם</div>
+          <div class="card-en">ASHAM</div>
+          <div class="card-tag">Trespass Offering<br>Restitution</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="group">
+      <div class="group-label">THE DAY OF ATONEMENT<span class="ref">Leviticus 16</span></div>
+      <div class="cards">
+        <div class="card featured" data-key="yomkippur">
+          <div class="card-icon"><svg viewBox="0 0 80 80"><g stroke="#7a5818" stroke-width="0.6"><!-- Goat 1 (sacrificed - facing altar) --><ellipse cx="22" cy="50" rx="11" ry="9" fill="#a07050"/><circle cx="16" cy="46" r="5" fill="#a07050"/><path d="M 13,42 Q 10,38 12,40" stroke-width="0.8" fill="none"/><path d="M 18,42 Q 21,38 19,40" stroke-width="0.8" fill="none"/><circle cx="14" cy="46" r="0.7" fill="#1a0a04"/><line x1="20" y1="56" x2="20" y2="62" stroke-width="1"/><line x1="26" y1="56" x2="26" y2="62" stroke-width="1"/><!-- arrow toward altar --><path d="M 32,46 L 38,46" stroke="#d4af37" stroke-width="0.8" marker-end="url(#arr)"/><!-- Goat 2 (scapegoat - facing wilderness) --><ellipse cx="58" cy="50" rx="11" ry="9" fill="#8a6038"/><circle cx="64" cy="46" r="5" fill="#8a6038"/><path d="M 67,42 Q 70,38 68,40" stroke-width="0.8" fill="none"/><path d="M 62,42 Q 59,38 61,40" stroke-width="0.8" fill="none"/><circle cx="66" cy="46" r="0.7" fill="#1a0a04"/><line x1="54" y1="56" x2="54" y2="62" stroke-width="1"/><line x1="60" y1="56" x2="60" y2="62" stroke-width="1"/><!-- wilderness mountain shape --><path d="M 70,52 L 76,46 L 78,52" stroke="rgba(212,175,55,0.35)" stroke-width="0.6" fill="none"/><!-- altar shape --><rect x="40" y="58" width="6" height="6" fill="#7a4818"/><path d="M 41,58 L 45,58 L 43,55 Z" fill="#ffae20"/></g><defs><marker id="arr" markerWidth="4" markerHeight="4" refX="3" refY="2" orient="auto"><path d="M0,0 L0,4 L3,2 z" fill="#d4af37"/></marker></defs></svg></div>
+          <div class="card-heb">שְׂעִירִים</div>
+          <div class="card-en">THE TWO GOATS</div>
+          <div class="card-tag">One sacrificed for the LORD<br>One sent away as scapegoat</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="group">
+      <div class="group-label">THE CLEANSINGS<span class="ref">Leviticus 5, 12, 14</span></div>
+      <div class="cards">
+        <div class="card" data-key="doves">
+          <div class="card-icon"><svg viewBox="0 0 60 60"><g stroke="#7a5818" stroke-width="0.6" fill="#e8dcc0"><!-- Dove 1 --><ellipse cx="20" cy="32" rx="9" ry="6"/><circle cx="14" cy="30" r="3.5"/><path d="M 13,28 L 11,29" stroke-width="0.8"/><circle cx="13" cy="30" r="0.5" fill="#1a0a04"/><path d="M 20,38 L 18,42 M 24,38 L 26,42" stroke-width="0.7"/><path d="M 25,30 Q 30,26 26,34" stroke-width="0.5" fill="rgba(232,220,192,0.6)"/><!-- Dove 2 --><ellipse cx="42" cy="32" rx="9" ry="6"/><circle cx="36" cy="30" r="3.5"/><path d="M 35,28 L 33,29" stroke-width="0.8"/><circle cx="35" cy="30" r="0.5" fill="#1a0a04"/><path d="M 42,38 L 40,42 M 46,38 L 48,42" stroke-width="0.7"/><path d="M 47,30 Q 52,26 48,34" stroke-width="0.5" fill="rgba(232,220,192,0.6)"/></g></svg></div>
+          <div class="card-heb">תֹּרִים</div>
+          <div class="card-en">DOVES OF THE POOR</div>
+          <div class="card-tag">The accessible offering<br>Salvation for all</div>
+        </div>
+        <div class="card" data-key="leperbirds">
+          <div class="card-icon"><svg viewBox="0 0 60 60"><g stroke="#7a5818" stroke-width="0.6"><!-- Bird 1 (killed - with red dot) --><ellipse cx="18" cy="40" rx="8" ry="5" fill="#d8c8a0"/><circle cx="13" cy="38" r="3" fill="#d8c8a0"/><circle cx="12" cy="38" r="0.4" fill="#1a0a04"/><circle cx="22" cy="42" r="2" fill="#a82828" opacity="0.85"/><!-- Bird 2 (released - in flight, higher) --><ellipse cx="42" cy="20" rx="9" ry="4" fill="#f0e4c8" transform="rotate(-15 42 20)"/><circle cx="36" cy="17" r="3" fill="#f0e4c8"/><circle cx="35" cy="17" r="0.4" fill="#1a0a04"/><path d="M 32,16 L 30,17" stroke-width="0.6"/><!-- wings spread --><path d="M 38,18 Q 42,12 50,16" stroke-width="0.7" fill="rgba(240,228,200,0.5)"/><path d="M 38,22 Q 42,28 50,24" stroke-width="0.7" fill="rgba(240,228,200,0.5)"/><!-- arc indicating flight upward --><path d="M 25,38 Q 32,28 40,22" stroke="rgba(212,175,55,0.4)" stroke-width="0.5" stroke-dasharray="1.5,1.5" fill="none"/></g></svg></div>
+          <div class="card-heb">שְׁתֵּי צִפֳּרִים</div>
+          <div class="card-en">TWO BIRDS · THE LEPER</div>
+          <div class="card-tag">One killed, one set free<br>Death and resurrection</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="group">
+      <div class="group-label">THE CONTINUAL · THE FIRST<span class="ref">Leviticus 6, 23</span></div>
+      <div class="cards">
+        <div class="card" data-key="tamid">
+          <div class="card-icon"><svg viewBox="0 0 60 60"><g stroke="#7a5818" stroke-width="0.6"><!-- sun on left --><circle cx="14" cy="14" r="5" fill="#ffd870"/><g opacity="0.7" stroke="#d4af37" stroke-width="0.6"><line x1="14" y1="5" x2="14" y2="3"/><line x1="6" y1="14" x2="3" y2="14"/><line x1="9" y1="9" x2="7" y2="7"/><line x1="9" y1="19" x2="7" y2="21"/></g><!-- moon on right --><path d="M 50,14 Q 46,9 50,5 Q 56,9 50,14 Z" fill="#d8d0a0"/><!-- lamb in center --><ellipse cx="30" cy="42" rx="11" ry="8" fill="#f0e4c8"/><circle cx="24" cy="40" r="4.5" fill="#f0e4c8"/><circle cx="22" cy="40" r="0.6" fill="#3a2812"/><line x1="26" y1="48" x2="26" y2="54" stroke-width="1"/><line x1="32" y1="48" x2="32" y2="54" stroke-width="1"/><line x1="38" y1="48" x2="38" y2="54" stroke-width="1"/><!-- dotted lines from sun and moon to lamb --><path d="M 16,18 L 24,36" stroke="rgba(212,175,55,0.3)" stroke-width="0.4" stroke-dasharray="1.5,1.5" fill="none"/><path d="M 48,16 L 38,36" stroke="rgba(212,175,55,0.3)" stroke-width="0.4" stroke-dasharray="1.5,1.5" fill="none"/></g></svg></div>
+          <div class="card-heb">תָּמִיד</div>
+          <div class="card-en">TAMID · CONTINUAL</div>
+          <div class="card-tag">Morning and evening<br>The fire never goes out</div>
+        </div>
+        <div class="card" data-key="bikkurim">
+          <div class="card-icon"><svg viewBox="0 0 60 60"><g stroke="#7a5818" stroke-width="0.6" fill="#d8a838"><!-- bound sheaf with grain heads at top --><ellipse cx="30" cy="14" rx="2.5" ry="7"/><ellipse cx="24" cy="16" rx="2.5" ry="7" transform="rotate(-20 24 16)"/><ellipse cx="36" cy="16" rx="2.5" ry="7" transform="rotate(20 36 16)"/><ellipse cx="20" cy="20" rx="2.5" ry="7" transform="rotate(-30 20 20)"/><ellipse cx="40" cy="20" rx="2.5" ry="7" transform="rotate(30 40 20)"/><!-- grain detail lines --><g stroke="#7a5818" stroke-width="0.4"><line x1="30" y1="9" x2="30" y2="20"/><line x1="28" y1="11" x2="28" y2="18"/><line x1="32" y1="11" x2="32" y2="18"/></g><!-- bound stalks descending --><path d="M 18,28 L 24,52 M 24,28 L 28,52 M 30,28 L 30,52 M 36,28 L 32,52 M 42,28 L 36,52" stroke-width="0.8" fill="none"/><!-- binding cord around middle --><ellipse cx="30" cy="32" rx="13" ry="3" fill="#a07020" stroke-width="0.7"/></g></svg></div>
+          <div class="card-heb">בִּכּוּרִים</div>
+          <div class="card-en">BIKKURIM · FIRST FRUITS</div>
+          <div class="card-tag">The first sheaf waved<br>Pledge of the harvest</div>
+        </div>
+      </div>
+    </div>
+  </div>
+ </div>
+
+ <div id="panel">
+  <div class="ph">
+   <button class="pclose" id="pc">✕</button>
+   <div class="ptitle" id="ptitle"></div>
+   <div class="pheb"   id="pheb"></div>
+  </div>
+  <div class="pbody" id="pbody"></div>
+ </div>
+</div>
+
+<script>
+// ============================================================================
+// SACRIFICES DATA — every entry organized by what the offering was, how Christ
+// fulfilled it, and what the gospel teaches us through it.
+// ============================================================================
+
+const SACRIFICES = {
+  olah: {
+    title: "Olah — The Burnt Offering",
+    hebrew: "עֹלָה — Olah · 'The Ascending One'\nLeviticus 1 · Voluntary · For atonement and consecration\nEntirely consumed by fire — nothing kept back",
+    scRef: "Leviticus 1:3-9 | Romans 12:1 | Ephesians 5:2",
+    scTx: "And he shall put his hand upon the head of the burnt offering; and it shall be accepted for him to make atonement for him... it is a burnt sacrifice, an offering made by fire, of a sweet savour unto the LORD.",
+    what: "The Olah was the most foundational of all sacrifices. The Hebrew root means <em>to ascend</em> — the entire animal rose as smoke to God. <strong>Nothing was reserved. Nothing was kept back.</strong>\n\nThe offerer laid his hand on the animal's head (Lev 1:4), identifying himself with it. When the animal burned, symbolically he burned. When it ascended, he ascended.\n\nA male without blemish from the herd, flock, or birds (for the poor). Voluntary, freely given. The 'sweet savour' — <em>reach nichoach</em> in Hebrew — was the smell of complete devotion ascending before God.\n\nThis was Israel's daily ascending witness that their entire lives were given to God.",
+    christ: "<strong>Christ is the ultimate Olah.</strong> Ephesians 5:2 makes this connection directly: <em>'Christ also hath loved us, and hath given himself for us an offering and a sacrifice to God for a sweetsmelling savour.'</em> The Greek word here for 'sweet savour' is the same root as the Hebrew <em>nichoach</em>.\n\nHe ascended completely. Nothing was reserved. Hebrews 9:14 — He offered Himself <em>'without spot.'</em> The whole animal consumed; the whole Christ given.\n\nWhen Christ rose from the dead and ascended to the Father, the Olah pattern was finally fulfilled. The offering rose. The Father received Him. The smoke became glory.",
+    gospel: "The Olah teaches us <strong>total consecration</strong>. Romans 12:1 makes the connection explicit: <em>'I beseech you therefore, brethren, by the mercies of God, that ye present your bodies a living sacrifice, holy, acceptable unto God, which is your reasonable service.'</em>\n\nLiving sacrifice. We are the modern Olah. Through Christ's atonement, we lay our hand on Him by faith and identify with Him. When He gave Himself, we gave ourselves.\n\nD&C 4:5 — <em>'an eye single to the glory of God.'</em> That is the Olah of the heart. Nothing held back."
+  },
+
+  minchah: {
+    title: "Minchah — The Grain Offering",
+    hebrew: "מִנְחָה — Minchah · 'Tribute / Gift'\nLeviticus 2 · Voluntary · Dedication of labor\nFine flour, oil, frankincense, salt — never leaven, never honey",
+    scRef: "Leviticus 2:1-13 | John 6:35 | Colossians 3:23",
+    scTx: "When any will offer a meat offering [minchah] unto the LORD, his offering shall be of fine flour; and he shall pour oil upon it, and put frankincense thereon... And every oblation of thy meat offering shalt thou season with salt; neither shalt thou suffer the salt of the covenant of thy God to be lacking.",
+    what: "The Minchah was the only sacrifice that involved no animal blood. Wheat or barley flour, worked with oil, sprinkled with frankincense, salted. <strong>No leaven and no honey were ever mixed in.</strong> Why? Leaven represents corruption (1 Cor 5:6-8); honey ferments. The Minchah had to be pure.\n\nA handful was burned on the altar; the rest belonged to the priests for food. It was the offering of the offerer's labor — the work of his hands, the harvest of his fields, the bread of his table — given to God. <strong>Salt was always added</strong> (Lev 2:13) — the <em>'salt of the covenant.'</em>\n\nThe labor of farming and milling and kneading was holy enough to ascend before the Lord.",
+    christ: "<strong>Christ is the perfect Minchah.</strong> He is the bread of life (John 6:35). He has no leaven — no corruption — in Him (1 Pet 2:22). He was anointed with the oil of the Holy Spirit (Acts 10:38). His prayers were the frankincense ascending continually (Heb 7:25, Rev 8:3). He preserved the covenant — the salt that never lost its savor (Matt 5:13).\n\nHis broken body on the cross was the wheat that had been ground into flour, mixed with oil, made bread for the world. Every Sunday at the sacrament table, the Minchah is set before us in token of Him.",
+    gospel: "The Minchah teaches us that <strong>our daily labor is holy</strong>. The work of our hands belongs to God. Whatever we do — at our jobs, in our homes, on our farms, in our service — when offered to Him, becomes a sweet savor.\n\nColossians 3:23 — <em>'And whatsoever ye do, do it heartily, as to the Lord, and not unto men.'</em> That is the Minchah lived out daily.\n\nThe salt of the covenant (Lev 2:13) reminds us our consecration is meant to be lasting — preserving, not perishing. Every meal, every loaf, every act of work, can become a tribute offering when given to Him."
+  },
+
+  shelamim: {
+    title: "Shelamim — The Peace Offering",
+    hebrew: "שְׁלָמִים — Shelamim · 'Wholeness / Peace'\nLeviticus 3 · Voluntary · For fellowship and thanksgiving\nShared between God, the priest, and the offerer",
+    scRef: "Leviticus 3:1-5 | Ephesians 2:14 | Revelation 3:20",
+    scTx: "And if his oblation be a sacrifice of peace offering... it is the food of the offering made by fire unto the LORD.",
+    what: "<strong>The Shelamim was unique among the offerings: it was eaten.</strong> The fat was burned for God (Lev 3:16 — <em>'all the fat is the LORD's'</em>). The breast and right shoulder went to the priests. The rest of the meat returned to the offerer to share in a holy meal with his family.\n\nThis was a meal where God, His priest, and the offerer all sat at the same table. The Hebrew root <em>shalom</em> — wholeness, completeness, peace — captures the meaning. The relationship between heaven and earth was at peace.\n\nIt was offered for thanksgiving (<em>todah</em>), for vow fulfillment, or simply as a freewill offering of joy.",
+    christ: "<strong>Christ is our peace offering.</strong> Ephesians 2:14 — <em>'He is our peace, who hath made both one, and hath broken down the middle wall of partition between us.'</em> Through His blood, the wall between God and humanity falls.\n\nRevelation 3:20 — <em>'Behold, I stand at the door, and knock: if any man hear my voice, and open the door, I will come in to him, and will sup with him, and he with me.'</em> That is the Shelamim eternally fulfilled. God and the redeemed at the same table.\n\nThe Last Supper itself was a Shelamim — Christ giving His body and blood as a covenant meal, shared with His own.",
+    gospel: "The Shelamim teaches us the <strong>relational center of the gospel</strong>. Salvation is not just legal acquittal; it is communion. We are not merely forgiven debtors — we are family at the Father's table.\n\nThe sacrament is our Shelamim. We eat the bread that represents His body. We drink the water that represents His blood. We sup with Him.\n\nRomans 5:1 — <em>'Therefore being justified by faith, we have peace with God through our Lord Jesus Christ.'</em> The Shelamim made visible. Peace is not the absence of conflict — it is the presence of fellowship at His table."
+  },
+
+  chatat: {
+    title: "Chatat — The Sin Offering",
+    hebrew: "חַטָּאת — Chatat · 'Purification / Sin Offering'\nLeviticus 4 · Mandatory · For unintentional sin (shegagah)\nDifferent animals based on the offerer's standing",
+    scRef: "Leviticus 4:1-3 | 2 Corinthians 5:21 | Hebrews 9:14",
+    scTx: "If a soul shall sin through ignorance against any of the commandments of the LORD concerning things which ought not to be done, and shall do against any of them...",
+    what: "The Chatat addressed something Israel deeply understood and we often miss: <strong>even unintentional sin</strong> — <em>shegagah</em> — broke holiness. The Hebrew word means 'wandering, missing the mark without realizing it.' The Greek equivalent in Romans 3:23 — <em>hamartia</em> — is an archery term meaning the same thing.\n\nThe Chatat was mandatory. Not voluntary. The animal varied by the offerer's role — a bull for the High Priest (Lev 4:3), a male goat for a ruler (4:23), a female goat or lamb for an ordinary person (4:28). The blood was applied to the horns of the altar of incense or sprinkled before the veil.\n\nThis sacrifice declared: <em>even when you don't realize you've sinned, you've separated yourself from a holy God. Atonement is needed. The blood reaches into the most intimate space.</em>",
+    christ: "<strong>2 Corinthians 5:21 — <em>'For he hath made him to be sin for us, who knew no sin; that we might be made the righteousness of God in him.'</em></strong> The Greek word here for 'sin' is the same word used in the Septuagint to translate <em>Chatat</em>. Christ literally became our sin offering.\n\nHebrews 9:14 — <em>'How much more shall the blood of Christ, who through the eternal Spirit offered himself without spot to God, purge your conscience from dead works to serve the living God?'</em> The Chatat purified the priest's tools and the sanctuary; Christ purifies the conscience itself.",
+    gospel: "The Chatat teaches us that <strong>God's standard of holiness is higher than our awareness</strong>. We sin in ways we don't realize. Our intentions are not the measure — His holiness is.\n\nThis crushes self-righteousness. We are not capable of being good enough. We need atonement for sins we don't even know we've committed. <strong>And Christ provides it.</strong> His blood reaches into every gap between our intentions and the Father's holiness.\n\nThe good news: when we don't know what we need forgiveness for, He still forgives. He has covered every gap our awareness misses."
+  },
+
+  asham: {
+    title: "Asham — The Trespass Offering",
+    hebrew: "אָשָׁם — Asham · 'Reparation / Guilt'\nLeviticus 5-6 · Mandatory · For specific trespasses requiring restitution\nA ram, plus restitution of the wronged value plus 20%",
+    scRef: "Leviticus 6:1-7 | Isaiah 53:10 | Romans 4:25",
+    scTx: "He shall even restore it in the principal, and shall add the fifth part more thereto, and give it unto him to whom it appertaineth... And he shall bring his trespass offering unto the LORD, a ram without blemish out of the flock... and the priest shall make an atonement for him before the LORD: and it shall be forgiven him.",
+    what: "The Asham addressed specific wrongs against God or neighbor — sacrilege (Lev 5:14-19), deceit, theft, false oath (Lev 6:1-7). Unlike the Chatat (which addressed unintentional sin generally), <strong>the Asham required restitution.</strong> The wronged party had to be made whole. Whatever was stolen had to be restored — plus 20% (Lev 6:5).\n\nThen a ram without blemish was offered.\n\nThe Asham was the offering of justice. Forgiveness was real, but restitution was required. <em>The wronged party was not abandoned.</em> The wrong was addressed at every level — relational, financial, and spiritual.",
+    christ: "<strong>Isaiah 53:10 explicitly names Christ's death as an Asham:</strong> <em>'when thou shalt make his soul an offering for sin.'</em> The Hebrew is <em>asham</em>. He is the trespass offering.\n\nRomans 4:25 — <em>'Who was delivered for our offences, and was raised again for our justification.'</em> Christ takes the trespass — the specific wrongs we did to God and neighbor — and pays restitution that we could never pay.\n\nThe 20% added under the Asham points forward to the abundance of grace. <strong>Christ doesn't merely repair what was broken. He pays MORE than what was owed.</strong> Romans 5:20 — <em>'where sin abounded, grace did much more abound.'</em>",
+    gospel: "<strong>The gospel of repentance is the gospel of the Asham.</strong> When we have wronged someone, restitution is part of the work of repentance. Mosiah 4:24-25, Alma 39:9, and modern teachings on confession and restitution all rest on this principle: real forgiveness moves toward making the wronged party whole.\n\nBut here is the gospel: Christ has already paid the principal that we cannot pay. We make what restitution we can; He covers the infinite gap. He delivers us <em>'for our offences'</em> (Rom 4:25), and we walk in newness of life — with both the forgiveness and the abundance of grace He provides."
+  },
+
+  yomkippur: {
+    title: "Yom Kippur — The Two Goats",
+    hebrew: "שְׂעִירִים — Se'irim · 'The Two Goats'\nLeviticus 16 · The Day of Atonement · Annual\nOne sacrificed for the LORD; one as the scapegoat for Azazel",
+    scRef: "Leviticus 16:7-10, 21-22 | Hebrews 9:12 | Isaiah 53:6",
+    scTx: "And Aaron shall cast lots upon the two goats; one lot for the LORD, and the other lot for the scapegoat... and Aaron shall lay both his hands upon the head of the live goat, and confess over him all the iniquities of the children of Israel, and all their transgressions in all their sins, putting them upon the head of the goat, and shall send him away by the hand of a fit man into the wilderness.",
+    what: "<strong>This was the climactic sacrifice of the Levitical year.</strong> The High Priest, dressed in simple white linen (not his ornate vestments), entered the Holy of Holies on the one day a year God allowed it.\n\nTwo identical goats were brought. Lots were cast.\n\n<strong>Goat One — for the LORD:</strong> sacrificed, blood taken into the Holy of Holies and sprinkled on the mercy seat (<em>kapporet</em>).\n\n<strong>Goat Two — the scapegoat (Azazel):</strong> over its head the High Priest confessed all the sins of Israel, then it was released into the wilderness, never to return.\n\nThe first goat satisfied divine justice. The second goat carried the felt weight of sin away. <em>Both were needed. One sacrifice. Two dimensions.</em>",
+    christ: "<strong>Christ fulfills BOTH goats simultaneously.</strong>\n\n<strong>Goat One (sacrificed):</strong> Hebrews 9:12 — <em>'Neither by the blood of goats and calves, but by his own blood he entered in once into the holy place, having obtained eternal redemption for us.'</em> His blood satisfied justice once for all (<em>ephapax</em>).\n\n<strong>Goat Two (scapegoat):</strong> Isaiah 53:6 — <em>'All we like sheep have gone astray; we have turned every one to his own way; and the LORD hath laid on him the iniquity of us all.'</em> He carried our sins away into the wilderness of His suffering.\n\nOne Christ. Two dimensions. The legal demand met AND the felt weight removed.",
+    gospel: "The two goats teach us that <strong>the atonement has two distinct ministries</strong>. Justice is satisfied — the law is honored, the price is paid. AND the felt weight of sin is carried away — the shame, the guilt, the burden, gone into the wilderness with Christ.\n\nMany of us reach for one without the other. Some need to know justice has been satisfied (the legal dimension). Others need to know the burden has been carried away (the felt dimension). <strong>The two goats say: BOTH are yours in Christ.</strong>\n\nYou can stand acquitted before God's throne. AND you can stop carrying the weight you have already given to the Savior. The wilderness has it. He took it. You don't have to drag it back."
+  },
+
+  doves: {
+    title: "The Doves — Offering of the Poor",
+    hebrew: "תֹּרִים וְיוֹנָה — Torim v'Yonah · 'Turtledoves and Pigeons'\nLeviticus 1:14, 5:7-10, 12:8\nThe accessible offering · Available to all",
+    scRef: "Leviticus 5:7 | Luke 2:24 | 2 Corinthians 8:9",
+    scTx: "And if he be not able to bring a lamb, then he shall bring for his trespass, which he hath committed, two turtledoves, or two young pigeons, unto the LORD; one for a sin offering, and the other for a burnt offering.",
+    what: "Throughout Leviticus, the law made provision for those who could not afford a lamb or a goat. <strong>The poor could bring two doves or pigeons.</strong>\n\nIn Lev 5:7, doves substituted for the trespass offering. In Lev 12:8, for the postpartum mother who could not afford a lamb. In Lev 14:22, for the cleansed leper of limited means. In Lev 1:14-17, even the burnt offering could be a bird for the poorest.\n\n<strong>The Lord required no person to be excluded from atonement because of poverty.</strong> The same forgiveness was available to the poorest as to the richest. The same grace.",
+    christ: "When Mary brought the infant Jesus to the temple for her purification (Luke 2:22-24), the offering recorded is <em>'a pair of turtledoves, or two young pigeons'</em> — <strong>the offering of the poor</strong> (Lev 12:8).\n\nThe Savior of the world began life in the household of the poor. The first offering made on His behalf was the offering of the poor.\n\n2 Corinthians 8:9 — <em>'For ye know the grace of our Lord Jesus Christ, that, though he was rich, yet for your sakes he became poor, that ye through his poverty might be rich.'</em> His entire mortal life was lived among the doves.",
+    gospel: "<strong>The doves teach us the gospel's universality.</strong> Salvation is not for the wealthy, the educated, the powerful, the privileged. It is for everyone. The widow with her two mites (Mark 12:42), the leper, the woman with the issue of blood, the Samaritan, the tax collector — all welcome at the altar.\n\nMosiah 4:19 — <em>'are we not all beggars?'</em> Whatever we bring is the offering of the poor compared to what is required. And He receives it.\n\nD&C 18:10 — <em>'Remember the worth of souls is great in the sight of God.'</em> The dove offering says: every soul, regardless of what they can bring, is welcome at the altar."
+  },
+
+  leperbirds: {
+    title: "Two Birds — The Leper's Cleansing",
+    hebrew: "שְׁתֵּי צִפֳּרִים — Shtei Tziporim · 'Two Birds'\nLeviticus 14:1-7 · Cleansing of the leper\nOne killed over running water; one dipped in blood and set free",
+    scRef: "Leviticus 14:5-7 | Romans 4:25 | 1 Corinthians 15:3-4",
+    scTx: "And the priest shall command that one of the birds be killed in an earthen vessel over running water: As for the living bird, he shall take it... and shall dip them and the living bird in the blood of the bird that was killed over the running water... and shall let the living bird loose into the open field.",
+    what: "When a leper was healed, this strange and beautiful ceremony was performed. <em>(Note: the cleansing did not heal the disease — the priest declared cleansing of one already healed.)</em>\n\nTwo clean wild birds. One was killed in a clay vessel over running water — <em>mayim chayim</em>, 'living water.' The blood mixed with the water. Then the living bird, along with cedar wood, scarlet thread, and hyssop, was dipped in the bloody water. <strong>The living bird was then released into the open field, carrying drops of blood as it flew.</strong>\n\nOne died. One was set free. Both were essential to the ceremony.\n\nThe leper was cleansed by water mixed with blood, and the bird that flew away was the visible sign that the death of one had bought the freedom of the other.",
+    christ: "<strong>This is one of the most beautiful types in all of scripture.</strong>\n\nRomans 4:25 — Christ <em>'was delivered for our offences, and was raised again for our justification.'</em> This is the two birds in apostolic language. <em>One Christ — but two movements: His death AND His resurrection.</em>\n\n1 Corinthians 15:3-4 — <em>'Christ died for our sins... and that he was buried, and that he rose again.'</em> The bird that was killed and the bird that flew away are not two different Saviors. They are two movements of the one Savior.\n\nThe <em>'running water'</em> — <em>mayim chayim</em> — that ran with His blood is the living water He promised (John 4:14, John 7:38). <strong>The water and the blood that flowed from His side at the cross (John 19:34) are the same water and blood that cleansed the leper.</strong>",
+    gospel: "The leper's cleansing reveals the gospel as <strong>both DEATH and RESURRECTION</strong>. Without the death, no atonement. Without the released bird, no living hope.\n\nD&C 76:22-24 — Joseph Smith and Sidney Rigdon testified <em>'That he lives! For we saw him.'</em> The bird that flew away. The Christ who walks out of the tomb.\n\nWhen the leper saw the released bird disappear into the sky, he was watching his own future. The disease that had isolated him was cleansed. The death of one had bought his freedom. <em>He was alive — and his life was a witness.</em>\n\nThat is our gospel. We were lepers — isolated by sin from God and community. Christ died. Christ rose. We are clean. We fly free."
+  },
+
+  tamid: {
+    title: "Tamid — The Continual Offering",
+    hebrew: "תָּמִיד — Tamid · 'Continual / Always'\nLeviticus 6:8-13 (also Exodus 29:38-42, Numbers 28:3-8)\nA lamb morning and evening, every day, perpetually\nThe fire on the altar must never go out",
+    scRef: "Leviticus 6:13 | Hebrews 7:25 | Hebrews 13:15",
+    scTx: "The fire shall ever be burning upon the altar; it shall never go out.",
+    what: "<strong>The Tamid was the heartbeat of Israel's worship.</strong> Every morning at dawn, a lamb. Every evening at twilight, a lamb. Without exception. Without break. Across centuries.\n\nThe fire on the altar was never to go out (Lev 6:13). Even when the camp moved, embers were carried in covered vessels. The fire that fell from heaven (Lev 9:24) was preserved continually.\n\nThis was not a special sacrifice for a special day. <em>This was the continuous, ordinary, daily witness that atonement was always being made.</em> Israel woke to a sacrifice. Israel slept to a sacrifice. The smoke from the altar never stopped rising.",
+    christ: "<strong>Hebrews 7:25 — Christ <em>'ever liveth to make intercession for them.'</em></strong> The Tamid is fulfilled in the eternal continuity of His ministry. Right now. This moment. He is interceding.\n\nThe fire that never goes out is the love of God in Christ Jesus that nothing can separate us from (Romans 8:38-39). The blood once shed continues to apply. The sacrifice once made continues to be effective. The smoke continues to rise.\n\nWhen Christ said <em>'It is finished'</em> (John 19:30), He did not mean the ministry ended. He meant the price was paid in full. <strong>The Tamid of His intercession continues forever.</strong>",
+    gospel: "The Tamid teaches us that <strong>grace is daily and continuous</strong>. It is not a one-time event we appeal to occasionally. It is the constant condition of our covenant life.\n\nThe sacrament — weekly. Personal prayer — morning and evening. Scripture study — daily. <em>These are our continual offerings, the rhythms that keep the fire burning on the altar of our hearts.</em>\n\nHebrews 13:15 — <em>'By him therefore let us offer the sacrifice of praise to God continually, that is, the fruit of our lips giving thanks to his name.'</em>\n\nThe fire never goes out. He never tires of receiving our offerings. He never sleeps. He never stops."
+  },
+
+  bikkurim: {
+    title: "Bikkurim — The First Fruits",
+    hebrew: "בִּכּוּרִים — Bikkurim · 'First Fruits'\nLeviticus 23:9-14 · The first sheaf of the harvest waved before the LORD\nThe pledge that the rest of the harvest will come",
+    scRef: "Leviticus 23:10-11 | 1 Corinthians 15:20-23 | Romans 8:23",
+    scTx: "When ye be come into the land which I give unto you, and shall reap the harvest thereof, then ye shall bring a sheaf of the firstfruits of your harvest unto the priest: And he shall wave the sheaf before the LORD, to be accepted for you: on the morrow after the sabbath the priest shall wave it.",
+    what: "When Israel entered Canaan and the harvest began, <strong>the very first sheaf of grain</strong> — before any of the rest could be eaten — was brought to the priest. He waved it before the Lord. The waving declared: <em>'Lord, this first sheaf is yours. And we trust You that the rest of the harvest is coming.'</em>\n\nThe waving was an act of faith. You couldn't eat any of the grain until the firstfruits had been offered. Whatever was in the field — the unharvested 99% — depended on the trust expressed in the offering of the first 1%.\n\nThis was the festival of the firstfruits, occurring on the day after the Sabbath of Passover week — <strong>what later became the day of Christ's resurrection.</strong>",
+    christ: "<strong>1 Corinthians 15:20 — <em>'But now is Christ risen from the dead, and become the firstfruits of them that slept.'</em></strong> Paul makes this connection explicitly. The Greek word he uses is the exact equivalent of <em>bikkurim</em>.\n\nThe day Christ rose from the dead was the day of the Bikkurim — the first sheaf waved before the Lord. <em>His resurrection was the wave offering. His resurrection guaranteed the harvest. He went first. We follow.</em>\n\n1 Corinthians 15:23 — <em>'But every man in his own order: Christ the firstfruits; afterward they that are Christ's at his coming.'</em>",
+    gospel: "<strong>The Bikkurim teaches us the gospel of guaranteed resurrection.</strong> We are not waiting to see if the harvest will come. The first sheaf has already been waved. The Father has accepted it. The rest of the harvest is coming because the firstfruit was received.\n\nRomans 8:23 — <em>'And not only they, but ourselves also, which have the firstfruits of the Spirit, even we ourselves groan within ourselves, waiting for the adoption, to wit, the redemption of our body.'</em>\n\nWhen we feel the slow grind of mortality, the not-yet of redemption, the waiting — <em>the Bikkurim says: the first sheaf is already waved. The rest is coming.</em> He has gone before us as the firstfruits. The Father has received Him. We will be received too."
+  }
+};
+
+// ============================================================================
+// CHRIST FULFILLS ALL — synthesis content
+// ============================================================================
+
+const CHRIST_SYNTHESIS = {
+  title: "Christ Fulfills All — Every Sacrifice One Person",
+  hebrew: "קָרְבָּן אֶחָד · אֱלֹהִים אֶחָד · מָשִׁיחַ אֶחָד\nOne Sacrifice · One God · One Christ\nHebrews 9:11-10:25",
+  scRef: "Hebrews 9:11-12 | Hebrews 10:14 | Colossians 2:17",
+  scTx: "But Christ being come an high priest of good things to come... by his own blood he entered in once into the holy place, having obtained eternal redemption for us... For by one offering he hath perfected for ever them that are sanctified.",
+  body: `
+    <div class="ps">
+      <div class="psl">Why So Many Sacrifices</div>
+      <div class="ptx">The Levitical system was not redundant. Each sacrifice addressed a different facet of human relationship to a holy God. Together they form a single comprehensive portrait of what was needed — and what was missing.<br><br>Total devotion needed (<strong>Olah</strong>). Daily labor offered (<strong>Minchah</strong>). Communion restored (<strong>Shelamim</strong>). Unintentional sin covered (<strong>Chatat</strong>). Specific trespasses repaired (<strong>Asham</strong>). The annual reckoning made (<strong>Yom Kippur</strong>). The poor not excluded (<strong>Doves</strong>). The unclean cleansed and released (<strong>Two Birds</strong>). Atonement maintained continually (<strong>Tamid</strong>). The harvest pledged (<strong>Bikkurim</strong>).<br><br>No single offering could carry all of these. <em>It would take a single Person.</em></div>
+    </div>
+    <hr class="dv">
+
+    <div class="ps">
+      <div class="psl">Every Offering Was a Shadow of Him</div>
+      <div class="ptx">Colossians 2:17 — the law of sacrifices is <em>'a shadow of things to come; but the body is of Christ.'</em><br><br>Hebrews 10:1 — <em>'For the law having a shadow of good things to come, and not the very image of the things, can never with those sacrifices which they offered year by year continually make the comers thereunto perfect.'</em><br><br>Every animal that died on the altar across fifteen hundred years of Israel's worship was a shadow cast backward through time from one Person on one cross. The bulls. The goats. The lambs. The doves. The grain mixed with oil. The first sheaf. The fire that never went out. <strong>All of it pointing forward to Him.</strong></div>
+    </div>
+    <hr class="dv">
+
+    <div class="ps">
+      <div class="psl">He Is Every Sacrifice At Once</div>
+      <div class="ptx">
+        <strong>The Olah</strong> — He ascended completely. Nothing held back (Eph 5:2).<br><br>
+        <strong>The Minchah</strong> — His perfect sinless life, His broken body, the bread of life (John 6:35).<br><br>
+        <strong>The Shelamim</strong> — He is our peace. He sups with us (Eph 2:14, Rev 3:20).<br><br>
+        <strong>The Chatat</strong> — He was made sin for us (2 Cor 5:21).<br><br>
+        <strong>The Asham</strong> — Isaiah explicitly names His soul an Asham (Isa 53:10).<br><br>
+        <strong>The Yom Kippur Two Goats</strong> — The blood entered the holy place AND the sins were carried away (Heb 9:12, Isa 53:6).<br><br>
+        <strong>The Doves</strong> — His infancy offering. The Savior who came as the offering of the poor (Luke 2:24).<br><br>
+        <strong>The Two Birds</strong> — His death and resurrection in one ritual. The water and blood from His side (John 19:34).<br><br>
+        <strong>The Tamid</strong> — His intercession never ceases (Heb 7:25). The fire still burns.<br><br>
+        <strong>The Bikkurim</strong> — His resurrection, the firstfruits of all who sleep (1 Cor 15:20).
+      </div>
+    </div>
+    <hr class="dv">
+
+    <div class="ps">
+      <div class="psl">One Offering, Once For All</div>
+      <div class="ptx">Hebrews 10:11-14 — <em>'And every priest standeth daily ministering and offering oftentimes the same sacrifices, which can never take away sins: But this man, after he had offered one sacrifice for sins for ever, sat down on the right hand of God... For by one offering he hath perfected for ever them that are sanctified.'</em><br><br>The Levitical priest stood, because his work was never finished. <strong>Christ sat down</strong> — because His work IS finished.<br><br>The Greek word <em>ephapax</em> — <em>once for all</em> — appears repeatedly in Hebrews 7:27, 9:12, 10:10. One offering. One time. Effective forever.<br><br>Every Levitical sacrifice testified of insufficiency — they had to be repeated, year after year, day after day. Christ's one sacrifice testified of completeness. <em>It will never need repetition. It will never lose efficacy. It will never run out.</em></div>
+    </div>
+    <hr class="dv">
+
+    <div class="ps">
+      <div class="psl">What This Means For Us</div>
+      <div class="ptx">When you read Leviticus, you are reading the gospel of Jesus Christ in shadow. Every offering is asking the same question — <em>how shall a person stand before a holy God?</em> — and pointing toward the same answer.<br><br>The good news is not that we have a better sacrificial system than ancient Israel. The good news is that <strong>the One that all those sacrifices were pointing toward has come, has died, has risen, and ever lives to make intercession for us.</strong><br><br>Romans 5:1 — <em>'Therefore being justified by faith, we have peace with God through our Lord Jesus Christ.'</em><br><br>The altar is not empty. The fire is not out. The smoke is still rising. <strong>Because Christ Himself is at the right hand of the Father, the eternal sacrifice continually offered, the High Priest forever interceding for us.</strong><br><br><em>Come boldly. The sacrifice has been made. The harvest is coming. The Lamb of God is on the throne.</em></div>
+    </div>
+  `
+};
+
+// ============================================================================
+// PANEL RENDERING
+// ============================================================================
+
+const panel = document.getElementById('panel');
+const ptitle = document.getElementById('ptitle');
+const pheb = document.getElementById('pheb');
+const pbody = document.getElementById('pbody');
+
+function renderSacrifice(key) {
+  const d = SACRIFICES[key];
+  if (!d) return;
+  ptitle.textContent = d.title;
+  pheb.textContent = d.hebrew;
+  pbody.innerHTML = `
+    <div class="ps">
+      <div class="psl">Scripture</div>
+      <div class="psc">${d.scTx}<div class="ref">— ${d.scRef}</div></div>
+    </div>
+    <hr class="dv">
+    <div class="ps"><div class="psl">What It Was</div><div class="ptx">${d.what.replace(/\n/g,'<br><br>')}</div></div>
+    <hr class="dv">
+    <div class="ps"><div class="psl">How Christ Fulfills It</div><div class="ptx">${d.christ.replace(/\n/g,'<br><br>')}</div></div>
+    <hr class="dv">
+    <div class="ps"><div class="psl">What It Teaches Us About the Gospel</div><div class="ptx">${d.gospel.replace(/\n/g,'<br><br>')}</div></div>
+  `;
+  panel.classList.add('open');
+}
+
+function renderChristSynthesis() {
+  const d = CHRIST_SYNTHESIS;
+  ptitle.textContent = d.title;
+  pheb.textContent = d.hebrew;
+  pbody.innerHTML = `
+    <div class="ps">
+      <div class="psl">Scripture · The Whole Argument of Hebrews</div>
+      <div class="psc">${d.scTx}<div class="ref">— ${d.scRef}</div></div>
+    </div>
+    <hr class="dv">
+    ${d.body}
+  `;
+  panel.classList.add('open');
+}
+
+// ============================================================================
+// CLICK HANDLERS
+// ============================================================================
+
+function clearActive() {
+  document.querySelectorAll('.card.active').forEach(el => el.classList.remove('active'));
+  document.getElementById('vChrist').classList.remove('on');
+}
+
+document.querySelectorAll('.card').forEach(el => {
+  el.addEventListener('click', e => {
+    e.stopPropagation();
+    clearActive();
+    el.classList.add('active');
+    renderSacrifice(el.dataset.key);
+  });
+});
+
+document.getElementById('vChrist').addEventListener('click', () => {
+  clearActive();
+  document.getElementById('vChrist').classList.add('on');
+  renderChristSynthesis();
+});
+
+document.getElementById('pc').addEventListener('click', () => {
+  panel.classList.remove('open');
+  clearActive();
+});
+</script>
+</body>
+</html>
