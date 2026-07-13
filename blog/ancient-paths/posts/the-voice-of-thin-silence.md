@@ -1,6 +1,10 @@
-# The Voice of Thin Silence
-
-*Ancient Paths · Vol. 5*
+---
+title: "The Voice of Thin Silence"
+excerpt: "The Hebrew word qol appears 506 times in the Old Testament. It is not a category of sound. It is the medium of covenant. The voice that converted the Lamanites was not thunder. It was a whisper of perfect mildness."
+volume: "Vol. 5"
+readtime: 14
+date: "April 21, 2026"
+---
 
 I want you to picture two brothers in a prison cell.
 

@@ -1,6 +1,10 @@
-# The Light Was Already There
-
-*The Work · Vol. 5*
+---
+title: "The Light Was Already There"
+excerpt: "I was standing in a room full of Maxwell coaches when I felt it. That specific warmth in the chest. The same one from sacrament meeting, the temple, Honduras. Outside our walls, the light was already there."
+volume: "Vol. 5"
+readtime: 5
+date: "April 21, 2026"
+---
 
 I was standing in a room full of coaches, speakers, and leaders from every corner of the Maxwell world. The band started playing. Hands went up across the room.
 

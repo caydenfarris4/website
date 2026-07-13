@@ -1,0 +1,15 @@
+# Security headers — served by Cloudflare Pages / Netlify (ignored by hosts that don't support _headers)
+
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: SAMEORIGIN
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  Cross-Origin-Opener-Policy: same-origin-allow-popups
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://cloudflareinsights.com; form-action 'self' https://formspree.io; frame-ancestors 'self'; object-src 'none'; base-uri 'self'; upgrade-insecure-requests
+
+# The CMS needs GitHub auth + jsdelivr assets, so it gets its own (still restricted) policy
+/admin/*
+  X-Robots-Tag: noindex
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; img-src 'self' https: data: blob:; font-src 'self' https://cdn.jsdelivr.net; connect-src 'self' https://api.github.com https://github.com https://raw.githubusercontent.com https://cdn.jsdelivr.net; worker-src 'self' blob:; child-src 'self' blob:; frame-ancestors 'self'; object-src 'none'; base-uri 'self'

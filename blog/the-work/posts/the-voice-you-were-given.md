@@ -1,6 +1,10 @@
-# The Voice You Were Given
-
-*The Work · Vol. 6*
+---
+title: "The Voice You Were Given"
+excerpt: "The first three chapters of my book were unreadable. I deleted them and started over. What I found in the process is something most people never learn about their own voice."
+volume: "Vol. 6"
+readtime: 7
+date: "April 21, 2026"
+---
 
 The first three chapters of my book were unreadable.
 

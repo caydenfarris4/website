@@ -4,6 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="The Blog — Cayden Farris. Ancient Paths: deep scripture study. The Work: principled leadership.">
+<meta property="og:title" content="The Blog — Cayden Farris">
+<meta property="og:description" content="Two tracks. One conviction. Ancient Paths: deep scripture study. The Work: principled leadership.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://caydenfarris.net/blog/">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<link rel="canonical" href="https://caydenfarris.net/blog/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='14' fill='%231c1208'/%3E%3Ctext x='50' y='68' font-family='Georgia,serif' font-size='52' font-weight='600' fill='%23b8840a' text-anchor='middle'%3ECF%3C/text%3E%3C/svg%3E">
 <title>The Blog — Cayden Farris</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
@@ -77,8 +84,6 @@ nav.scrolled{box-shadow:0 2px 20px rgba(28,18,8,.07)}
 .share-dropdown a{display:flex;align-items:center;gap:8px;padding:8px 14px;font-family:var(--ff-body);font-size:11px;letter-spacing:1px;text-transform:uppercase;color:rgba(250,246,239,.7);text-decoration:none;transition:color .2s,background .2s;white-space:nowrap}
 .share-dropdown a:hover{color:var(--gold-lt);background:rgba(255,255,255,.05)}
 .post-date{font-size:11px;color:var(--muted);letter-spacing:1px;font-family:var(--ff-body)}
-.date-loading{display:inline-block;width:80px;height:10px;background:linear-gradient(90deg,var(--border) 25%,var(--cream3) 50%,var(--border) 75%);background-size:200% 100%;animation:shimmer 1.4s infinite;border-radius:2px}
-@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
 .post-read{font-family:var(--ff-body);font-size:11px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:5px;transition:gap .2s}
 .post-card:hover .post-read{gap:9px}
 .post-card.featured{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:0}
@@ -115,7 +120,10 @@ footer{background:var(--espresso);border-top:1px solid rgba(250,246,239,.06);pad
 <body>
 <nav id="nav">
   <a href="/" class="nav-logo">Cayden <span>Farris</span></a>
-  <a href="/" class="nav-back">← Back to site</a>
+  <div style="display:flex;align-items:center;gap:clamp(16px,3vw,28px)">
+    <a href="/book" class="nav-back">The Book</a>
+    <a href="/" class="nav-back">← Back to site</a>
+  </div>
 </nav>
 <section class="hero">
   <p class="hero-label reveal">Writing · Ideas · Study</p>
@@ -138,7 +146,7 @@ footer{background:var(--espresso);border-top:1px solid rgba(250,246,239,.06);pad
   </div>
   <div class="posts-grid" id="postsGrid">
 
-    <a href="/blog/ancient-paths/reader.html?post=the-mercy-seat" class="post-card ancient featured reveal" data-track="ancient" data-slug="blog/ancient-paths/posts/the-mercy-seat.md" data-order="1">
+    <a href="/blog/ancient-paths/reader.html?post=the-mercy-seat" class="post-card ancient featured reveal" data-track="ancient" data-date="2025-04-10" data-order="1">
       <div class="post-card-body">
         <span class="post-track ancient"><span class="dot"></span>Ancient Paths</span>
         <h3>The Mercy Seat — <em>Where Heaven Touches Earth</em></h3>
@@ -150,7 +158,7 @@ footer{background:var(--espresso);border-top:1px solid rgba(250,246,239,.06);pad
       </div>
     </a>
 
-    <a href="/blog/ancient-paths/reader.html?post=cherem-and-the-restoration" class="post-card ancient reveal reveal-d1" data-track="ancient" data-slug="blog/ancient-paths/posts/cherem-and-the-restoration.md" data-order="2">
+    <a href="/blog/ancient-paths/reader.html?post=cherem-and-the-restoration" class="post-card ancient reveal reveal-d1" data-track="ancient" data-date="2025-04-10" data-order="2">
       <div class="post-card-body">
         <span class="post-track ancient"><span class="dot"></span>Ancient Paths</span>
         <h3>Cherem — The <em>Last Word</em> of the Old Testament</h3>
@@ -159,7 +167,7 @@ footer{background:var(--espresso);border-top:1px solid rgba(250,246,239,.06);pad
       </div>
       <div class="post-meta">
         <div class="post-meta-left">
-          <span class="post-date"><span class="date-loading" data-slug="blog/ancient-paths/posts/cherem-and-the-restoration.md"></span></span>
+          <span class="post-date">Apr 10, 2025</span>
         </div>
         <div style="display:flex;align-items:center;gap:12px">
           <button class="share-btn" onclick="sharePost(event,'/blog/ancient-paths/reader.html?post=cherem-and-the-restoration','Cherem — The Last Word of the Old Testament')" title="Share">↗ Share</button>
@@ -168,7 +176,7 @@ footer{background:var(--espresso);border-top:1px solid rgba(250,246,239,.06);pad
       </div>
     </a>
 
-    <a href="/blog/ancient-paths/reader.html?post=john-17-the-prayer-he-prayed-for-you" class="post-card ancient reveal reveal-d2" data-track="ancient" data-slug="blog/ancient-paths/posts/john-17-the-prayer-he-prayed-for-you.md" data-order="3">
+    <a href="/blog/ancient-paths/reader.html?post=john-17-the-prayer-he-prayed-for-you" class="post-card ancient reveal reveal-d2" data-track="ancient" data-date="2025-04-10" data-order="3">
       <div class="post-card-body">
         <span class="post-track ancient"><span class="dot"></span>Ancient Paths</span>
         <h3>John 17 — The Prayer He <em>Prayed for You</em></h3>
@@ -177,7 +185,7 @@ footer{background:var(--espresso);border-top:1px solid rgba(250,246,239,.06);pad
       </div>
       <div class="post-meta">
         <div class="post-meta-left">
-          <span class="post-date"><span class="date-loading" data-slug="blog/ancient-paths/posts/john-17-the-prayer-he-prayed-for-you.md"></span></span>
+          <span class="post-date">Apr 10, 2025</span>
         </div>
         <div style="display:flex;align-items:center;gap:12px">
           <button class="share-btn" onclick="sharePost(event,'/blog/ancient-paths/reader.html?post=john-17-the-prayer-he-prayed-for-you','John 17 — The Prayer He Prayed for You')" title="Share">↗ Share</button>
@@ -186,7 +194,7 @@ footer{background:var(--espresso);border-top:1px solid rgba(250,246,239,.06);pad
       </div>
     </a>
 
-    <a href="/blog/ancient-paths/reader.html?post=feed-my-sheep" class="post-card ancient reveal reveal-d3" data-track="ancient" data-slug="blog/ancient-paths/posts/feed-my-sheep.md" data-order="4">
+    <a href="/blog/ancient-paths/reader.html?post=feed-my-sheep" class="post-card ancient reveal reveal-d3" data-track="ancient" data-date="2026-03-23" data-order="4">
       <div class="post-card-body">
         <span class="post-track ancient"><span class="dot"></span>Ancient Paths</span>
         <h3>Feed My <em>Sheep</em></h3>
@@ -195,7 +203,7 @@ footer{background:var(--espresso);border-top:1px solid rgba(250,246,239,.06);pad
       </div>
       <div class="post-meta">
         <div class="post-meta-left">
-          <span class="post-date"><span class="date-loading" data-slug="blog/ancient-paths/posts/feed-my-sheep.md"></span></span>
+          <span class="post-date">Mar 23, 2026</span>
         </div>
         <div style="display:flex;align-items:center;gap:12px">
           <button class="share-btn" onclick="sharePost(event,'/blog/ancient-paths/reader.html?post=feed-my-sheep','Feed My Sheep')" title="Share">↗ Share</button>
@@ -204,7 +212,7 @@ footer{background:var(--espresso);border-top:1px solid rgba(250,246,239,.06);pad
       </div>
     </a>
 
-    <a href="/blog/the-work/reader.html?post=build-before-you-look-back" class="post-card work reveal reveal-d1" data-track="work" data-slug="blog/the-work/posts/build-before-you-look-back.md" data-order="5">
+    <a href="/blog/the-work/reader.html?post=build-before-you-look-back" class="post-card work reveal reveal-d1" data-track="work" data-date="2025-04-10" data-order="5">
       <div class="post-card-body">
         <span class="post-track work"><span class="dot"></span>The Work</span>
         <h3>Build Before You <em>Look Back</em></h3>
@@ -213,7 +221,7 @@ footer{background:var(--espresso);border-top:1px solid rgba(250,246,239,.06);pad
       </div>
       <div class="post-meta">
         <div class="post-meta-left">
-          <span class="post-date"><span class="date-loading" data-slug="blog/the-work/posts/build-before-you-look-back.md"></span></span>
+          <span class="post-date">Apr 10, 2025</span>
         </div>
         <div style="display:flex;align-items:center;gap:12px">
           <button class="share-btn" onclick="sharePost(event,'/blog/the-work/reader.html?post=build-before-you-look-back','Build Before You Look Back')" title="Share">↗ Share</button>
@@ -222,7 +230,7 @@ footer{background:var(--espresso);border-top:1px solid rgba(250,246,239,.06);pad
       </div>
     </a>
 
-    <a href="/blog/the-work/reader.html?post=the-pattern-that-defines-you" class="post-card work reveal reveal-d2" data-track="work" data-slug="blog/the-work/posts/the-pattern-that-defines-you.md" data-order="6">
+    <a href="/blog/the-work/reader.html?post=the-pattern-that-defines-you" class="post-card work reveal reveal-d2" data-track="work" data-date="2025-04-10" data-order="6">
       <div class="post-card-body">
         <span class="post-track work"><span class="dot"></span>The Work</span>
         <h3>The Pattern That <em>Defines You</em></h3>
@@ -231,7 +239,7 @@ footer{background:var(--espresso);border-top:1px solid rgba(250,246,239,.06);pad
       </div>
       <div class="post-meta">
         <div class="post-meta-left">
-          <span class="post-date"><span class="date-loading" data-slug="blog/the-work/posts/the-pattern-that-defines-you.md"></span></span>
+          <span class="post-date">Apr 10, 2025</span>
         </div>
         <div style="display:flex;align-items:center;gap:12px">
           <button class="share-btn" onclick="sharePost(event,'/blog/the-work/reader.html?post=the-pattern-that-defines-you','The Pattern That Defines You')" title="Share">↗ Share</button>
@@ -240,7 +248,7 @@ footer{background:var(--espresso);border-top:1px solid rgba(250,246,239,.06);pad
       </div>
     </a>
 
-    <a href="/blog/the-work/reader.html?post=the-layers-you-are-standing-on" class="post-card work reveal reveal-d3" data-track="work" data-slug="blog/the-work/posts/the-layers-you-are-standing-on.md" data-order="7">
+    <a href="/blog/the-work/reader.html?post=the-layers-you-are-standing-on" class="post-card work reveal reveal-d3" data-track="work" data-date="2025-04-10" data-order="7">
       <div class="post-card-body">
         <span class="post-track work"><span class="dot"></span>The Work</span>
         <h3>The Layers You Are <em>Standing On</em></h3>
@@ -249,7 +257,7 @@ footer{background:var(--espresso);border-top:1px solid rgba(250,246,239,.06);pad
       </div>
       <div class="post-meta">
         <div class="post-meta-left">
-          <span class="post-date"><span class="date-loading" data-slug="blog/the-work/posts/the-layers-you-are-standing-on.md"></span></span>
+          <span class="post-date">Apr 10, 2025</span>
         </div>
         <div style="display:flex;align-items:center;gap:12px">
           <button class="share-btn" onclick="sharePost(event,'/blog/the-work/reader.html?post=the-layers-you-are-standing-on','The Layers You Are Standing On')" title="Share">↗ Share</button>
@@ -258,7 +266,7 @@ footer{background:var(--espresso);border-top:1px solid rgba(250,246,239,.06);pad
       </div>
     </a>
 
-    <a href="/blog/the-work/reader.html?post=the-man-in-the-arena" class="post-card work reveal reveal-d1" data-track="work" data-slug="blog/the-work/posts/the-man-in-the-arena.md" data-order="8">
+    <a href="/blog/the-work/reader.html?post=the-man-in-the-arena" class="post-card work reveal reveal-d1" data-track="work" data-date="2025-04-10" data-order="8">
       <div class="post-card-body">
         <span class="post-track work"><span class="dot"></span>The Work</span>
         <h3>The Man in the <em>Arena</em></h3>
@@ -267,7 +275,7 @@ footer{background:var(--espresso);border-top:1px solid rgba(250,246,239,.06);pad
       </div>
       <div class="post-meta">
         <div class="post-meta-left">
-          <span class="post-date"><span class="date-loading" data-slug="blog/the-work/posts/the-man-in-the-arena.md"></span></span>
+          <span class="post-date">Apr 10, 2025</span>
         </div>
         <div style="display:flex;align-items:center;gap:12px">
           <button class="share-btn" onclick="sharePost(event,'/blog/the-work/reader.html?post=the-man-in-the-arena','The Man in the Arena')" title="Share">↗ Share</button>
@@ -280,7 +288,7 @@ footer{background:var(--espresso);border-top:1px solid rgba(250,246,239,.06);pad
     <a href="/blog/the-work/reader.html?post=the-light-was-already-there"
        class="post-card work reveal reveal-d2"
        data-track="work"
-       data-slug="blog/the-work/posts/the-light-was-already-there.md"
+       data-date="2026-04-21"
        data-order="9">
       <div class="post-card-body">
         <span class="post-track work"><span class="dot"></span>The Work</span>
@@ -289,7 +297,7 @@ footer{background:var(--espresso);border-top:1px solid rgba(250,246,239,.06);pad
         <span class="post-read">Read →</span>
       </div>
       <div class="post-meta">
-        <div class="post-meta-left"><span class="post-date"><span class="date-loading" data-slug="blog/the-work/posts/the-light-was-already-there.md"></span></span></div>
+        <div class="post-meta-left"><span class="post-date">Apr 21, 2026</span></div>
         <div style="display:flex;align-items:center;gap:12px">
           <button class="share-btn" onclick="sharePost(event,'/blog/the-work/reader.html?post=the-light-was-already-there','The Light Was Already There')" title="Share">↗ Share</button>
           <span class="post-read">Read →</span>
@@ -301,7 +309,7 @@ footer{background:var(--espresso);border-top:1px solid rgba(250,246,239,.06);pad
     <a href="/blog/the-work/reader.html?post=the-voice-you-were-given"
        class="post-card work reveal reveal-d3"
        data-track="work"
-       data-slug="blog/the-work/posts/the-voice-you-were-given.md"
+       data-date="2026-04-21"
        data-order="10">
       <div class="post-card-body">
         <span class="post-track work"><span class="dot"></span>The Work</span>
@@ -310,7 +318,7 @@ footer{background:var(--espresso);border-top:1px solid rgba(250,246,239,.06);pad
         <span class="post-read">Read →</span>
       </div>
       <div class="post-meta">
-        <div class="post-meta-left"><span class="post-date"><span class="date-loading" data-slug="blog/the-work/posts/the-voice-you-were-given.md"></span></span></div>
+        <div class="post-meta-left"><span class="post-date">Apr 21, 2026</span></div>
         <div style="display:flex;align-items:center;gap:12px">
           <button class="share-btn" onclick="sharePost(event,'/blog/the-work/reader.html?post=the-voice-you-were-given','The Voice You Were Given')" title="Share">↗ Share</button>
           <span class="post-read">Read →</span>
@@ -322,7 +330,7 @@ footer{background:var(--espresso);border-top:1px solid rgba(250,246,239,.06);pad
     <a href="/blog/ancient-paths/reader.html?post=the-voice-of-thin-silence"
        class="post-card ancient reveal reveal-d1"
        data-track="ancient"
-       data-slug="blog/ancient-paths/posts/the-voice-of-thin-silence.md"
+       data-date="2026-04-21"
        data-order="11">
       <div class="post-card-body">
         <span class="post-track ancient"><span class="dot"></span>Ancient Paths</span>
@@ -331,7 +339,7 @@ footer{background:var(--espresso);border-top:1px solid rgba(250,246,239,.06);pad
         <span class="post-read">Read →</span>
       </div>
       <div class="post-meta">
-        <div class="post-meta-left"><span class="post-date"><span class="date-loading" data-slug="blog/ancient-paths/posts/the-voice-of-thin-silence.md"></span></span></div>
+        <div class="post-meta-left"><span class="post-date">Apr 21, 2026</span></div>
         <div style="display:flex;align-items:center;gap:12px">
           <button class="share-btn" onclick="sharePost(event,'/blog/ancient-paths/reader.html?post=the-voice-of-thin-silence','The Voice of Thin Silence')" title="Share">↗ Share</button>
           <span class="post-read">Read →</span>
@@ -343,7 +351,7 @@ footer{background:var(--espresso);border-top:1px solid rgba(250,246,239,.06);pad
     <a href="/blog/ancient-paths/reader.html?post=chesed"
        class="post-card ancient reveal reveal-d2"
        data-track="ancient"
-       data-slug="blog/ancient-paths/posts/chesed.md"
+       data-date="2026-04-21"
        data-order="12">
       <div class="post-card-body">
         <span class="post-track ancient"><span class="dot"></span>Ancient Paths</span>
@@ -352,7 +360,7 @@ footer{background:var(--espresso);border-top:1px solid rgba(250,246,239,.06);pad
         <span class="post-read">Read →</span>
       </div>
       <div class="post-meta">
-        <div class="post-meta-left"><span class="post-date"><span class="date-loading" data-slug="blog/ancient-paths/posts/chesed.md"></span></span></div>
+        <div class="post-meta-left"><span class="post-date">Apr 21, 2026</span></div>
         <div style="display:flex;align-items:center;gap:12px">
           <button class="share-btn" onclick="sharePost(event,'/blog/ancient-paths/reader.html?post=chesed','Chesed')" title="Share">↗ Share</button>
           <span class="post-read">Read →</span>
@@ -364,7 +372,7 @@ footer{background:var(--espresso);border-top:1px solid rgba(250,246,239,.06);pad
     <a href="/blog/the-work/reader.html?post=the-pane-you-were-made-to-be"
        class="post-card work reveal reveal-d3"
        data-track="work"
-       data-slug="blog/the-work/posts/the-pane-you-were-made-to-be.md"
+       data-date="2026-04-21"
        data-order="13">
       <div class="post-card-body">
         <span class="post-track work"><span class="dot"></span>The Work</span>
@@ -373,7 +381,7 @@ footer{background:var(--espresso);border-top:1px solid rgba(250,246,239,.06);pad
         <span class="post-read">Read →</span>
       </div>
       <div class="post-meta">
-        <div class="post-meta-left"><span class="post-date"><span class="date-loading" data-slug="blog/the-work/posts/the-pane-you-were-made-to-be.md"></span></span></div>
+        <div class="post-meta-left"><span class="post-date">Apr 21, 2026</span></div>
         <div style="display:flex;align-items:center;gap:12px">
           <button class="share-btn" onclick="sharePost(event,'/blog/the-work/reader.html?post=the-pane-you-were-made-to-be','The Pane You Were Made to Be')" title="Share">↗ Share</button>
           <span class="post-read">Read →</span>
@@ -392,19 +400,21 @@ footer{background:var(--espresso);border-top:1px solid rgba(250,246,239,.06);pad
   <div class="newsletter-inner reveal">
     <h2>Stay in the <em>current</em></h2>
     <p>New posts from both tracks delivered to your inbox. No noise — just the writing.</p>
-    <form class="newsletter-form" action="https://formspree.io/f/YOUR_NEWSLETTER_FORM_ID" method="POST">
-      <input type="text" name="_gotcha" style="display:none">
+    <form class="newsletter-form" id="newsletterForm" action="https://formspree.io/f/mreowrzw" method="POST">
+      <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
       <input type="hidden" name="_subject" value="New Newsletter Signup — caydenfarris.net">
-      <input type="email" name="email" placeholder="your@email.com" required>
+      <input type="hidden" name="form_type" value="newsletter_signup">
+      <input type="hidden" name="_next" value="https://caydenfarris.net/blog/?subscribed=true">
+      <input type="email" name="email" placeholder="your@email.com" autocomplete="email" maxlength="254" required aria-label="Email address">
       <button type="submit">Subscribe</button>
     </form>
-    <p class="newsletter-note">No spam. Unsubscribe anytime.</p>
+    <p class="newsletter-note">No spam. Ever. Unsubscribe anytime.</p>
   </div>
 </div>
 
 <footer>
   <a href="/" class="footer-logo">Cayden <span>Farris</span></a>
-  <p class="footer-copy">© 2025 Cayden Farris · caydenfarris.net</p>
+  <p class="footer-copy">© 2026 Cayden Farris · caydenfarris.net</p>
 </footer>
 
 <script>
@@ -412,24 +422,17 @@ window.addEventListener('scroll',()=>document.getElementById('nav').classList.to
 const revObs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');revObs.unobserve(e.target);}});},{threshold:0.08});
 document.querySelectorAll('.reveal').forEach(el=>revObs.observe(el));
 
-const REPO='caydenfarris4/website';
-const API='https://api.github.com/repos/'+REPO+'/commits?per_page=1&path=';
-function formatDate(iso){const d=new Date(iso);return d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});}
-async function fetchDate(slug,el){
-  try{
-    const res=await fetch(API+encodeURIComponent(slug));
-    if(!res.ok)throw new Error();
-    const data=await res.json();
-    if(data&&data[0]){
-      const date=data[0].commit.committer.date;
-      el.classList.remove('date-loading');
-      el.textContent=formatDate(date);
-      const card=el.closest('.post-card');
-      if(card)card.dataset.timestamp=new Date(date).getTime();
-    }
-  }catch(e){el.classList.remove('date-loading');el.textContent='';}
+// Newsletter success state (Formspree redirects back with ?subscribed=true)
+if(new URLSearchParams(location.search).get('subscribed')==='true'){
+  const inner=document.querySelector('.newsletter-inner');
+  if(inner)inner.innerHTML='<h2>You\'re <em>in</em></h2><p>New posts from both tracks, straight to your inbox. Welcome.</p>';
 }
-document.querySelectorAll('.date-loading').forEach(el=>{if(el.dataset.slug)fetchDate(el.dataset.slug,el);});
+
+// Post dates come from each post's frontmatter, baked into data-date attributes
+document.querySelectorAll('.post-card[data-date]').forEach(card=>{
+  const t=Date.parse(card.dataset.date);
+  if(!isNaN(t))card.dataset.timestamp=t;
+});
 
 const btns=document.querySelectorAll('.track-btn');
 const cards=document.querySelectorAll('.post-card');
