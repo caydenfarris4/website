@@ -1,8 +1,17 @@
 {
   "name": "website",
-  "compatibility_date": "2026-08-09",
+  "main": "worker.js",
+  "compatibility_date": "2026-08-08",
   "assets": {
     "directory": "./",
-    "html_handling": "auto-trailing-slash"
+    "binding": "ASSETS",
+    "html_handling": "auto-trailing-slash",
+    // Blog reader pages go through the worker so it can inject each post's
+    // Open Graph tags (title + excerpt) for link previews. Everything else
+    // is served as plain static assets.
+    "run_worker_first": [
+      "/blog/the-work/reader.html",
+      "/blog/ancient-paths/reader.html"
+    ]
   }
 }
