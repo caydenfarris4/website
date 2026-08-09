@@ -4,6 +4,8 @@ excerpt: "The first three chapters of my book were unreadable. I deleted them an
 volume: "Vol. 6"
 readtime: 7
 date: "April 21, 2026"
+next_title: "The Grandfather Trail"
+next_slug: "the-grandfather-trail"
 ---
 
 The first three chapters of my book were unreadable.
