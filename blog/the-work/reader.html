@@ -385,6 +385,7 @@ function initShare(title) {
   if (links) {
     links.innerHTML = `
       <a class="share-link" href="https://twitter.com/intent/tweet?text=${et}&url=${eu}" target="_blank" rel="noopener">𝕏 Twitter</a>
+      <a class="share-link" href="#" id="igShare">Instagram</a>
       <a class="share-link" href="https://www.facebook.com/sharer/sharer.php?u=${eu}" target="_blank" rel="noopener">Facebook</a>
       <a class="share-link" href="https://www.linkedin.com/sharing/share-offsite/?url=${eu}" target="_blank" rel="noopener">LinkedIn</a>
       <a class="share-link" href="mailto:?subject=${etitle}&body=${et}%0A%0A${eu}">Email</a>
@@ -395,6 +396,20 @@ function initShare(title) {
       navigator.clipboard.writeText(url);
       e.target.textContent = '✓ Copied';
       setTimeout(() => e.target.textContent = 'Copy Link', 1500);
+    };
+    // Instagram has no share URL — copy the link for the story Link sticker,
+    // then open the app (mobile) or instagram.com (desktop)
+    document.getElementById('igShare').onclick = (e) => {
+      e.preventDefault();
+      const el = e.target;
+      try { navigator.clipboard.writeText(url); } catch(_) {}
+      el.textContent = '✓ Copied — paste in your story';
+      setTimeout(() => el.textContent = 'Instagram', 2600);
+      if (/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+        setTimeout(() => { window.location.href = 'instagram://story-camera'; }, 400);
+      } else {
+        window.open('https://www.instagram.com/', '_blank', 'noopener');
+      }
     };
   }
 }
