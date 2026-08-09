@@ -500,8 +500,7 @@ btns.forEach(btn=>{btn.addEventListener('click',()=>{btns.forEach(b=>b.classList
 const grid=document.getElementById('postsGrid');
 const sortBtn=document.getElementById('sortBtn');
 let sortedByRecent=false;
-sortBtn.addEventListener('click',()=>{
-  sortedByRecent=!sortedByRecent;
+function applySort(){
   sortBtn.classList.toggle('active',sortedByRecent);
   sortBtn.textContent=sortedByRecent?'↑ Original':'↓ Recent';
   const cardEls=[...cards];
@@ -509,7 +508,10 @@ sortBtn.addEventListener('click',()=>{
   else{cardEls.sort((a,b)=>(parseInt(a.dataset.order)||99)-(parseInt(b.dataset.order)||99));}
   const emptyEl=document.getElementById('emptyState');
   cardEls.forEach(c=>grid.insertBefore(c,emptyEl));
-});
+}
+sortBtn.addEventListener('click',()=>{sortedByRecent=!sortedByRecent;applySort();});
+// Newest posts first by default; the button toggles back to the curated order
+sortedByRecent=true;applySort();
 
 // ── SHARE ──
 function sharePost(e,path,title){

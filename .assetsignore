@@ -1,4 +1,7 @@
 .git
 .assetsignore
 wrangler.jsonc
+worker.js
 README.md
+CLAUDE.md
+blog/PUBLISHING.md
