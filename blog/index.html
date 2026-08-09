@@ -525,7 +525,7 @@ function sharePost(e,path,title){
     const d=document.createElement('div');
     d.className='share-dropdown';
     const eu=encodeURIComponent(url),et=encodeURIComponent(text),etitle=encodeURIComponent(title);
-    d.innerHTML=`<a href="https://twitter.com/intent/tweet?text=${et}&url=${eu}" target="_blank" rel="noopener">𝕏 Twitter</a><a href="https://www.facebook.com/sharer/sharer.php?u=${eu}" target="_blank" rel="noopener">Facebook</a><a href="https://www.linkedin.com/sharing/share-offsite/?url=${eu}" target="_blank" rel="noopener">LinkedIn</a><a href="mailto:?subject=${etitle}&body=${et}%0A%0A${eu}">Email</a><a href="#" onclick="navigator.clipboard.writeText('${url}');this.textContent='✓ Copied';setTimeout(()=>this.textContent='Copy Link',1500);return false">Copy Link</a>`;
+    d.innerHTML=`<a href="https://twitter.com/intent/tweet?text=${et}&url=${eu}" target="_blank" rel="noopener">𝕏 Twitter</a><a href="#" onclick="navigator.clipboard.writeText('${url}');this.textContent='✓ Copied — paste in story';setTimeout(()=>this.textContent='Instagram',2200);window.open('https://www.instagram.com/','_blank');return false">Instagram</a><a href="https://www.facebook.com/sharer/sharer.php?u=${eu}" target="_blank" rel="noopener">Facebook</a><a href="https://www.linkedin.com/sharing/share-offsite/?url=${eu}" target="_blank" rel="noopener">LinkedIn</a><a href="mailto:?subject=${etitle}&body=${et}%0A%0A${eu}">Email</a><a href="#" onclick="navigator.clipboard.writeText('${url}');this.textContent='✓ Copied';setTimeout(()=>this.textContent='Copy Link',1500);return false">Copy Link</a>`;
     btn.appendChild(d);btn._dd=d;
   }
   btn._dd.classList.toggle('open');
