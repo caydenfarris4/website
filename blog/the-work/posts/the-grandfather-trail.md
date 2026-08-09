@@ -91,6 +91,8 @@ Find a mentor. Not necessarily someone who physically walked your path - someone
 
 And then be one. Somebody is behind you on the trail right now, whether you have noticed them or not. You do not have to be all-knowing to pass on what you know. You do not have to have arrived. You just have to be one step further up the trail than the person following you, and honest about what the ground was like when you crossed it.
 
+And if you do not know where to start, start with me. I mean that literally. [Set up a time with me](/#contact) and we will talk about where you are and where you are trying to go. Or meet me inside [Foreman.coach](https://foreman.coach) - the coaching app I built for exactly this, so mentorship is something you carry with you instead of something you wait for. This is not a line at the end of an essay. It is an open invitation, and it has your name on it.
+
 I am twenty-two. I do not know yet everything I will pass down. But I know whose footprints I am standing in, and I know the prints only stay deep if someone keeps stepping into them.
 
 The trail is already there.
