@@ -641,6 +641,95 @@ nav {
 }
 .form-success p { color: rgba(250,246,239,0.6); font-size: 15px; }
 
+/* ── FOREMAN.COACH BAND ── */
+.foreman-band {
+  background: rgba(184,132,10,0.06);
+  border-top: 1px solid rgba(184,132,10,0.14);
+  padding: clamp(64px, 9vw, 110px) clamp(24px, 8vw, 100px);
+  position: relative;
+  overflow: hidden;
+}
+.foreman-band::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.05;
+  background-image:
+    linear-gradient(rgba(184,132,10,1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(184,132,10,1) 1px, transparent 1px);
+  background-size: 28px 28px;
+  pointer-events: none;
+  -webkit-mask-image: radial-gradient(ellipse 80% 100% at 50% 50%, black 30%, transparent 80%);
+  mask-image: radial-gradient(ellipse 80% 100% at 50% 50%, black 30%, transparent 80%);
+}
+.foreman-band-inner {
+  max-width: 720px;
+  margin: 0 auto;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+.foreman-band-kicker {
+  display: inline-block;
+  font-family: var(--ff-body);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--terra);
+  border: 1px solid rgba(196,101,74,0.35);
+  padding: 6px 14px;
+  border-radius: 2px;
+  margin-bottom: 24px;
+}
+.foreman-band h2 {
+  font-family: var(--ff-head);
+  font-size: clamp(32px, 5vw, 50px);
+  font-weight: 400;
+  line-height: 1.15;
+  color: var(--cream);
+  margin-bottom: 20px;
+}
+.foreman-band h2 em { font-style: italic; color: var(--gold-lt); }
+.foreman-band p {
+  color: rgba(250,246,239,0.6);
+  font-size: 16px;
+  line-height: 1.75;
+  margin-bottom: 36px;
+}
+.foreman-band p strong { color: rgba(250,246,239,0.85); font-weight: 500; }
+.foreman-band-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.foreman-band-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--gold);
+  color: var(--espresso);
+  font-family: var(--ff-body);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 17px 34px;
+  border-radius: 2px;
+  box-shadow: 0 8px 28px rgba(184,132,10,0.22);
+  transition: background 0.2s, transform 0.18s;
+}
+.foreman-band-cta:hover { background: var(--gold-lt); transform: translateY(-2px); }
+.foreman-band-url {
+  font-family: var(--ff-head);
+  font-size: 17px;
+  font-style: italic;
+  color: rgba(250,246,239,0.45);
+}
+
 /* ── ABOUT AUTHOR ── */
 .author-section {
   border-top: 1px solid rgba(184,132,10,0.1);
@@ -901,6 +990,21 @@ footer {
     <div class="check"></div>
     <h3>You're on the list.</h3>
     <p>We'll be in touch the moment <em>Under Construction</em> is ready. Keep building.</p>
+  </div>
+</section>
+
+<!-- FOREMAN.COACH -->
+<section class="foreman-band">
+  <div class="foreman-band-inner">
+    <span class="foreman-band-kicker reveal">After the Last Page</span>
+    <h2 class="reveal reveal-d1">The book is the blueprint. <em>Foreman is the job site.</em></h2>
+    <p class="reveal reveal-d2">
+      <em>Under Construction</em> hands you the plans — but plans alone never raised a house. <strong>Foreman.coach</strong> is my coaching app, built so the growth doesn't stop when the book ends: daily check-ins, honest accountability, and coaching rooted in the same framework you'll read in these pages.
+    </p>
+    <div class="foreman-band-actions reveal reveal-d3">
+      <a href="https://foreman.coach" target="_blank" rel="noopener" class="foreman-band-cta">Meet Your Foreman →</a>
+      <span class="foreman-band-url">foreman.coach</span>
+    </div>
   </div>
 </section>
 

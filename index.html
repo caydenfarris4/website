@@ -541,6 +541,293 @@ section.full-bleed {
 }
 .book-text .btn-gold:hover { background: var(--gold-lt); transform: translateY(-2px); }
 
+.book-foreman-note {
+  margin-top: 26px;
+  font-size: 14.5px !important;
+  color: rgba(250,246,239,0.5) !important;
+}
+.book-foreman-note a {
+  color: var(--gold-lt);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(212,168,50,0.4);
+  transition: color 0.2s, border-color 0.2s;
+}
+.book-foreman-note a:hover { color: var(--gold); border-color: var(--gold); }
+
+/* ── FOREMAN.COACH ── */
+#foreman {
+  max-width: none;
+  padding: clamp(80px, 12vw, 140px) clamp(28px, 8vw, 120px);
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(180deg, rgba(184,132,10,0.055), rgba(184,132,10,0.015)), var(--cream);
+  border-bottom: 1px solid var(--border);
+}
+/* blueprint grid backdrop */
+#foreman::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.05;
+  background-image:
+    linear-gradient(var(--gold) 1px, transparent 1px),
+    linear-gradient(90deg, var(--gold) 1px, transparent 1px);
+  background-size: 32px 32px;
+  pointer-events: none;
+  -webkit-mask-image: radial-gradient(ellipse 85% 90% at 65% 40%, black 30%, transparent 78%);
+  mask-image: radial-gradient(ellipse 85% 90% at 65% 40%, black 30%, transparent 78%);
+}
+
+.foreman-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: clamp(40px, 6vw, 100px);
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+@media(max-width: 820px) {
+  .foreman-inner { grid-template-columns: 1fr; }
+  .foreman-phone-wrap { display: flex; justify-content: center; margin-top: 12px; }
+}
+
+.foreman-kicker {
+  display: inline-block;
+  font-family: var(--ff-body);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--gold);
+  border: 1px solid rgba(184,132,10,0.35);
+  background: rgba(184,132,10,0.07);
+  padding: 6px 14px;
+  border-radius: 2px;
+  margin-bottom: 22px;
+}
+
+.foreman-text h2 {
+  font-family: var(--ff-head);
+  font-size: clamp(36px, 5vw, 54px);
+  font-weight: 400;
+  line-height: 1.12;
+  margin-bottom: 24px;
+  color: var(--espresso);
+}
+.foreman-text h2 em { font-style: italic; color: var(--brown); }
+.foreman-text > p {
+  color: var(--brown-lt);
+  margin-bottom: 18px;
+  font-size: 16.5px;
+  max-width: 560px;
+}
+.foreman-text > p strong { color: var(--espresso); font-weight: 600; }
+
+.foreman-points {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin: 30px 0 38px;
+}
+.foreman-point {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+.foreman-point-mark {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: rgba(184,132,10,0.12);
+  border: 1px solid rgba(184,132,10,0.45);
+  color: var(--gold);
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 3px;
+}
+.foreman-point p { font-size: 15.5px; color: var(--brown-lt); line-height: 1.65; }
+.foreman-point p strong {
+  font-family: var(--ff-head);
+  font-size: 17.5px;
+  font-weight: 600;
+  color: var(--espresso);
+}
+
+.foreman-actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.btn-foreman {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--gold);
+  color: var(--espresso);
+  font-family: var(--ff-body);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 17px 34px;
+  border-radius: 2px;
+  box-shadow: 0 8px 28px rgba(184,132,10,0.25);
+  transition: background 0.22s, transform 0.18s, box-shadow 0.22s;
+}
+.btn-foreman:hover {
+  background: var(--gold-lt);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(184,132,10,0.32);
+}
+.foreman-url {
+  font-family: var(--ff-head);
+  font-size: 18px;
+  font-style: italic;
+  color: var(--brown-lt);
+}
+
+/* phone mockup */
+.foreman-phone-wrap { position: relative; }
+.foreman-phone {
+  width: clamp(240px, 22vw, 290px);
+  aspect-ratio: 9 / 18.6;
+  background: var(--espresso);
+  border-radius: 40px;
+  padding: 11px;
+  margin: 0 auto;
+  position: relative;
+  transform: rotate(2deg);
+  box-shadow: 0 30px 60px rgba(28,18,8,0.28), 0 4px 14px rgba(28,18,8,0.18);
+}
+.foreman-phone::before {
+  content: '';
+  position: absolute;
+  top: 21px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 82px;
+  height: 20px;
+  background: var(--espresso);
+  border-radius: 11px;
+  z-index: 2;
+}
+.phone-screen {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(170deg, #261808, #1c1208);
+  border-radius: 30px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 52px 15px 20px;
+  gap: 12px;
+}
+.phone-app-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(184,132,10,0.18);
+}
+.phone-app-name {
+  font-family: var(--ff-body);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--gold-lt);
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.phone-streak {
+  font-family: var(--ff-body);
+  font-size: 9px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--terra-lt);
+  border: 1px solid rgba(224,122,95,0.35);
+  padding: 3px 9px;
+  border-radius: 10px;
+  white-space: nowrap;
+}
+.phone-bubble {
+  font-family: var(--ff-body);
+  font-size: 11.5px;
+  line-height: 1.55;
+  padding: 10px 13px;
+  border-radius: 12px;
+  max-width: 90%;
+}
+.phone-bubble .who {
+  display: block;
+  font-size: 8.5px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--gold-lt);
+  margin-bottom: 4px;
+}
+.phone-bubble.coach {
+  background: rgba(184,132,10,0.14);
+  border: 1px solid rgba(184,132,10,0.2);
+  color: rgba(250,246,239,0.85);
+  border-top-left-radius: 3px;
+  align-self: flex-start;
+}
+.phone-bubble.you {
+  background: rgba(250,246,239,0.09);
+  color: rgba(250,246,239,0.72);
+  border-top-right-radius: 3px;
+  align-self: flex-end;
+}
+.phone-progress { margin-top: auto; }
+.phone-progress-label {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--ff-body);
+  font-size: 8.5px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: rgba(250,246,239,0.4);
+  margin-bottom: 6px;
+}
+.phone-progress-bar {
+  height: 5px;
+  background: rgba(250,246,239,0.1);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.phone-progress-bar span {
+  display: block;
+  height: 100%;
+  width: 68%;
+  background: linear-gradient(90deg, var(--gold), var(--gold-lt));
+  border-radius: 3px;
+}
+.foreman-phone-badge {
+  position: absolute;
+  top: -14px;
+  right: clamp(0px, 4vw, 24px);
+  background: var(--espresso);
+  color: var(--gold-lt);
+  font-family: var(--ff-body);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 9px 15px;
+  border-radius: 2px;
+  box-shadow: 0 8px 20px rgba(28,18,8,0.3);
+  z-index: 3;
+}
+
 /* ── WORK ── */
 #work h2 {
   font-family: var(--ff-head);
@@ -989,6 +1276,7 @@ footer {
   <ul class="nav-links">
     <li><a href="#about">About</a></li>
     <li><a href="#book">Book</a></li>
+    <li><a href="#foreman">Foreman</a></li>
     <li><a href="/blog">Blog</a></li>
     <li><a href="#work">Work</a></li>
     <li><a href="#speaking">Speaking</a></li>
@@ -1004,6 +1292,7 @@ footer {
 <div class="nav-mobile" id="navMobile">
   <a href="#about" class="nav-m-link">About</a>
   <a href="#book" class="nav-m-link">Book</a>
+  <a href="#foreman" class="nav-m-link">Foreman</a>
   <a href="/blog" class="nav-m-link">Blog</a>
   <a href="#work" class="nav-m-link">Work</a>
   <a href="#speaking" class="nav-m-link">Speaking</a>
@@ -1091,6 +1380,74 @@ footer {
       <a href="/book" class="btn-gold reveal reveal-d3">
         Join the Presale List
       </a>
+      <p class="book-foreman-note reveal reveal-d3">
+        And when you turn the last page, the build keeps going — <a href="#foreman">meet Foreman, my coaching app</a>.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOREMAN.COACH ── -->
+<section id="foreman" class="full-bleed">
+  <div class="foreman-inner">
+    <div class="foreman-text">
+      <div class="section-label reveal">The Coaching App</div>
+      <span class="foreman-kicker reveal">Foreman.coach — Where the Book Keeps Going</span>
+      <h2 class="reveal reveal-d1">The last page isn't the end of the <em>build</em></h2>
+      <p class="reveal reveal-d2">
+        Most growth dies the day the book goes back on the shelf. You underline the lines, you feel the fire — and three weeks later, nothing has actually changed. I built <strong>Foreman.coach</strong> so that isn't your story.
+      </p>
+      <p class="reveal reveal-d2">
+        Every job site needs a foreman — someone who shows up daily, inspects the work, and keeps the build moving. Foreman is that coach in your pocket: it takes the principles of <em>Under Construction</em> off the page and into your everyday life.
+      </p>
+      <div class="foreman-points reveal reveal-d3">
+        <div class="foreman-point">
+          <div class="foreman-point-mark">✓</div>
+          <p><strong>Daily check-ins.</strong> Coaching prompts that turn what you read into what you actually do — one ordinary decision at a time.</p>
+        </div>
+        <div class="foreman-point">
+          <div class="foreman-point-mark">✓</div>
+          <p><strong>Real accountability.</strong> A foreman notices when you stop showing up to the site. So does this one.</p>
+        </div>
+        <div class="foreman-point">
+          <div class="foreman-point-mark">✓</div>
+          <p><strong>Built on the book.</strong> The <em>Under Construction</em> framework, kept alive long after the last page.</p>
+        </div>
+      </div>
+      <div class="foreman-actions reveal reveal-d4">
+        <a href="https://foreman.coach" target="_blank" rel="noopener" class="btn-foreman">Start Building with Foreman →</a>
+        <span class="foreman-url">foreman.coach</span>
+      </div>
+    </div>
+
+    <div class="foreman-phone-wrap reveal reveal-d2">
+      <div class="foreman-phone" aria-hidden="true">
+        <div class="foreman-phone-badge">Your coach, on site</div>
+        <div class="phone-screen">
+          <div class="phone-app-head">
+            <span class="phone-app-name">⛑ Foreman</span>
+            <span class="phone-streak">Day 47 · Building</span>
+          </div>
+          <div class="phone-bubble coach">
+            <span class="who">Foreman</span>
+            Morning. Yesterday you said the foundation gets laid in the ordinary decisions. What's the one decision today that future-you will thank you for?
+          </div>
+          <div class="phone-bubble you">
+            Making the hard phone call I've been putting off. Today, before noon.
+          </div>
+          <div class="phone-bubble coach">
+            <span class="who">Foreman</span>
+            Good. I'll check back tonight. Keep building.
+          </div>
+          <div class="phone-progress">
+            <div class="phone-progress-label">
+              <span>This week's build</span>
+              <span>68%</span>
+            </div>
+            <div class="phone-progress-bar"><span></span></div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -1102,6 +1459,14 @@ footer {
   <p class="intro reveal reveal-d2">Projects, tools, and resources I've created to help people learn, grow, and see the world differently.</p>
 
   <div class="work-grid">
+
+    <a href="https://foreman.coach" class="work-card reveal" target="_blank" rel="noopener">
+      <div class="work-card-icon">👷</div>
+      <div class="work-card-type">Coaching App</div>
+      <h3>Foreman.coach</h3>
+      <p>My coaching app — the foreman for the person you're building. Daily check-ins, real accountability, and coaching built on the Under Construction framework, so the growth keeps going long after the book ends.</p>
+      <div class="work-card-link">Start building →</div>
+    </a>
 
     <a href="/blog" class="work-card reveal">
       <div class="work-card-icon">✒</div>
