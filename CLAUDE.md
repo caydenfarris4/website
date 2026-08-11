@@ -10,7 +10,7 @@ page's `:root`).
 
 - `index.html` — homepage (hero, about, book, Foreman.coach, work grid,
   speaking, resume, contact)
-- `book/` — *Under Construction* presale page
+- `book/` — *Under Construction* book page (out now)
 - `blog/` — index with filterable post cards; two tracks, each with a
   client-side markdown reader:
   - `blog/the-work/` — leadership essays
@@ -36,5 +36,7 @@ sitemap entry → verify.
   on push; production deploys from `main`
 - Forms post to Formspree (see existing forms for the pattern)
 - Foreman.coach (the coaching app) links use `https://foreman.coach`
+- Book purchase links use the canonical Amazon URL `https://www.amazon.com/dp/B0H76DT3DM`
+  (never the long search-result URLs with tracking parameters)
 - Keep new UI in the existing design language; match inline-CSS style of
   the page being edited
