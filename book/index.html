@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Under Construction by Cayden Farris — Join the pre-sale list and be first to know when the book drops.">
+<meta name="description" content="Under Construction by Cayden Farris — out now. Get your copy on Amazon.">
 <meta property="og:title" content="Under Construction — Cayden Farris">
-<meta property="og:description" content="Build who you're meant to become before you look back and wish you had. Join the pre-sale list.">
+<meta property="og:description" content="Build who you're meant to become before you look back and wish you had. Out now on Amazon.">
 <meta property="og:type" content="book">
 <meta property="og:url" content="https://caydenfarris.net/book/">
 <meta property="og:image" content="https://caydenfarris.net/images/headshot.jpg">
@@ -641,6 +641,16 @@ nav {
 }
 .form-success p { color: rgba(250,246,239,0.6); font-size: 15px; }
 
+/* ── BUY BOX ── */
+.buy-box { text-align: center; }
+.buy-note {
+  font-size: 14px;
+  color: rgba(250,246,239,0.45);
+  max-width: 460px;
+  margin: 28px auto 0;
+  line-height: 1.7;
+}
+
 /* ── FOREMAN.COACH BAND ── */
 .foreman-band {
   background: rgba(184,132,10,0.06);
@@ -843,7 +853,7 @@ footer {
 <!-- HERO -->
 <section class="hero">
   <div class="hero-text">
-    <div class="hero-label reveal">Coming Soon · Pre-Sale List</div>
+    <div class="hero-label reveal">Out Now · Available on Amazon</div>
     <h1 class="hero-title reveal reveal-d1">
       Under
       <em>Construction</em>
@@ -866,8 +876,8 @@ footer {
         <span class="stat-label">The Builder</span>
       </div>
     </div>
-    <a href="#presale" class="hero-cta reveal reveal-d3">
-      Join the Pre-Sale List ↓
+    <a href="https://www.amazon.com/dp/B0H76DT3DM" target="_blank" rel="noopener" class="hero-cta reveal reveal-d3">
+      Buy on Amazon →
     </a>
   </div>
 
@@ -883,8 +893,8 @@ footer {
         </div>
         <div class="book-badge">
           <div class="book-badge-inner">
-            <span>Pre</span>
-            <span>Sale</span>
+            <span>Out</span>
+            <span>Now</span>
           </div>
         </div>
       </div>
@@ -930,66 +940,13 @@ footer {
   <p class="quote-source">— Under Construction, Cayden Farris</p>
 </div>
 
-<!-- PRE-SALE FORM -->
+<!-- GET THE BOOK -->
 <section class="form-section" id="presale">
-  <h2 class="reveal">Be first <em>in line</em></h2>
-  <p class="sub reveal reveal-d1">Drop your info below and you'll be the first to know when the book drops — plus get early access pricing when it does.</p>
-
-  <!--
-    FORMSPREE SETUP (works on Cloudflare Pages):
-    1. Go to formspree.io → create free account
-    2. Click New Form → name it "Under Construction Pre-Sale"
-    3. Copy your form endpoint — looks like: https://formspree.io/f/xyzabcde
-    4. Replace YOUR_FORMSPREE_ID below with just the ID part (e.g. xyzabcde)
-    5. Formspree emails you every submission + stores them in dashboard
-    6. Export to CSV anytime for your launch list
-  -->
-  <form
-    class="presale-form"
-    id="presaleForm"
-    action="https://formspree.io/f/mreowrzw"
-    method="POST"
-  >
-    <!-- Formspree spam protection -->
-    <input type="text" name="_gotcha" style="display:none">
-    <!-- Redirect back to this page after submit -->
-    <input type="hidden" name="_next" value="https://caydenfarris.net/book?success=true">
-    <input type="hidden" name="_subject" value="New Pre-Sale Signup — Under Construction">
-
-    <div class="form-row">
-      <div class="form-group">
-        <label for="fname">First Name *</label>
-        <input type="text" id="fname" name="first_name" placeholder="Cayden" autocomplete="given-name" maxlength="80" required>
-      </div>
-      <div class="form-group">
-        <label for="lname">Last Name</label>
-        <input type="text" id="lname" name="last_name" placeholder="Farris" autocomplete="family-name" maxlength="80">
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label for="email">Email Address *</label>
-      <input type="email" id="email" name="email" placeholder="you@example.com" autocomplete="email" maxlength="254" required>
-    </div>
-
-    <div class="form-group">
-      <label for="phone">Phone Number <span style="opacity:0.4;font-size:9px;letter-spacing:1px">(optional — for text updates)</span></label>
-      <input type="tel" id="phone" name="phone" placeholder="+1 (801) 555-0100" autocomplete="tel" maxlength="30" pattern="[0-9+()\-. ]*">
-    </div>
-
-    <p class="form-note">No spam. Ever. Just a message when the book is ready and where to get it.</p>
-
-    <button type="submit" class="form-submit-btn" id="submitBtn">
-      <span>Reserve My Spot</span>
-      <span>→</span>
-    </button>
-  </form>
-
-  <!-- Success message shown after submit -->
-  <div class="form-success" id="formSuccess">
-    <div class="check"></div>
-    <h3>You're on the list.</h3>
-    <p>We'll be in touch the moment <em>Under Construction</em> is ready. Keep building.</p>
+  <h2 class="reveal">Get your <em>copy</em></h2>
+  <p class="sub reveal reveal-d1"><em>Under Construction</em> is out now. Grab your copy and start building.</p>
+  <div class="buy-box reveal reveal-d2">
+    <a href="https://www.amazon.com/dp/B0H76DT3DM" target="_blank" rel="noopener" class="hero-cta">Buy on Amazon →</a>
+    <p class="buy-note">To everyone who joined the presale list — thank you. You made this launch real. And if the book builds something in you, an Amazon review is the single best way to pass it on.</p>
   </div>
 </section>
 
@@ -1042,25 +999,6 @@ const obs = new IntersectionObserver(entries => {
 }, { threshold: 0.1 });
 reveals.forEach(el => obs.observe(el));
 
-// Form — show loading state on submit
-// Formspree handles the actual submission and redirects back
-const form = document.getElementById('presaleForm');
-if(form){
-  form.addEventListener('submit', function(){
-    const btn = document.getElementById('submitBtn');
-    btn.innerHTML = '<span>Saving your spot...</span>';
-    btn.disabled = true;
-    // Formspree will submit and redirect to _next URL
-    // On return, show success if ?success param is in URL
-  });
-}
-
-// Show success message if redirected back after Formspree submit
-if(window.location.search.includes('success') || window.location.hash === '#success'){
-  const f = document.getElementById('presaleForm');
-  const s = document.getElementById('formSuccess');
-  if(f && s){ f.style.display='none'; s.classList.add('show'); }
-}
 </script>
 </body>
 </html>
