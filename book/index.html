@@ -15,7 +15,7 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='14' fill='%231c1208'/%3E%3Ctext x='50' y='68' font-family='Georgia,serif' font-size='52' font-weight='600' fill='%23b8840a' text-anchor='middle'%3ECF%3C/text%3E%3C/svg%3E">
 <title>Under Construction — Cayden Farris</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Lora:ital,wght@0,400;0,500;1,400&family=Poppins:wght@500;600&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -257,13 +257,13 @@ nav {
 .book-cover {
   width: clamp(220px, 28vw, 340px);
   aspect-ratio: 2/3;
-  background: linear-gradient(145deg, #2c1e0e, #1a1008);
+  background: #2e7ef0;
   border-radius: 4px 8px 8px 4px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  padding: 36px 24px;
+  justify-content: space-between;
+  padding: clamp(18px, 2.24vw, 27px) clamp(11px, 1.4vw, 17px);
   text-align: center;
   box-shadow:
     12px 18px 50px rgba(0,0,0,0.6),
@@ -273,111 +273,59 @@ nav {
   overflow: hidden;
 }
 
-/* spine */
+/* spine shading */
 .book-cover::before {
   content: '';
   position: absolute;
   top: 0; bottom: 0; left: 0;
   width: 10px;
-  background: linear-gradient(180deg, var(--gold) 0%, #8a5e08 50%, var(--gold) 100%);
+  background: linear-gradient(90deg, rgba(0,0,0,0.3), rgba(0,0,0,0));
   border-radius: 4px 0 0 4px;
+  z-index: 2;
 }
 
-/* inner border */
-.book-cover::after {
-  content: '';
-  position: absolute;
-  inset: 16px;
-  border: 1px solid rgba(184,132,10,0.2);
-  border-radius: 1px;
-  pointer-events: none;
+.book-cover-subtitle {
+  font-family: 'Poppins', sans-serif;
+  font-size: clamp(10px, 1.26vw, 15px);
+  font-weight: 600;
+  color: #fff;
+  line-height: 1.4;
+  letter-spacing: 0.3px;
 }
 
-/* blueprint grid texture */
-.book-bg {
-  position: absolute;
-  inset: 0;
-  opacity: 0.04;
-  background-image:
-    linear-gradient(rgba(184,132,10,1) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(184,132,10,1) 1px, transparent 1px);
-  background-size: 24px 24px;
-}
-
-.book-content { position: relative; z-index: 1; }
-
-.book-icon {
-  font-size: 28px;
-  margin-bottom: 20px;
-  opacity: 0.7;
-}
-
-.book-title-text {
-  font-family: var(--ff-head);
-  font-size: clamp(22px, 3vw, 32px);
-  font-weight: 700;
-  color: var(--gold-lt);
-  line-height: 1.1;
+.book-cover-under {
+  font-family: 'Anton', 'Arial Narrow', sans-serif;
+  font-size: clamp(68px, 8.68vw, 105px);
+  font-weight: 400;
+  color: #fff;
+  line-height: 0.95;
   letter-spacing: 1px;
-  text-transform: uppercase;
-  margin-bottom: 6px;
+  white-space: nowrap;
 }
 
-.book-subtitle-line {
-  width: 40px;
-  height: 1px;
-  background: rgba(212,168,50,0.4);
-  margin: 12px auto;
-}
-
-.book-author-text {
-  font-family: var(--ff-body);
-  font-size: 11px;
-  letter-spacing: 2.5px;
-  text-transform: uppercase;
-  color: rgba(212,168,50,0.45);
-}
-
-.book-badge {
-  position: absolute;
-  top: -12px;
-  right: -12px;
-  width: 72px;
-  height: 72px;
-  background: var(--terra);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  gap: 1px;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.4);
-  animation: rotateBadge 8s linear infinite;
-}
-@keyframes rotateBadge {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-.book-badge-inner {
-  text-align: center;
-  animation: rotateBadge 8s linear infinite reverse;
-}
-.book-badge span:first-child {
+.book-cover-cone {
+  width: 62%;
+  height: auto;
   display: block;
-  font-family: var(--ff-head);
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  color: white;
-  line-height: 1.2;
+  margin: -2% auto;
 }
-.book-badge span:last-child {
-  display: block;
-  font-size: 8px;
+
+.book-cover-construction {
+  font-family: 'Anton', 'Arial Narrow', sans-serif;
+  font-size: clamp(31px, 3.92vw, 47px);
+  font-weight: 400;
+  color: #fff;
+  line-height: 1;
   letter-spacing: 0.5px;
-  color: rgba(255,255,255,0.75);
-  font-family: var(--ff-body);
+  white-space: nowrap;
+}
+
+.book-cover-author {
+  font-family: 'Poppins', sans-serif;
+  font-size: clamp(16px, 2.1vw, 25px);
+  font-weight: 600;
+  color: #fff;
+  letter-spacing: 0.3px;
 }
 
 /* pages effect */
@@ -883,20 +831,40 @@ footer {
 
   <div class="hero-book reveal reveal-d2">
     <div class="book-wrap">
-      <div class="book-cover">
-        <div class="book-bg"></div>
-        <div class="book-content">
-          <div class="book-icon"></div>
-          <div class="book-title-text">Under<br>Construction</div>
-          <div class="book-subtitle-line"></div>
-          <div class="book-author-text">Cayden Farris</div>
-        </div>
-        <div class="book-badge">
-          <div class="book-badge-inner">
-            <span>Out</span>
-            <span>Now</span>
-          </div>
-        </div>
+      <div class="book-cover" role="img" aria-label="Under Construction book cover — Leadership Principles for First-Time Leaders Who Aren't Ready Yet, by Cayden Farris">
+        <div class="book-cover-subtitle">Leadership Principles for First-Time<br>Leaders Who Aren't Ready Yet</div>
+        <div class="book-cover-under">UNDER</div>
+        <svg class="book-cover-cone" viewBox="0 0 200 150" aria-hidden="true">
+          <defs>
+            <linearGradient id="coneBodyH" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0" stop-color="#c94508"/>
+              <stop offset="0.35" stop-color="#ff7a2e"/>
+              <stop offset="0.55" stop-color="#f95f14"/>
+              <stop offset="1" stop-color="#b83c05"/>
+            </linearGradient>
+            <linearGradient id="coneBandH" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0" stop-color="#cfcfcf"/>
+              <stop offset="0.4" stop-color="#ffffff"/>
+              <stop offset="1" stop-color="#c4c4c4"/>
+            </linearGradient>
+            <linearGradient id="coneBaseV" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#f4581c"/>
+              <stop offset="1" stop-color="#bd3d05"/>
+            </linearGradient>
+            <clipPath id="coneClipH">
+              <path d="M93.5,14 C93.5,6 96,3 100,3 C104,3 106.5,6 106.5,14 L131,122 C112,130 88,130 69,122 Z"/>
+            </clipPath>
+          </defs>
+          <ellipse cx="100" cy="140" rx="60" ry="7" fill="rgba(0,0,0,0.2)"/>
+          <rect x="42" y="122" width="116" height="20" rx="7" fill="url(#coneBaseV)"/>
+          <path d="M93.5,14 C93.5,6 96,3 100,3 C104,3 106.5,6 106.5,14 L131,122 C112,130 88,130 69,122 Z" fill="url(#coneBodyH)"/>
+          <g clip-path="url(#coneClipH)">
+            <path d="M40,42 Q100,49 160,42 L160,64 Q100,71 40,64 Z" fill="url(#coneBandH)"/>
+            <path d="M40,84 Q100,92 160,84 L160,110 Q100,118 40,110 Z" fill="url(#coneBandH)"/>
+          </g>
+        </svg>
+        <div class="book-cover-construction">CONSTRUCTION</div>
+        <div class="book-cover-author">Cayden Farris</div>
       </div>
       <div class="book-pages"></div>
       <div class="book-shadow"></div>
