@@ -257,14 +257,7 @@ nav {
 .book-cover {
   width: clamp(220px, 28vw, 340px);
   aspect-ratio: 2/3;
-  background: linear-gradient(145deg, #2c1e0e, #1a1008);
   border-radius: 4px 8px 8px 4px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 36px 24px;
-  text-align: center;
   box-shadow:
     12px 18px 50px rgba(0,0,0,0.6),
     -3px 0 12px rgba(0,0,0,0.4),
@@ -273,111 +266,22 @@ nav {
   overflow: hidden;
 }
 
-/* spine */
+.book-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* spine shading */
 .book-cover::before {
   content: '';
   position: absolute;
   top: 0; bottom: 0; left: 0;
   width: 10px;
-  background: linear-gradient(180deg, var(--gold) 0%, #8a5e08 50%, var(--gold) 100%);
+  background: linear-gradient(90deg, rgba(0,0,0,0.3), rgba(0,0,0,0));
   border-radius: 4px 0 0 4px;
-}
-
-/* inner border */
-.book-cover::after {
-  content: '';
-  position: absolute;
-  inset: 16px;
-  border: 1px solid rgba(184,132,10,0.2);
-  border-radius: 1px;
-  pointer-events: none;
-}
-
-/* blueprint grid texture */
-.book-bg {
-  position: absolute;
-  inset: 0;
-  opacity: 0.04;
-  background-image:
-    linear-gradient(rgba(184,132,10,1) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(184,132,10,1) 1px, transparent 1px);
-  background-size: 24px 24px;
-}
-
-.book-content { position: relative; z-index: 1; }
-
-.book-icon {
-  font-size: 28px;
-  margin-bottom: 20px;
-  opacity: 0.7;
-}
-
-.book-title-text {
-  font-family: var(--ff-head);
-  font-size: clamp(22px, 3vw, 32px);
-  font-weight: 700;
-  color: var(--gold-lt);
-  line-height: 1.1;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  margin-bottom: 6px;
-}
-
-.book-subtitle-line {
-  width: 40px;
-  height: 1px;
-  background: rgba(212,168,50,0.4);
-  margin: 12px auto;
-}
-
-.book-author-text {
-  font-family: var(--ff-body);
-  font-size: 11px;
-  letter-spacing: 2.5px;
-  text-transform: uppercase;
-  color: rgba(212,168,50,0.45);
-}
-
-.book-badge {
-  position: absolute;
-  top: -12px;
-  right: -12px;
-  width: 72px;
-  height: 72px;
-  background: var(--terra);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  gap: 1px;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.4);
-  animation: rotateBadge 8s linear infinite;
-}
-@keyframes rotateBadge {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-.book-badge-inner {
-  text-align: center;
-  animation: rotateBadge 8s linear infinite reverse;
-}
-.book-badge span:first-child {
-  display: block;
-  font-family: var(--ff-head);
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  color: white;
-  line-height: 1.2;
-}
-.book-badge span:last-child {
-  display: block;
-  font-size: 8px;
-  letter-spacing: 0.5px;
-  color: rgba(255,255,255,0.75);
-  font-family: var(--ff-body);
+  z-index: 2;
 }
 
 /* pages effect */
@@ -884,19 +788,7 @@ footer {
   <div class="hero-book reveal reveal-d2">
     <div class="book-wrap">
       <div class="book-cover">
-        <div class="book-bg"></div>
-        <div class="book-content">
-          <div class="book-icon"></div>
-          <div class="book-title-text">Under<br>Construction</div>
-          <div class="book-subtitle-line"></div>
-          <div class="book-author-text">Cayden Farris</div>
-        </div>
-        <div class="book-badge">
-          <div class="book-badge-inner">
-            <span>Out</span>
-            <span>Now</span>
-          </div>
-        </div>
+        <img src="../images/book-cover.jpg" alt="Under Construction book cover — Leadership Principles for First-Time Leaders Who Aren't Ready Yet, by Cayden Farris" decoding="async">
       </div>
       <div class="book-pages"></div>
       <div class="book-shadow"></div>
