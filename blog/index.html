@@ -105,17 +105,27 @@ nav.scrolled{box-shadow:0 2px 20px rgba(28,18,8,.07)}
 .fs-btn{flex-shrink:0;display:inline-flex;align-items:center;gap:8px;background:var(--espresso);color:var(--cream);font-family:var(--ff-body);font-size:12px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;text-decoration:none;padding:16px 30px;border-radius:2px;transition:background .2s,transform .18s}
 .fs-btn:hover{background:var(--brown);transform:translateY(-2px)}
 .newsletter{background:var(--espresso);padding:clamp(60px,8vw,100px) clamp(24px,8vw,100px);text-align:center}
-.newsletter-inner{max-width:560px;margin:0 auto}
+.newsletter-inner{max-width:900px;margin:0 auto}
 .newsletter h2{font-family:var(--ff-head);font-size:clamp(32px,5vw,48px);font-weight:300;color:var(--cream);margin-bottom:12px}
 .newsletter h2 em{font-style:italic;color:var(--gold-lt)}
-.newsletter p{color:rgba(250,246,239,.6);margin-bottom:32px;font-size:16px}
-.newsletter-form{display:flex;gap:10px;max-width:420px;margin:0 auto;flex-wrap:wrap}
-.newsletter-form input{flex:1;min-width:200px;font-family:var(--ff-body);font-size:15px;color:var(--cream);background:rgba(255,255,255,.07);border:1.5px solid rgba(250,246,239,.15);border-radius:2px;padding:14px 16px;outline:none;transition:border-color .2s}
+.newsletter>.newsletter-inner>p{color:rgba(250,246,239,.6);margin-bottom:40px;font-size:16px}
+.magnet-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;text-align:left}
+@media(max-width:760px){.magnet-grid{grid-template-columns:1fr}}
+.magnet-card{background:rgba(255,255,255,.04);border:1px solid rgba(250,246,239,.12);border-radius:3px;padding:30px 28px}
+.magnet-card.work{border-top:3px solid var(--work-lt)}
+.magnet-card.ancient{border-top:3px solid var(--ancient-lt)}
+.magnet-tag{font-family:var(--ff-body);font-size:10px;font-weight:500;letter-spacing:2.5px;text-transform:uppercase;margin-bottom:12px;display:block}
+.magnet-card.work .magnet-tag{color:var(--gold-lt)}
+.magnet-card.ancient .magnet-tag{color:#8fa8cc}
+.magnet-card h3{font-family:var(--ff-head);font-size:24px;font-weight:500;color:var(--cream);margin-bottom:8px}
+.magnet-card p{color:rgba(250,246,239,.55);font-size:14.5px;line-height:1.7;margin-bottom:20px}
+.newsletter-form{display:flex;gap:10px;flex-wrap:wrap}
+.newsletter-form input{flex:1;min-width:170px;font-family:var(--ff-body);font-size:15px;color:var(--cream);background:rgba(255,255,255,.07);border:1.5px solid rgba(250,246,239,.15);border-radius:2px;padding:13px 15px;outline:none;transition:border-color .2s}
 .newsletter-form input::placeholder{color:rgba(250,246,239,.28)}
 .newsletter-form input:focus{border-color:rgba(184,132,10,.5)}
-.newsletter-form button{background:var(--gold);color:var(--espresso);font-family:var(--ff-body);font-size:12px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;border:none;padding:14px 24px;border-radius:2px;cursor:pointer;transition:background .2s}
+.newsletter-form button{background:var(--gold);color:var(--espresso);font-family:var(--ff-body);font-size:12px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;border:none;padding:13px 20px;border-radius:2px;cursor:pointer;transition:background .2s}
 .newsletter-form button:hover{background:var(--gold-lt)}
-.newsletter-note{font-size:12px;color:rgba(250,246,239,.25);margin-top:14px}
+.newsletter-note{font-size:12px;color:rgba(250,246,239,.25);margin-top:24px}
 footer{background:var(--espresso);border-top:1px solid rgba(250,246,239,.06);padding:24px clamp(24px,6vw,60px);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
 .footer-logo{font-family:var(--ff-head);font-size:18px;color:rgba(250,246,239,.4);text-decoration:none}
 .footer-logo span{color:var(--gold)}
@@ -154,7 +164,7 @@ footer{background:var(--espresso);border-top:1px solid rgba(250,246,239,.06);pad
   </div>
   <div class="posts-grid" id="postsGrid">
 
-    <a href="/blog/ancient-paths/reader.html?post=the-mercy-seat" class="post-card ancient featured reveal" data-track="ancient" data-date="2025-04-10" data-order="1">
+    <a href="/blog/ancient-paths/the-mercy-seat/" class="post-card ancient featured reveal" data-track="ancient" data-date="2025-04-10" data-order="1">
       <div class="post-card-body">
         <span class="post-track ancient"><span class="dot"></span>Ancient Paths</span>
         <h3>The Mercy Seat — <em>Where Heaven Touches Earth</em></h3>
@@ -166,7 +176,7 @@ footer{background:var(--espresso);border-top:1px solid rgba(250,246,239,.06);pad
       </div>
     </a>
 
-    <a href="/blog/ancient-paths/reader.html?post=cherem-and-the-restoration" class="post-card ancient reveal reveal-d1" data-track="ancient" data-date="2025-04-10" data-order="2">
+    <a href="/blog/ancient-paths/cherem-and-the-restoration/" class="post-card ancient reveal reveal-d1" data-track="ancient" data-date="2025-04-10" data-order="2">
       <div class="post-card-body">
         <span class="post-track ancient"><span class="dot"></span>Ancient Paths</span>
         <h3>Cherem — The <em>Last Word</em> of the Old Testament</h3>
@@ -178,13 +188,13 @@ footer{background:var(--espresso);border-top:1px solid rgba(250,246,239,.06);pad
           <span class="post-date">Apr 10, 2025</span>
         </div>
         <div style="display:flex;align-items:center;gap:12px">
-          <button class="share-btn" onclick="sharePost(event,'/blog/ancient-paths/reader.html?post=cherem-and-the-restoration','Cherem — The Last Word of the Old Testament')" title="Share">↗ Share</button>
+          <button class="share-btn" onclick="sharePost(event,'/blog/ancient-paths/cherem-and-the-restoration/','Cherem — The Last Word of the Old Testament')" title="Share">↗ Share</button>
           <span class="post-read">Read →</span>
         </div>
       </div>
     </a>
 
-    <a href="/blog/ancient-paths/reader.html?post=john-17-the-prayer-he-prayed-for-you" class="post-card ancient reveal reveal-d2" data-track="ancient" data-date="2025-04-10" data-order="3">
+    <a href="/blog/ancient-paths/john-17-the-prayer-he-prayed-for-you/" class="post-card ancient reveal reveal-d2" data-track="ancient" data-date="2025-04-10" data-order="3">
       <div class="post-card-body">
         <span class="post-track ancient"><span class="dot"></span>Ancient Paths</span>
         <h3>John 17 — The Prayer He <em>Prayed for You</em></h3>
@@ -196,13 +206,13 @@ footer{background:var(--espresso);border-top:1px solid rgba(250,246,239,.06);pad
           <span class="post-date">Apr 10, 2025</span>
         </div>
         <div style="display:flex;align-items:center;gap:12px">
-          <button class="share-btn" onclick="sharePost(event,'/blog/ancient-paths/reader.html?post=john-17-the-prayer-he-prayed-for-you','John 17 — The Prayer He Prayed for You')" title="Share">↗ Share</button>
+          <button class="share-btn" onclick="sharePost(event,'/blog/ancient-paths/john-17-the-prayer-he-prayed-for-you/','John 17 — The Prayer He Prayed for You')" title="Share">↗ Share</button>
           <span class="post-read">Read →</span>
         </div>
       </div>
     </a>
 
-    <a href="/blog/ancient-paths/reader.html?post=feed-my-sheep" class="post-card ancient reveal reveal-d3" data-track="ancient" data-date="2026-03-23" data-order="4">
+    <a href="/blog/ancient-paths/feed-my-sheep/" class="post-card ancient reveal reveal-d3" data-track="ancient" data-date="2026-03-23" data-order="4">
       <div class="post-card-body">
         <span class="post-track ancient"><span class="dot"></span>Ancient Paths</span>
         <h3>Feed My <em>Sheep</em></h3>
@@ -214,13 +224,13 @@ footer{background:var(--espresso);border-top:1px solid rgba(250,246,239,.06);pad
           <span class="post-date">Mar 23, 2026</span>
         </div>
         <div style="display:flex;align-items:center;gap:12px">
-          <button class="share-btn" onclick="sharePost(event,'/blog/ancient-paths/reader.html?post=feed-my-sheep','Feed My Sheep')" title="Share">↗ Share</button>
+          <button class="share-btn" onclick="sharePost(event,'/blog/ancient-paths/feed-my-sheep/','Feed My Sheep')" title="Share">↗ Share</button>
           <span class="post-read">Read →</span>
         </div>
       </div>
     </a>
 
-    <a href="/blog/the-work/reader.html?post=build-before-you-look-back" class="post-card work reveal reveal-d1" data-track="work" data-date="2025-04-10" data-order="5">
+    <a href="/blog/the-work/build-before-you-look-back/" class="post-card work reveal reveal-d1" data-track="work" data-date="2025-04-10" data-order="5">
       <div class="post-card-body">
         <span class="post-track work"><span class="dot"></span>The Work</span>
         <h3>Build Before You <em>Look Back</em></h3>
@@ -232,13 +242,13 @@ footer{background:var(--espresso);border-top:1px solid rgba(250,246,239,.06);pad
           <span class="post-date">Apr 10, 2025</span>
         </div>
         <div style="display:flex;align-items:center;gap:12px">
-          <button class="share-btn" onclick="sharePost(event,'/blog/the-work/reader.html?post=build-before-you-look-back','Build Before You Look Back')" title="Share">↗ Share</button>
+          <button class="share-btn" onclick="sharePost(event,'/blog/the-work/build-before-you-look-back/','Build Before You Look Back')" title="Share">↗ Share</button>
           <span class="post-read">Read →</span>
         </div>
       </div>
     </a>
 
-    <a href="/blog/the-work/reader.html?post=the-pattern-that-defines-you" class="post-card work reveal reveal-d2" data-track="work" data-date="2025-04-10" data-order="6">
+    <a href="/blog/the-work/the-pattern-that-defines-you/" class="post-card work reveal reveal-d2" data-track="work" data-date="2025-04-10" data-order="6">
       <div class="post-card-body">
         <span class="post-track work"><span class="dot"></span>The Work</span>
         <h3>The Pattern That <em>Defines You</em></h3>
@@ -250,13 +260,13 @@ footer{background:var(--espresso);border-top:1px solid rgba(250,246,239,.06);pad
           <span class="post-date">Apr 10, 2025</span>
         </div>
         <div style="display:flex;align-items:center;gap:12px">
-          <button class="share-btn" onclick="sharePost(event,'/blog/the-work/reader.html?post=the-pattern-that-defines-you','The Pattern That Defines You')" title="Share">↗ Share</button>
+          <button class="share-btn" onclick="sharePost(event,'/blog/the-work/the-pattern-that-defines-you/','The Pattern That Defines You')" title="Share">↗ Share</button>
           <span class="post-read">Read →</span>
         </div>
       </div>
     </a>
 
-    <a href="/blog/the-work/reader.html?post=the-layers-you-are-standing-on" class="post-card work reveal reveal-d3" data-track="work" data-date="2025-04-10" data-order="7">
+    <a href="/blog/the-work/the-layers-you-are-standing-on/" class="post-card work reveal reveal-d3" data-track="work" data-date="2025-04-10" data-order="7">
       <div class="post-card-body">
         <span class="post-track work"><span class="dot"></span>The Work</span>
         <h3>The Layers You Are <em>Standing On</em></h3>
@@ -268,13 +278,13 @@ footer{background:var(--espresso);border-top:1px solid rgba(250,246,239,.06);pad
           <span class="post-date">Apr 10, 2025</span>
         </div>
         <div style="display:flex;align-items:center;gap:12px">
-          <button class="share-btn" onclick="sharePost(event,'/blog/the-work/reader.html?post=the-layers-you-are-standing-on','The Layers You Are Standing On')" title="Share">↗ Share</button>
+          <button class="share-btn" onclick="sharePost(event,'/blog/the-work/the-layers-you-are-standing-on/','The Layers You Are Standing On')" title="Share">↗ Share</button>
           <span class="post-read">Read →</span>
         </div>
       </div>
     </a>
 
-    <a href="/blog/the-work/reader.html?post=the-man-in-the-arena" class="post-card work reveal reveal-d1" data-track="work" data-date="2025-04-10" data-order="8">
+    <a href="/blog/the-work/the-man-in-the-arena/" class="post-card work reveal reveal-d1" data-track="work" data-date="2025-04-10" data-order="8">
       <div class="post-card-body">
         <span class="post-track work"><span class="dot"></span>The Work</span>
         <h3>The Man in the <em>Arena</em></h3>
@@ -286,14 +296,14 @@ footer{background:var(--espresso);border-top:1px solid rgba(250,246,239,.06);pad
           <span class="post-date">Apr 10, 2025</span>
         </div>
         <div style="display:flex;align-items:center;gap:12px">
-          <button class="share-btn" onclick="sharePost(event,'/blog/the-work/reader.html?post=the-man-in-the-arena','The Man in the Arena')" title="Share">↗ Share</button>
+          <button class="share-btn" onclick="sharePost(event,'/blog/the-work/the-man-in-the-arena/','The Man in the Arena')" title="Share">↗ Share</button>
           <span class="post-read">Read →</span>
         </div>
       </div>
     </a>
 
     <!-- The Work Vol 5 -->
-    <a href="/blog/the-work/reader.html?post=the-light-was-already-there"
+    <a href="/blog/the-work/the-light-was-already-there/"
        class="post-card work reveal reveal-d2"
        data-track="work"
        data-date="2026-04-21"
@@ -307,14 +317,14 @@ footer{background:var(--espresso);border-top:1px solid rgba(250,246,239,.06);pad
       <div class="post-meta">
         <div class="post-meta-left"><span class="post-date">Apr 21, 2026</span></div>
         <div style="display:flex;align-items:center;gap:12px">
-          <button class="share-btn" onclick="sharePost(event,'/blog/the-work/reader.html?post=the-light-was-already-there','The Light Was Already There')" title="Share">↗ Share</button>
+          <button class="share-btn" onclick="sharePost(event,'/blog/the-work/the-light-was-already-there/','The Light Was Already There')" title="Share">↗ Share</button>
           <span class="post-read">Read →</span>
         </div>
       </div>
     </a>
 
     <!-- The Work Vol 6 -->
-    <a href="/blog/the-work/reader.html?post=the-voice-you-were-given"
+    <a href="/blog/the-work/the-voice-you-were-given/"
        class="post-card work reveal reveal-d3"
        data-track="work"
        data-date="2026-04-21"
@@ -328,14 +338,14 @@ footer{background:var(--espresso);border-top:1px solid rgba(250,246,239,.06);pad
       <div class="post-meta">
         <div class="post-meta-left"><span class="post-date">Apr 21, 2026</span></div>
         <div style="display:flex;align-items:center;gap:12px">
-          <button class="share-btn" onclick="sharePost(event,'/blog/the-work/reader.html?post=the-voice-you-were-given','The Voice You Were Given')" title="Share">↗ Share</button>
+          <button class="share-btn" onclick="sharePost(event,'/blog/the-work/the-voice-you-were-given/','The Voice You Were Given')" title="Share">↗ Share</button>
           <span class="post-read">Read →</span>
         </div>
       </div>
     </a>
 
     <!-- Ancient Paths Vol 5 -->
-    <a href="/blog/ancient-paths/reader.html?post=the-voice-of-thin-silence"
+    <a href="/blog/ancient-paths/the-voice-of-thin-silence/"
        class="post-card ancient reveal reveal-d1"
        data-track="ancient"
        data-date="2026-04-21"
@@ -349,14 +359,14 @@ footer{background:var(--espresso);border-top:1px solid rgba(250,246,239,.06);pad
       <div class="post-meta">
         <div class="post-meta-left"><span class="post-date">Apr 21, 2026</span></div>
         <div style="display:flex;align-items:center;gap:12px">
-          <button class="share-btn" onclick="sharePost(event,'/blog/ancient-paths/reader.html?post=the-voice-of-thin-silence','The Voice of Thin Silence')" title="Share">↗ Share</button>
+          <button class="share-btn" onclick="sharePost(event,'/blog/ancient-paths/the-voice-of-thin-silence/','The Voice of Thin Silence')" title="Share">↗ Share</button>
           <span class="post-read">Read →</span>
         </div>
       </div>
     </a>
 
     <!-- Ancient Paths Vol 6 -->
-    <a href="/blog/ancient-paths/reader.html?post=chesed"
+    <a href="/blog/ancient-paths/chesed/"
        class="post-card ancient reveal reveal-d2"
        data-track="ancient"
        data-date="2026-04-21"
@@ -370,14 +380,14 @@ footer{background:var(--espresso);border-top:1px solid rgba(250,246,239,.06);pad
       <div class="post-meta">
         <div class="post-meta-left"><span class="post-date">Apr 21, 2026</span></div>
         <div style="display:flex;align-items:center;gap:12px">
-          <button class="share-btn" onclick="sharePost(event,'/blog/ancient-paths/reader.html?post=chesed','Chesed')" title="Share">↗ Share</button>
+          <button class="share-btn" onclick="sharePost(event,'/blog/ancient-paths/chesed/','Chesed')" title="Share">↗ Share</button>
           <span class="post-read">Read →</span>
         </div>
       </div>
     </a>
 
     <!-- The Work Vol 7 -->
-    <a href="/blog/the-work/reader.html?post=the-pane-you-were-made-to-be"
+    <a href="/blog/the-work/the-pane-you-were-made-to-be/"
        class="post-card work reveal reveal-d3"
        data-track="work"
        data-date="2026-04-21"
@@ -391,14 +401,14 @@ footer{background:var(--espresso);border-top:1px solid rgba(250,246,239,.06);pad
       <div class="post-meta">
         <div class="post-meta-left"><span class="post-date">Apr 21, 2026</span></div>
         <div style="display:flex;align-items:center;gap:12px">
-          <button class="share-btn" onclick="sharePost(event,'/blog/the-work/reader.html?post=the-pane-you-were-made-to-be','The Pane You Were Made to Be')" title="Share">↗ Share</button>
+          <button class="share-btn" onclick="sharePost(event,'/blog/the-work/the-pane-you-were-made-to-be/','The Pane You Were Made to Be')" title="Share">↗ Share</button>
           <span class="post-read">Read →</span>
         </div>
       </div>
     </a>
 
     <!-- The Work Vol 8 -->
-    <a href="/blog/the-work/reader.html?post=the-grandfather-trail"
+    <a href="/blog/the-work/the-grandfather-trail/"
        class="post-card work reveal reveal-d1"
        data-track="work"
        data-date="2026-08-09"
@@ -412,7 +422,7 @@ footer{background:var(--espresso);border-top:1px solid rgba(250,246,239,.06);pad
       <div class="post-meta">
         <div class="post-meta-left"><span class="post-date">Aug 9, 2026</span></div>
         <div style="display:flex;align-items:center;gap:12px">
-          <button class="share-btn" onclick="sharePost(event,'/blog/the-work/reader.html?post=the-grandfather-trail','The Grandfather Trail')" title="Share">↗ Share</button>
+          <button class="share-btn" onclick="sharePost(event,'/blog/the-work/the-grandfather-trail/','The Grandfather Trail')" title="Share">↗ Share</button>
           <span class="post-read">Read →</span>
         </div>
       </div>
@@ -436,18 +446,42 @@ footer{background:var(--espresso);border-top:1px solid rgba(250,246,239,.06);pad
   </div>
 </div>
 
+<!-- Two magnets, one per track — each signup is source-tagged so the
+     leadership list and the study list can be emailed differently. -->
 <div class="newsletter">
   <div class="newsletter-inner reveal">
-    <h2>Stay in the <em>current</em></h2>
-    <p>New posts from both tracks delivered to your inbox. No noise — just the writing.</p>
-    <form class="newsletter-form" id="newsletterForm" action="https://formspree.io/f/mreowrzw" method="POST">
-      <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
-      <input type="hidden" name="_subject" value="New Newsletter Signup — caydenfarris.net">
-      <input type="hidden" name="form_type" value="newsletter_signup">
-      <input type="hidden" name="_next" value="https://caydenfarris.net/blog/?subscribed=true">
-      <input type="email" name="email" placeholder="your@email.com" autocomplete="email" maxlength="254" required aria-label="Email address">
-      <button type="submit">Subscribe</button>
-    </form>
+    <h2>Take something <em>with you</em></h2>
+    <p>Pick your track. Each comes with new writing in your inbox — and something worth keeping.</p>
+    <div class="magnet-grid">
+      <div class="magnet-card work">
+        <span class="magnet-tag">⬛ The Work</span>
+        <h3>The Blueprint Check</h3>
+        <p>A free one-page self-assessment built on the eleven principles from <em>Under Construction</em>. Score what you're building — and see what's still missing.</p>
+        <form class="newsletter-form" action="https://formspree.io/f/mreowrzw" method="POST">
+          <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
+          <input type="hidden" name="_subject" value="Blueprint Check Signup — caydenfarris.net">
+          <input type="hidden" name="form_type" value="magnet_blueprint_check">
+          <input type="hidden" name="source" value="blog-index">
+          <input type="hidden" name="_next" value="https://caydenfarris.net/blueprint-check/?subscribed=true">
+          <input type="email" name="email" placeholder="your@email.com" autocomplete="email" maxlength="254" required aria-label="Email address">
+          <button type="submit">Send It</button>
+        </form>
+      </div>
+      <div class="magnet-card ancient">
+        <span class="magnet-tag">✦ Ancient Paths</span>
+        <h3>Printable Study Guides</h3>
+        <p>Free printable companions to the interactive study tools — made for Sunday School teachers and anyone who studies deep. Built to hand out.</p>
+        <form class="newsletter-form" action="https://formspree.io/f/mreowrzw" method="POST">
+          <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
+          <input type="hidden" name="_subject" value="Study Guide Signup — caydenfarris.net">
+          <input type="hidden" name="form_type" value="magnet_study_guide">
+          <input type="hidden" name="source" value="blog-index">
+          <input type="hidden" name="_next" value="https://caydenfarris.net/study-guides/?subscribed=true">
+          <input type="email" name="email" placeholder="your@email.com" autocomplete="email" maxlength="254" required aria-label="Email address">
+          <button type="submit">Send Them</button>
+        </form>
+      </div>
+    </div>
     <p class="newsletter-note">No spam. Ever. Unsubscribe anytime.</p>
   </div>
 </div>
@@ -462,11 +496,8 @@ window.addEventListener('scroll',()=>document.getElementById('nav').classList.to
 const revObs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');revObs.unobserve(e.target);}});},{threshold:0.08});
 document.querySelectorAll('.reveal').forEach(el=>revObs.observe(el));
 
-// Newsletter success state (Formspree redirects back with ?subscribed=true)
-if(new URLSearchParams(location.search).get('subscribed')==='true'){
-  const inner=document.querySelector('.newsletter-inner');
-  if(inner)inner.innerHTML='<h2>You\'re <em>in</em></h2><p>New posts from both tracks, straight to your inbox. Welcome.</p>';
-}
+// (Magnet signups now redirect to their own landing pages, which show the
+// confirmation state — no ?subscribed handling needed here.)
 
 // Post dates come from each post's frontmatter, baked into data-date attributes
 document.querySelectorAll('.post-card[data-date]').forEach(card=>{

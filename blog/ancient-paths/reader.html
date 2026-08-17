@@ -222,20 +222,22 @@ footer{background:var(--espresso);border-top:1px solid rgba(250,246,239,.06);pad
 
 </div>
 
-<!-- STAY CONNECTED -->
+<!-- STUDY GUIDES — scripture-track magnet (source-tagged for segmentation;
+     deliberately no book pitch on this track) -->
 <div class="connect-band">
   <div class="connect-inner">
-    <h2>Go <em>deeper</em></h2>
-    <p>Get new studies from Ancient Paths and The Work in your inbox — and thoughts from my book <em>Under Construction</em> — out now.</p>
+    <h2>Take the study <em>deeper</em></h2>
+    <p>Want a printable companion for your class or personal study? Get the free study guides that pair with the interactive tools — made for teachers, built to hand out.</p>
     <form class="connect-form" action="https://formspree.io/f/mreowrzw" method="POST">
       <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
-      <input type="hidden" name="_subject" value="New Newsletter Signup — caydenfarris.net">
-      <input type="hidden" name="form_type" value="newsletter_signup">
-      <input type="hidden" name="_next" value="https://caydenfarris.net/blog/?subscribed=true">
+      <input type="hidden" name="_subject" value="Study Guide Signup — caydenfarris.net">
+      <input type="hidden" name="form_type" value="magnet_study_guide">
+      <input type="hidden" name="source" value="blog-ancient-paths">
+      <input type="hidden" name="_next" value="https://caydenfarris.net/study-guides/?subscribed=true">
       <input type="email" name="email" placeholder="your@email.com" autocomplete="email" maxlength="254" required aria-label="Email address">
-      <button type="submit">Subscribe</button>
+      <button type="submit">Send Them to Me</button>
     </form>
-    <a class="connect-book" href="https://www.amazon.com/dp/B0H76DT3DM" target="_blank" rel="noopener">Get the book on Amazon →</a>
+    <a class="connect-book" href="/tabernacle">Explore the Tabernacle tool →</a>
     <p class="connect-note">No spam. Ever. Unsubscribe anytime.</p>
   </div>
 </div>
@@ -373,7 +375,7 @@ async function loadPost() {
     // Next post nav — built with DOM APIs so frontmatter text can't inject markup
     if (fm.next_title && fm.next_slug && /^[a-zA-Z0-9_-]{1,120}$/.test(fm.next_slug)) {
       const a = document.createElement('a');
-      a.href = '/blog/ancient-paths/reader.html?post=' + encodeURIComponent(fm.next_slug);
+      a.href = '/blog/ancient-paths/' + encodeURIComponent(fm.next_slug) + '/';
       a.className = 'article-nav-link';
       a.style.textAlign = 'right';
       const dir = document.createElement('div');
@@ -430,7 +432,15 @@ function showError(msg) {
   }
 }
 
-loadPost();
+// The worker pre-renders the article into this page at /blog/ancient-paths/<slug>/
+// (crawlers don't run JS). When that happened, skip the client-side fetch and
+// just wire up sharing. loadPost() remains as a fallback for the legacy
+// ?post= URLs if the worker is ever bypassed.
+if (document.body.dataset.prerendered === 'true') {
+  initShare(document.getElementById('postTitle').textContent || 'Ancient Paths');
+} else {
+  loadPost();
+}
 
 // ── SHARE ──
 function initShare(title) {

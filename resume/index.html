@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Resume — Cayden Farris. Product manager, founder, author, and Maxwell certified coach and speaker.">
+<meta property="og:title" content="Resume — Cayden Farris">
+<meta property="og:description" content="Product manager, founder, author, and Maxwell certified coach and speaker.">
+<meta property="og:type" content="profile">
+<meta property="og:url" content="https://caydenfarris.net/resume/">
+<meta name="twitter:card" content="summary">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<link rel="canonical" href="https://caydenfarris.net/resume/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='14' fill='%231c1208'/%3E%3Ctext x='50' y='68' font-family='Georgia,serif' font-size='52' font-weight='600' fill='%23b8840a' text-anchor='middle'%3ECF%3C/text%3E%3C/svg%3E">
+<title>Resume — Cayden Farris</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --cream:#faf6ef;--cream2:#f2ece0;
+  --gold:#b8840a;--gold-lt:#d4a832;
+  --espresso:#1c1208;--brown:#4a2e12;--brown-lt:#7a5230;
+  --terra:#c4654a;--muted:#8a7060;--border:rgba(74,46,18,0.12);
+  --ff-head:'Cormorant Garamond',Georgia,serif;
+  --ff-body:'Lora',Georgia,serif;
+}
+html{scroll-behavior:smooth}
+body{background:var(--cream);color:var(--espresso);font-family:var(--ff-body);font-size:17px;line-height:1.75;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;opacity:0.025;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:160px 160px}
+::selection{background:var(--gold-lt);color:var(--espresso)}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 clamp(20px,6vw,60px);height:62px;display:flex;align-items:center;justify-content:space-between;background:rgba(250,246,239,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+.nav-logo{font-family:var(--ff-head);font-size:21px;font-weight:600;color:var(--espresso);text-decoration:none}
+.nav-logo span{color:var(--gold)}
+.nav-back{font-family:var(--ff-body);font-size:12px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--brown-lt);text-decoration:none;transition:color .2s}
+.nav-back:hover{color:var(--gold)}
+
+.section-label{font-family:var(--ff-body);font-size:11px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:var(--terra);margin-bottom:20px;display:flex;align-items:center;gap:12px}
+.section-label::before{content:'';display:block;width:28px;height:1px;background:var(--terra)}
+
+main{max-width:1200px;margin:0 auto;padding:clamp(110px,14vw,160px) clamp(20px,8vw,100px) clamp(80px,10vw,120px)}
+main h1{font-family:var(--ff-head);font-size:clamp(36px,5vw,52px);font-weight:400;margin-bottom:12px}
+main h1 em{font-style:italic;color:var(--brown)}
+.intro{color:var(--brown-lt);margin-bottom:56px;font-size:16.5px}
+
+.resume-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,5vw,80px)}
+@media(max-width:700px){.resume-grid{grid-template-columns:1fr}}
+.resume-col h3{font-family:var(--ff-head);font-size:22px;font-weight:600;color:var(--espresso);letter-spacing:0.5px;margin-bottom:28px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+.resume-item{margin-bottom:28px;padding-bottom:28px;border-bottom:1px solid var(--border)}
+.resume-item:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.resume-item-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:4px;flex-wrap:wrap}
+.resume-item-title{font-family:var(--ff-head);font-size:18px;font-weight:500;color:var(--espresso)}
+.resume-item-date{font-size:12px;color:var(--muted);font-weight:500;letter-spacing:0.5px;white-space:nowrap}
+.resume-item-org{font-size:13px;color:var(--gold);font-weight:500;letter-spacing:0.5px;margin-bottom:8px}
+.resume-item p{font-size:14.5px;color:var(--brown-lt);line-height:1.65}
+
+.resume-download{margin-top:48px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.resume-download p{font-size:15px;color:var(--muted)}
+.btn-secondary{display:inline-block;color:var(--espresso);font-family:var(--ff-body);font-size:13px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;text-decoration:none;padding:16px 32px;border:1.5px solid var(--border);border-radius:2px;transition:border-color .22s,color .22s}
+.btn-secondary:hover{border-color:var(--gold);color:var(--gold)}
+
+footer{background:var(--espresso);border-top:1px solid rgba(250,246,239,.06);padding:24px clamp(24px,6vw,60px);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.footer-logo{font-family:var(--ff-head);font-size:18px;color:rgba(250,246,239,.4);text-decoration:none}
+.footer-logo span{color:var(--gold)}
+.footer-copy{font-size:12px;color:rgba(250,246,239,.2)}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">Cayden <span>Farris</span></a>
+  <a href="/" class="nav-back">← Back to site</a>
+</nav>
+
+<main>
+  <div class="section-label">Resume</div>
+  <h1>Experience &amp; <em>background</em></h1>
+  <p class="intro">The short version of a life spent in service, learning, and building things that matter.</p>
+
+  <div class="resume-grid">
+    <div class="resume-col">
+      <h3>Professional Experience</h3>
+
+      <div class="resume-item">
+        <div class="resume-item-top">
+          <div class="resume-item-title">Product Manager</div>
+          <div class="resume-item-date">Apr 2026 – Present</div>
+        </div>
+        <div class="resume-item-org">Caselle · Govineer Portfolio · American Fork, UT</div>
+        <p>Owns the roadmap for Community Portal, miViewpoint, Zift integration, and GL posting across a PE-backed GovTech ERP serving 1,000+ U.S. municipalities. Leads 3 engineers and 1 QA tester in an Agile delivery model. One of the most unconventional internal promotions in company history.</p>
+      </div>
+
+      <div class="resume-item">
+        <div class="resume-item-top">
+          <div class="resume-item-title">Founder &amp; Product Lead</div>
+          <div class="resume-item-date">Feb 2025 – Present</div>
+        </div>
+        <div class="resume-item-org">GovSight LLC · Provo, UT</div>
+        <p>Founded a government financial analytics SaaS platform targeting small-to-mid-size municipalities. Identified the opportunity through direct customer discovery across 15+ municipal clients. Presented to three CEOs who opened discussions around platform integration and potential acquisition.</p>
+      </div>
+
+      <div class="resume-item">
+        <div class="resume-item-top">
+          <div class="resume-item-title">Client Success &amp; ERP Specialist</div>
+          <div class="resume-item-date">Sept 2024 – Apr 2026</div>
+        </div>
+        <div class="resume-item-org">Caselle · Govineer Portfolio · American Fork, UT</div>
+        <p>Holds all-time company records: 531 tickets in a single month and 43 in a single day. Hit the 90-day benchmark of 10 tickets/day on day three. Performance cited by the CEO in company-wide meetings within 30 days of hire.</p>
+      </div>
+
+      <div class="resume-item">
+        <div class="resume-item-top">
+          <div class="resume-item-title">Full-Time Missionary</div>
+          <div class="resume-item-date">Jul 2021 – Jul 2023</div>
+        </div>
+        <div class="resume-item-org">The Church of Jesus Christ of Latter-day Saints · Honduras</div>
+        <p>Top &lt;1% leadership role. Served as Assistant to the Mission President — functioned as Training Director and Chief of Staff equivalent for a 160-person organization operating across Honduras. Ran one complete transfer cycle solo at age 20.</p>
+      </div>
+
+    </div>
+
+    <div class="resume-col">
+      <h3>Education &amp; Credentials</h3>
+
+      <div class="resume-item">
+        <div class="resume-item-top">
+          <div class="resume-item-title">B.S. Accounting · GPA 3.8 / 4.0</div>
+          <div class="resume-item-date">May 2025</div>
+        </div>
+        <div class="resume-item-org">Colorado State University Global</div>
+        <p>Financed 100% of college through full-time employment. Relevant coursework: Cost Accounting, Financial Modeling, Database Management, Business Analytics.</p>
+      </div>
+
+      <div class="resume-item">
+        <div class="resume-item-top">
+          <div class="resume-item-title">Maxwell Certified Coach &amp; Speaker</div>
+          <div class="resume-item-date">March 2026</div>
+        </div>
+        <div class="resume-item-org">International Maxwell Certification (IMC26) · Dallas, TX</div>
+        <p>Certified through the John Maxwell Leadership program — one of the most recognized leadership development certifications in the world.</p>
+      </div>
+
+      <div class="resume-item">
+        <div class="resume-item-top">
+          <div class="resume-item-title">CPA Candidate · Eagle Scout</div>
+        </div>
+        <div class="resume-item-org">Fluent in Spanish</div>
+        <p>Currently pursuing CPA licensure. Eagle Scout. Full conversational fluency in Spanish developed during two years of service in Honduras.</p>
+      </div>
+
+      <div class="resume-item">
+        <div class="resume-item-top">
+          <div class="resume-item-title">State Swimming Champion</div>
+        </div>
+        <div class="resume-item-org">High School Athletics</div>
+        <p>Joined the swim team as a sophomore with no prior competitive experience. Won the state championship as a senior — the same pattern that defines everything since.</p>
+      </div>
+
+      <div class="resume-item">
+        <div class="resume-item-top">
+          <div class="resume-item-title">Technical Skills</div>
+        </div>
+        <div class="resume-item-org">Product · Engineering · Analytics</div>
+        <p>Python · SQL · AI Integration · Advanced Excel · API Design · Product Roadmapping · Agile/Scrum · Git/GitHub · ZOHO Desk</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="resume-download">
+    <a href="mailto:cayden.farris03@gmail.com?subject=Resume%20Request%20%E2%80%94%20caydenfarris.net" class="btn-secondary">Request Full Resume</a>
+    <p>Full PDF resume available on request.</p>
+    <!-- UPDATE: When you have a hosted resume PDF, replace the mailto link above with its URL and change the text back to "Download Full Resume (PDF)" -->
+  </div>
+</main>
+
+<footer>
+  <a href="/" class="footer-logo">Cayden <span>Farris</span></a>
+  <p class="footer-copy">© 2026 Cayden Farris · caydenfarris.net</p>
+</footer>
+
+</body>
+</html>

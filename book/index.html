@@ -8,8 +8,13 @@
 <meta property="og:description" content="Build who you're meant to become before you look back and wish you had. Out now on Amazon.">
 <meta property="og:type" content="book">
 <meta property="og:url" content="https://caydenfarris.net/book/">
-<meta property="og:image" content="https://caydenfarris.net/images/headshot.jpg">
-<meta name="twitter:card" content="summary">
+<meta property="og:image" content="https://caydenfarris.net/images/og/book.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Under Construction — Cayden Farris">
+<meta name="twitter:description" content="Build who you're meant to become before you look back and wish you had. Out now on Amazon.">
+<meta name="twitter:image" content="https://caydenfarris.net/images/og/book.png">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <link rel="canonical" href="https://caydenfarris.net/book/">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='14' fill='%231c1208'/%3E%3Ctext x='50' y='68' font-family='Georgia,serif' font-size='52' font-weight='600' fill='%23b8840a' text-anchor='middle'%3ECF%3C/text%3E%3C/svg%3E">
@@ -398,6 +403,40 @@ nav {
   line-height: 1.7;
 }
 
+/* ── ELEVEN PRINCIPLES ── */
+.principles-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 180px), 1fr));
+  gap: 12px;
+}
+.principle {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  font-family: var(--ff-head);
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--cream);
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(184,132,10,0.12);
+  border-radius: 3px;
+  padding: 16px 18px;
+  transition: border-color 0.25s;
+}
+.principle:hover { border-color: rgba(184,132,10,0.3); }
+.principle-num {
+  font-family: var(--ff-body);
+  font-size: 11px;
+  letter-spacing: 1px;
+  color: rgba(184,132,10,0.55);
+}
+.principles-note {
+  margin-top: 22px;
+  font-size: 14px;
+  color: rgba(250,246,239,0.45);
+  font-style: italic;
+}
+
 /* ── QUOTE BAND ── */
 .quote-band {
   background: rgba(184,132,10,0.07);
@@ -780,7 +819,7 @@ footer {
         <span class="stat-label">The Builder</span>
       </div>
     </div>
-    <a href="https://www.amazon.com/dp/B0H76DT3DM" target="_blank" rel="noopener" class="hero-cta reveal reveal-d3">
+    <a href="/go/book-page" target="_blank" rel="noopener" class="hero-cta reveal reveal-d3">
       Buy on Amazon →
     </a>
   </div>
@@ -826,6 +865,40 @@ footer {
   </div>
 </section>
 
+<!-- THE ELEVEN PRINCIPLES -->
+<!-- The chapter-level substance a browsing stranger needs to see. -->
+<section class="inside-section" style="padding-top:0">
+  <div class="section-label reveal">Inside the Book</div>
+  <h2 class="reveal reveal-d1">Eleven principles. <em>One build.</em></h2>
+  <div class="principles-grid">
+    <div class="principle reveal"><span class="principle-num">01</span>Foundation</div>
+    <div class="principle reveal"><span class="principle-num">02</span>Framing</div>
+    <div class="principle reveal"><span class="principle-num">03</span>Mentorship</div>
+    <div class="principle reveal reveal-d1"><span class="principle-num">04</span>Reconciliation</div>
+    <div class="principle reveal reveal-d1"><span class="principle-num">05</span>Belief</div>
+    <div class="principle reveal reveal-d1"><span class="principle-num">06</span>Patience</div>
+    <div class="principle reveal reveal-d2"><span class="principle-num">07</span>Integrity</div>
+    <div class="principle reveal reveal-d2"><span class="principle-num">08</span>Refinement</div>
+    <div class="principle reveal reveal-d2"><span class="principle-num">09</span>Culture</div>
+    <div class="principle reveal reveal-d3"><span class="principle-num">10</span>Discernment</div>
+    <div class="principle reveal reveal-d3"><span class="principle-num">11</span>Pressure</div>
+  </div>
+  <p class="principles-note reveal reveal-d3">Each principle is a chapter of the build — laid out blueprint to roof, with the stories and the work that make it stick.</p>
+</section>
+
+<!--
+  SOCIAL PROOF BLOCK — highest-impact addition on this page, waiting on content.
+  When Amazon reviews or beta-reader endorsements (with permission) are
+  available, add them here as 2-3 short verbatim quotes + the Amazon review
+  count. Label beta reads clearly ("Early reader"). Do not paraphrase.
+-->
+
+<!--
+  UNGATED EXCERPT — waiting on content. A short signature passage (opening
+  scene works well) pasted directly here, not behind an email gate. Its job
+  is to let the voice sell the book.
+-->
+
 <!-- QUOTE BAND -->
 <div class="quote-band">
   <p class="quote-text">"Most people spend decades becoming who they are, and only realize too late they built the <em>wrong thing</em>. This book is about doing it right while you still can."</p>
@@ -837,8 +910,16 @@ footer {
   <h2 class="reveal">Get your <em>copy</em></h2>
   <p class="sub reveal reveal-d1"><em>Under Construction</em> is out now. Grab your copy and start building.</p>
   <div class="buy-box reveal reveal-d2">
-    <a href="https://www.amazon.com/dp/B0H76DT3DM" target="_blank" rel="noopener" class="hero-cta">Buy on Amazon →</a>
+    <a href="/go/book-page" target="_blank" rel="noopener" class="hero-cta">Buy on Amazon →</a>
+    <p class="buy-note" style="margin-top:20px">Also distributed through IngramSpark — order it at <a href="https://www.barnesandnoble.com/s/under%20construction%20cayden%20farris" target="_blank" rel="noopener" style="color:var(--gold-lt)">Barnes &amp; Noble</a>, or request <em>Under Construction</em> at your local library or bookstore.</p>
     <p class="buy-note">To everyone who joined the presale list — thank you. You made this launch real. And if the book builds something in you, an Amazon review is the single best way to pass it on.</p>
+  </div>
+
+  <!-- The bridge for the visitor who isn't ready to buy: capture, don't lose. -->
+  <div class="reveal reveal-d3" style="text-align:center;margin-top:44px;padding-top:36px;border-top:1px solid rgba(184,132,10,0.12)">
+    <p style="font-family:var(--ff-head);font-size:22px;font-style:italic;color:rgba(250,246,239,0.7);margin-bottom:14px">Not sure yet?</p>
+    <p style="font-size:14.5px;color:rgba(250,246,239,0.5);max-width:440px;margin:0 auto 20px;line-height:1.7">Take the <em>Blueprint Check</em> — a free one-page self-assessment built on the book's eleven principles. See what you're building first.</p>
+    <a href="/blueprint-check" style="display:inline-block;font-family:var(--ff-body);font-size:12px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--gold-lt);text-decoration:none;border:1px solid rgba(212,168,50,0.4);padding:13px 26px;border-radius:2px;transition:border-color 0.2s">Take the Blueprint Check →</a>
   </div>
 </section>
 

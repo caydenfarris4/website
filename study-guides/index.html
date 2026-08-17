@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Free printable scripture study guides — companions to the interactive Tabernacle, High Priest, and Levitical sacrifices study tools. Made for teachers.">
+<meta property="og:title" content="Printable Study Guides — Cayden Farris">
+<meta property="og:description" content="Free printable companions to the interactive scripture study tools. Made for Sunday School and seminary teachers — built to hand out.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://caydenfarris.net/study-guides/">
+<meta name="twitter:card" content="summary">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<link rel="canonical" href="https://caydenfarris.net/study-guides/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='14' fill='%231c1208'/%3E%3Ctext x='50' y='68' font-family='Georgia,serif' font-size='52' font-weight='600' fill='%23b8840a' text-anchor='middle'%3ECF%3C/text%3E%3C/svg%3E">
+<title>Printable Study Guides — Cayden Farris</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+/* Standalone magnet landing page — deliberately no nav and no competing CTAs.
+   This page serves the scripture-study audience only: no book pitch here. */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --cream:#faf6ef;--cream2:#f2ece0;
+  --gold:#b8840a;--gold-lt:#d4a832;
+  --espresso:#1c1208;--brown:#4a2e12;--brown-lt:#7a5230;
+  --muted:#8a7060;--border:rgba(74,46,18,0.12);
+  --ancient:#2a3d5c;--ancient-lt:#3d5878;--ancient-pale:#eef2f8;
+  --ff-head:'Cormorant Garamond',Georgia,serif;
+  --ff-body:'Lora',Georgia,serif;
+}
+body{background:var(--cream);color:var(--espresso);font-family:var(--ff-body);font-size:17px;line-height:1.75;min-height:100vh;display:flex;flex-direction:column}
+body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;opacity:0.025;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:160px 160px}
+::selection{background:var(--ancient-pale);color:var(--ancient)}
+
+.band{background:var(--ancient);padding:clamp(56px,9vw,90px) clamp(24px,8vw,100px) clamp(44px,7vw,70px);text-align:center}
+.band-inner{max-width:640px;margin:0 auto}
+.eyebrow{font-family:var(--ff-body);font-size:11px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:20px}
+.band h1{font-family:var(--ff-head);font-size:clamp(38px,6.5vw,62px);font-weight:300;line-height:1.05;color:rgba(255,255,255,.95);margin-bottom:16px}
+.band h1 em{font-style:italic;color:#a8c0e0}
+.band p{font-family:var(--ff-head);font-size:clamp(17px,2.4vw,21px);font-style:italic;color:rgba(255,255,255,.65);line-height:1.55}
+
+main{flex:1;max-width:620px;margin:0 auto;padding:clamp(40px,6vw,64px) 24px clamp(48px,7vw,72px);text-align:center;width:100%}
+.guides{display:flex;flex-direction:column;gap:14px;text-align:left;margin:0 0 36px}
+.guide{display:flex;gap:14px;align-items:flex-start;background:var(--ancient-pale);border:1px solid rgba(42,61,92,0.15);border-radius:3px;padding:18px 20px}
+.guide-icon{font-size:22px;line-height:1;margin-top:2px}
+.guide p{font-size:15px;color:var(--brown-lt);line-height:1.65}
+.guide p strong{font-family:var(--ff-head);font-size:17.5px;font-weight:600;color:var(--ancient);display:block;margin-bottom:2px}
+
+.capture{background:var(--cream2);border:1px solid var(--border);border-radius:3px;padding:clamp(26px,4vw,38px)}
+.capture h2{font-family:var(--ff-head);font-size:26px;font-weight:500;margin-bottom:6px}
+.capture>.capture-form-state>p{font-size:14px;color:var(--muted);margin-bottom:22px}
+form{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+input[type="email"]{flex:1;min-width:200px;font-family:var(--ff-body);font-size:15px;color:var(--espresso);background:var(--cream);border:1.5px solid var(--border);border-radius:2px;padding:14px 16px;outline:none;transition:border-color .2s}
+input[type="email"]:focus{border-color:var(--ancient-lt)}
+button{background:var(--ancient);color:#fff;font-family:var(--ff-body);font-size:13px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;border:none;padding:14px 28px;border-radius:2px;cursor:pointer;transition:background .2s}
+button:hover{background:var(--ancient-lt)}
+.note{font-size:12px;color:var(--muted);margin-top:14px}
+
+.success{display:none;padding:16px 8px}
+.success .check{font-size:40px;margin-bottom:10px}
+.success h2{font-family:var(--ff-head);font-size:28px;font-weight:500;margin-bottom:8px}
+.success p{font-size:15px;color:var(--brown-lt)}
+.subscribed .capture-form-state{display:none}
+.subscribed .success{display:block}
+
+footer{text-align:center;padding:22px 16px;border-top:1px solid var(--border)}
+footer a{font-family:var(--ff-head);font-size:15px;color:var(--muted);text-decoration:none}
+footer a span{color:var(--gold)}
+</style>
+</head>
+<body>
+
+<div class="band">
+  <div class="band-inner">
+    <p class="eyebrow">Free · For Teachers &amp; Students of Scripture</p>
+    <h1>Printable Study <em>Guides</em></h1>
+    <p>Companions to the interactive study tools — made to teach from, built to hand out.</p>
+  </div>
+</div>
+
+<main>
+  <div class="guides">
+    <div class="guide">
+      <div class="guide-icon">🏛</div>
+      <p><strong>The Tabernacle</strong>A printable walk through the courtyard to the Holy of Holies — every element, its Hebrew name, and how it points to Christ. The first guide in the series.</p>
+    </div>
+    <div class="guide">
+      <div class="guide-icon">✡</div>
+      <p><strong>Garments of the High Priest</strong>The eight garments of the Kohen Gadol, piece by piece. Companion guide coming next.</p>
+    </div>
+    <div class="guide">
+      <div class="guide-icon">🔥</div>
+      <p><strong>The Sacrifices of Leviticus</strong>The five offerings and what each one carried. Companion guide in the works.</p>
+    </div>
+  </div>
+
+  <div class="capture" id="capture">
+    <div class="capture-form-state">
+      <h2>Get the study guides</h2>
+      <p>Enter your email and I'll send each guide as it's ready — starting with the Tabernacle. Free, always.</p>
+      <form action="https://formspree.io/f/mreowrzw" method="POST">
+        <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
+        <input type="hidden" name="_subject" value="Study Guide Signup — caydenfarris.net">
+        <input type="hidden" name="form_type" value="magnet_study_guide">
+        <input type="hidden" name="source" value="study-guides-page">
+        <input type="hidden" name="_next" value="https://caydenfarris.net/study-guides/?subscribed=true">
+        <input type="email" name="email" placeholder="your@email.com" autocomplete="email" maxlength="254" required aria-label="Email address">
+        <button type="submit">Send Them to Me</button>
+      </form>
+      <p class="note">No spam. Ever. Unsubscribe anytime.</p>
+    </div>
+    <div class="success">
+      <div class="check">✓</div>
+      <h2>You're on the list</h2>
+      <p>The guides will arrive in your inbox as they're released, starting with the Tabernacle. Thank you for teaching.</p>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <a href="/">Cayden <span>Farris</span></a>
+</footer>
+
+<script>
+if (new URLSearchParams(location.search).get('subscribed') === 'true') {
+  document.getElementById('capture').classList.add('subscribed');
+}
+document.querySelectorAll('form').forEach(f => f.addEventListener('submit', () => {
+  const b = f.querySelector('button'); if (b) { b.disabled = true; b.textContent = 'Sending...'; }
+}));
+</script>
+</body>
+</html>

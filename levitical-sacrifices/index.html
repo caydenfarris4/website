@@ -507,13 +507,32 @@ document.getElementById('pc').addEventListener('click', () => {
 });
 </script>
 
+<!-- Study-guide capture — quiet, end-of-experience, in the tool's own voice.
+     Deliberately no book or app pitch here: this page serves teachers and
+     students, and the signup is tagged so this list is only ever sent
+     study resources. -->
+<div style="background:#0e0a02;border-top:1px solid rgba(212,175,55,.15);padding:44px 20px 10px;text-align:center;font-family:Georgia,serif">
+  <p style="color:#d4af37;font-size:18px;font-style:italic;margin:0 0 8px">Want this for your class?</p>
+  <p style="color:rgba(250,246,239,.55);font-size:13.5px;max-width:440px;margin:0 auto 20px;line-height:1.7">Get the free printable study guides that pair with these tools — made for teachers, built to hand out in class.</p>
+  <form action="https://formspree.io/f/mreowrzw" method="POST" style="display:flex;gap:8px;max-width:400px;margin:0 auto;flex-wrap:wrap;justify-content:center">
+    <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
+    <input type="hidden" name="_subject" value="Study Guide Signup — caydenfarris.net">
+    <input type="hidden" name="form_type" value="magnet_study_guide">
+    <input type="hidden" name="source" value="study-tools-levitical-sacrifices">
+    <input type="hidden" name="_next" value="https://caydenfarris.net/study-guides/?subscribed=true">
+    <input type="email" name="email" placeholder="your@email.com" autocomplete="email" maxlength="254" required aria-label="Email address" style="flex:1;min-width:190px;font-family:Georgia,serif;font-size:14px;color:#faf6ef;background:rgba(255,255,255,.06);border:1px solid rgba(212,175,55,.3);border-radius:2px;padding:11px 14px;outline:none">
+    <button type="submit" style="background:#d4af37;color:#0e0a02;font-family:Georgia,serif;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;border:none;padding:11px 20px;border-radius:2px;cursor:pointer">Send It</button>
+  </form>
+  <p style="color:rgba(250,246,239,.25);font-size:11px;margin:14px 0 0">No spam. Ever. Unsubscribe anytime.</p>
+</div>
+
 <!-- site footer: links back to the rest of caydenfarris.net -->
 <div style="background:#0e0a02;border-top:1px solid rgba(212,175,55,.2);padding:26px 16px;text-align:center;font-family:Georgia,serif">
   <p style="color:rgba(212,175,55,.75);font-size:13px;letter-spacing:1px;margin:0 0 10px">A study tool by <a href="/" style="color:#d4af37;text-decoration:none">Cayden Farris</a></p>
   <p style="font-size:12px;letter-spacing:1.5px;margin:0">
     <a href="/" style="color:rgba(212,175,55,.6);text-decoration:none;margin:0 10px">Home</a>·
     <a href="/blog" style="color:rgba(212,175,55,.6);text-decoration:none;margin:0 10px">The Blog</a>·
-    <a href="/book" style="color:rgba(212,175,55,.6);text-decoration:none;margin:0 10px">The Book Open</a>
+    <a href="/book" style="color:rgba(212,175,55,.6);text-decoration:none;margin:0 10px">The Book</a>
   </p>
 </div>
 </body>

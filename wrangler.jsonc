@@ -6,12 +6,15 @@
     "directory": "./",
     "binding": "ASSETS",
     "html_handling": "auto-trailing-slash",
-    // Blog reader pages go through the worker so it can inject each post's
-    // Open Graph tags (title + excerpt) for link previews. Everything else
-    // is served as plain static assets.
+    // Blog post paths go through the worker so posts can be pre-rendered as
+    // full HTML at /blog/<track>/<slug>/ (AI crawlers and social scrapers
+    // never execute JS), legacy reader.html?post= URLs can 301 to the new
+    // paths, and /go/* click-tracked Amazon redirects can be served.
+    // Everything else is served as plain static assets.
     "run_worker_first": [
-      "/blog/the-work/reader.html",
-      "/blog/ancient-paths/reader.html"
+      "/blog/the-work/*",
+      "/blog/ancient-paths/*",
+      "/go/*"
     ]
   }
 }

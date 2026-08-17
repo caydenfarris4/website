@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="The Blueprint Check — a free one-page self-assessment built on the eleven principles from Under Construction. Score what you're building.">
+<meta property="og:title" content="The Blueprint Check — Free Self-Assessment">
+<meta property="og:description" content="A free one-page self-assessment built on the eleven principles from Under Construction. Score what you're building — and see what's still missing.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://caydenfarris.net/blueprint-check/">
+<meta name="twitter:card" content="summary">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<link rel="canonical" href="https://caydenfarris.net/blueprint-check/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='14' fill='%231c1208'/%3E%3Ctext x='50' y='68' font-family='Georgia,serif' font-size='52' font-weight='600' fill='%23b8840a' text-anchor='middle'%3ECF%3C/text%3E%3C/svg%3E">
+<title>The Blueprint Check — Cayden Farris</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+/* Standalone magnet landing page — deliberately no nav and no competing CTAs. */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --cream:#faf6ef;--cream2:#f2ece0;
+  --gold:#b8840a;--gold-lt:#d4a832;
+  --espresso:#1c1208;--brown:#4a2e12;--brown-lt:#7a5230;
+  --muted:#8a7060;--border:rgba(74,46,18,0.12);
+  --work:#3d2a12;--work-lt:#6b4a22;
+  --ff-head:'Cormorant Garamond',Georgia,serif;
+  --ff-body:'Lora',Georgia,serif;
+}
+body{background:var(--cream);color:var(--espresso);font-family:var(--ff-body);font-size:17px;line-height:1.75;min-height:100vh;display:flex;flex-direction:column}
+body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;opacity:0.025;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:160px 160px}
+::selection{background:var(--gold-lt);color:var(--espresso)}
+
+.band{background:var(--work);position:relative;overflow:hidden;padding:clamp(56px,9vw,90px) clamp(24px,8vw,100px) clamp(44px,7vw,70px);text-align:center}
+.band::before{content:'';position:absolute;inset:0;opacity:0.07;background-image:linear-gradient(rgba(212,168,50,1) 1px,transparent 1px),linear-gradient(90deg,rgba(212,168,50,1) 1px,transparent 1px);background-size:28px 28px}
+.band-inner{position:relative;z-index:1;max-width:640px;margin:0 auto}
+.eyebrow{font-family:var(--ff-body);font-size:11px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:var(--gold-lt);margin-bottom:20px}
+.band h1{font-family:var(--ff-head);font-size:clamp(40px,7vw,66px);font-weight:300;line-height:1.05;color:var(--cream);margin-bottom:16px}
+.band h1 em{font-style:italic;color:var(--gold-lt)}
+.band p{font-family:var(--ff-head);font-size:clamp(17px,2.4vw,21px);font-style:italic;color:rgba(250,246,239,.75);line-height:1.55}
+
+main{flex:1;max-width:620px;margin:0 auto;padding:clamp(40px,6vw,64px) 24px clamp(48px,7vw,72px);text-align:center;width:100%}
+.benefits{display:flex;flex-direction:column;gap:14px;text-align:left;margin:0 0 36px}
+.benefit{display:flex;gap:14px;align-items:flex-start}
+.benefit-mark{width:24px;height:24px;flex-shrink:0;border-radius:50%;background:rgba(184,132,10,0.12);border:1px solid rgba(184,132,10,0.45);color:var(--gold);font-size:11px;display:flex;align-items:center;justify-content:center;margin-top:4px}
+.benefit p{font-size:15.5px;color:var(--brown-lt);line-height:1.65}
+.benefit p strong{font-family:var(--ff-head);font-size:17.5px;font-weight:600;color:var(--espresso)}
+
+.capture{background:var(--cream2);border:1px solid var(--border);border-radius:3px;padding:clamp(26px,4vw,38px)}
+.capture h2{font-family:var(--ff-head);font-size:26px;font-weight:500;margin-bottom:6px}
+.capture>p{font-size:14px;color:var(--muted);margin-bottom:22px}
+form{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+input[type="email"]{flex:1;min-width:200px;font-family:var(--ff-body);font-size:15px;color:var(--espresso);background:var(--cream);border:1.5px solid var(--border);border-radius:2px;padding:14px 16px;outline:none;transition:border-color .2s}
+input[type="email"]:focus{border-color:var(--gold)}
+button{background:var(--espresso);color:var(--cream);font-family:var(--ff-body);font-size:13px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;border:none;padding:14px 28px;border-radius:2px;cursor:pointer;transition:background .2s}
+button:hover{background:var(--brown)}
+.note{font-size:12px;color:var(--muted);margin-top:14px}
+
+.success{display:none;padding:16px 8px}
+.success .check{font-size:40px;margin-bottom:10px}
+.success h2{font-family:var(--ff-head);font-size:28px;font-weight:500;margin-bottom:8px}
+.success p{font-size:15px;color:var(--brown-lt)}
+.subscribed .capture-form-state{display:none}
+.subscribed .success{display:block}
+
+footer{text-align:center;padding:22px 16px;border-top:1px solid var(--border)}
+footer a{font-family:var(--ff-head);font-size:15px;color:var(--muted);text-decoration:none}
+footer a span{color:var(--gold)}
+</style>
+</head>
+<body>
+
+<div class="band">
+  <div class="band-inner">
+    <p class="eyebrow">Free Self-Assessment</p>
+    <h1>The Blueprint <em>Check</em></h1>
+    <p>One page. Eleven principles. An honest score of the person you're building.</p>
+  </div>
+</div>
+
+<main>
+  <div class="benefits">
+    <div class="benefit">
+      <div class="benefit-mark">✓</div>
+      <p><strong>Score your current build.</strong> Rate yourself across the eleven principles from <em>Under Construction</em> — Foundation to Pressure — in about five minutes.</p>
+    </div>
+    <div class="benefit">
+      <div class="benefit-mark">✓</div>
+      <p><strong>Find the weakest wall.</strong> Every build has one. The check shows you exactly which principle needs work before it starts costing you.</p>
+    </div>
+    <div class="benefit">
+      <div class="benefit-mark">✓</div>
+      <p><strong>Know what to work on next.</strong> Not someday. This week. The check turns "I should grow" into one concrete starting point.</p>
+    </div>
+  </div>
+
+  <div class="capture" id="capture">
+    <div class="capture-form-state">
+      <h2>Get the Blueprint Check</h2>
+      <p>Enter your email and I'll send it straight to your inbox — free.</p>
+      <form action="https://formspree.io/f/mreowrzw" method="POST">
+        <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
+        <input type="hidden" name="_subject" value="Blueprint Check Signup — caydenfarris.net">
+        <input type="hidden" name="form_type" value="magnet_blueprint_check">
+        <input type="hidden" name="source" value="blueprint-check-page">
+        <input type="hidden" name="_next" value="https://caydenfarris.net/blueprint-check/?subscribed=true">
+        <input type="email" name="email" placeholder="your@email.com" autocomplete="email" maxlength="254" required aria-label="Email address">
+        <button type="submit">Send It to Me</button>
+      </form>
+      <p class="note">No spam. Ever. Unsubscribe anytime.</p>
+    </div>
+    <div class="success">
+      <div class="check">✓</div>
+      <h2>It's on the way</h2>
+      <p>Check your inbox — the Blueprint Check is headed there now. When you've scored your build, you'll know exactly where to start.</p>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <a href="/">Cayden <span>Farris</span></a>
+</footer>
+
+<script>
+if (new URLSearchParams(location.search).get('subscribed') === 'true') {
+  document.getElementById('capture').classList.add('subscribed');
+}
+document.querySelectorAll('form').forEach(f => f.addEventListener('submit', () => {
+  const b = f.querySelector('button'); if (b) { b.disabled = true; b.textContent = 'Sending...'; }
+}));
+</script>
+</body>
+</html>

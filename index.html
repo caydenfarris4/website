@@ -8,8 +8,13 @@
 <meta property="og:description" content="Helping you build who you're meant to become before you look back and wish you had.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://caydenfarris.net/">
-<meta property="og:image" content="https://caydenfarris.net/images/headshot.jpg">
-<meta name="twitter:card" content="summary">
+<meta property="og:image" content="https://caydenfarris.net/images/og/home.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Cayden Farris — Author · Speaker · Coach">
+<meta name="twitter:description" content="Helping you build who you're meant to become before you look back and wish you had.">
+<meta name="twitter:image" content="https://caydenfarris.net/images/og/home.png">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <link rel="canonical" href="https://caydenfarris.net/">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='14' fill='%231c1208'/%3E%3Ctext x='50' y='68' font-family='Georgia,serif' font-size='52' font-weight='600' fill='%23b8840a' text-anchor='middle'%3ECF%3C/text%3E%3C/svg%3E">
@@ -1033,80 +1038,6 @@ section.full-bleed {
 }
 .form-success-box p { font-size: 14.5px; color: var(--muted); margin-bottom: 0; }
 
-/* ── RESUME ── */
-#resume h2 {
-  font-family: var(--ff-head);
-  font-size: clamp(36px,5vw,52px);
-  font-weight: 400;
-  margin-bottom: 12px;
-}
-#resume h2 em { font-style: italic; color: var(--brown); }
-#resume .intro { color: var(--brown-lt); margin-bottom: 56px; font-size: 16.5px; }
-
-.resume-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: clamp(32px,5vw,80px);
-}
-@media(max-width: 700px) { .resume-grid { grid-template-columns: 1fr; } }
-
-.resume-col h3 {
-  font-family: var(--ff-head);
-  font-size: 22px;
-  font-weight: 600;
-  color: var(--espresso);
-  letter-spacing: 0.5px;
-  margin-bottom: 28px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid var(--border);
-}
-
-.resume-item {
-  margin-bottom: 28px;
-  padding-bottom: 28px;
-  border-bottom: 1px solid var(--border);
-}
-.resume-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
-
-.resume-item-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 12px;
-  margin-bottom: 4px;
-  flex-wrap: wrap;
-}
-.resume-item-title {
-  font-family: var(--ff-head);
-  font-size: 18px;
-  font-weight: 500;
-  color: var(--espresso);
-}
-.resume-item-date {
-  font-size: 12px;
-  color: var(--muted);
-  font-weight: 500;
-  letter-spacing: 0.5px;
-  white-space: nowrap;
-}
-.resume-item-org {
-  font-size: 13px;
-  color: var(--gold);
-  font-weight: 500;
-  letter-spacing: 0.5px;
-  margin-bottom: 8px;
-}
-.resume-item p { font-size: 14.5px; color: var(--brown-lt); line-height: 1.65; }
-
-.resume-download {
-  margin-top: 48px;
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  flex-wrap: wrap;
-}
-.resume-download p { font-size: 15px; color: var(--muted); }
-
 /* ── CONTACT ── */
 #contact {
   background: var(--espresso);
@@ -1246,11 +1177,9 @@ footer {
   <ul class="nav-links">
     <li><a href="#about">About</a></li>
     <li><a href="#book">Book</a></li>
-    <li><a href="#foreman">Foreman</a></li>
     <li><a href="/blog">Blog</a></li>
-    <li><a href="#work">Work</a></li>
+    <li><a href="#work">Study Tools</a></li>
     <li><a href="#speaking">Speaking</a></li>
-    <li><a href="#resume">Resume</a></li>
     <li><a href="#contact" class="nav-cta">Get in Touch</a></li>
   </ul>
   <div class="nav-toggle" id="navToggle" role="button" tabindex="0" aria-label="Menu" aria-expanded="false">
@@ -1262,11 +1191,9 @@ footer {
 <div class="nav-mobile" id="navMobile">
   <a href="#about" class="nav-m-link">About</a>
   <a href="#book" class="nav-m-link">Book</a>
-  <a href="#foreman" class="nav-m-link">Foreman</a>
   <a href="/blog" class="nav-m-link">Blog</a>
-  <a href="#work" class="nav-m-link">Work</a>
+  <a href="#work" class="nav-m-link">Study Tools</a>
   <a href="#speaking" class="nav-m-link">Speaking</a>
-  <a href="#resume" class="nav-m-link">Resume</a>
   <a href="#contact" class="nav-m-link">Get in Touch</a>
 </div>
 
@@ -1281,9 +1208,10 @@ footer {
     <p class="hero-tagline reveal reveal-d2">
       Helping you build who you're meant to become before you look back and wish you had.
     </p>
+    <!-- One primary CTA. Foreman is deliberately not here — it's the step
+         AFTER the book (see the Foreman section below). -->
     <div class="hero-actions reveal reveal-d3">
       <a href="/book" class="btn-primary">Get the Book</a>
-      <a href="https://foreman.coach" target="_blank" rel="noopener" class="btn-foreman">Try Foreman.coach →</a>
       <a href="#speaking" class="btn-secondary">Book a Talk</a>
     </div>
   </div>
@@ -1344,13 +1272,38 @@ footer {
       <p class="reveal reveal-d2" style="color:rgba(250,246,239,0.55);font-size:15px;">
         The wait is over — <em>Under Construction</em> is available now on Amazon.
       </p>
-      <a href="https://www.amazon.com/dp/B0H76DT3DM" target="_blank" rel="noopener" class="btn-gold reveal reveal-d3">
-        Buy on Amazon
-      </a>
+      <div class="reveal reveal-d3" style="display:flex;align-items:center;gap:22px;flex-wrap:wrap">
+        <a href="/go/book-home" target="_blank" rel="noopener" class="btn-gold" style="margin-top:16px">
+          Buy on Amazon
+        </a>
+        <a href="/book" style="margin-top:16px;font-family:var(--ff-body);font-size:12px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold-lt);text-decoration:none;border-bottom:1px solid rgba(212,168,50,0.4);padding-bottom:2px">More about the book →</a>
+      </div>
       <p class="book-foreman-note reveal reveal-d3">
         And when you turn the last page, the build keeps going — <a href="#foreman">meet Foreman, my coaching app</a>.
       </p>
     </div>
+  </div>
+</section>
+
+<!-- ── BLUEPRINT CHECK CAPTURE ── -->
+<!-- The leadership-track email magnet: a specific free tool, not "a newsletter".
+     Signups are tagged source=homepage so this list can be emailed separately
+     from the study-tools list. -->
+<section id="blueprint-check" class="full-bleed" style="background:var(--cream2);max-width:none;padding:clamp(56px,8vw,90px) clamp(28px,8vw,120px);border-bottom:1px solid var(--border)">
+  <div style="max-width:760px;margin:0 auto;text-align:center">
+    <div class="section-label reveal" style="justify-content:center">Free Tool</div>
+    <h2 class="reveal reveal-d1" style="font-family:var(--ff-head);font-size:clamp(30px,4.5vw,46px);font-weight:400;line-height:1.15;margin-bottom:14px">Take the <em style="font-style:italic;color:var(--brown)">Blueprint Check</em></h2>
+    <p class="reveal reveal-d2" style="color:var(--brown-lt);font-size:16px;max-width:560px;margin:0 auto 28px">A free one-page self-assessment built on the eleven principles from <em>Under Construction</em>. Score what you're building — foundation to roof — and see exactly where to work next.</p>
+    <form class="reveal reveal-d2" action="https://formspree.io/f/mreowrzw" method="POST" style="display:flex;gap:10px;max-width:440px;margin:0 auto;flex-wrap:wrap;justify-content:center">
+      <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
+      <input type="hidden" name="_subject" value="Blueprint Check Signup — caydenfarris.net">
+      <input type="hidden" name="form_type" value="magnet_blueprint_check">
+      <input type="hidden" name="source" value="homepage">
+      <input type="hidden" name="_next" value="https://caydenfarris.net/blueprint-check/?subscribed=true">
+      <input type="email" name="email" placeholder="your@email.com" autocomplete="email" maxlength="254" required aria-label="Email address" style="flex:1;min-width:200px;font-family:var(--ff-body);font-size:15px;color:var(--espresso);background:var(--cream);border:1.5px solid var(--border);border-radius:2px;padding:13px 16px;outline:none">
+      <button type="submit" style="background:var(--espresso);color:var(--cream);font-family:var(--ff-body);font-size:12px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;border:none;padding:13px 24px;border-radius:2px;cursor:pointer">Send It to Me</button>
+    </form>
+    <p class="reveal reveal-d3" style="font-size:12px;color:var(--muted);margin-top:14px">No spam. Ever. Unsubscribe anytime.</p>
   </div>
 </section>
 
@@ -1419,31 +1372,17 @@ footer {
   </div>
 </section>
 
-<!-- ── WORK ── -->
+<!-- ── SCRIPTURE STUDY TOOLS ── -->
+<!-- A deliberately distinct track from the leadership material: no book
+     pitch here. This is where Sunday School and seminary teachers land. -->
 <section id="work">
-  <div class="section-label reveal">My Work</div>
-  <h2 class="reveal reveal-d1">Things I've <em>built</em></h2>
-  <p class="intro reveal reveal-d2">Projects, tools, and resources I've created to help people learn, grow, and see the world differently.</p>
+  <div class="section-label reveal">Scripture Study Tools</div>
+  <h2 class="reveal reveal-d1">Tools for going <em>deeper</em></h2>
+  <p class="intro reveal reveal-d2">Interactive study tools and written word studies for Sunday School teachers, seminary teachers, and anyone who loves to dig into scripture. Free to use, built to be projected in class.</p>
 
   <div class="work-grid">
 
-    <a href="https://foreman.coach" class="work-card reveal" target="_blank" rel="noopener">
-      <div class="work-card-icon">👷</div>
-      <div class="work-card-type">Coaching App</div>
-      <h3>Foreman.coach</h3>
-      <p>My coaching app — the foreman for the person you're building. Daily check-ins, real accountability, and coaching built on the Under Construction framework, so the growth keeps going long after the book ends.</p>
-      <div class="work-card-link">Start building →</div>
-    </a>
-
-    <a href="/blog" class="work-card reveal">
-      <div class="work-card-icon">✒</div>
-      <div class="work-card-type">Writing</div>
-      <h3>The Blog — Two Tracks</h3>
-      <p>Ancient Paths: deep scripture study through Hebrew word studies and covenant theology. The Work: honest essays on principled leadership and building who you're meant to become.</p>
-      <div class="work-card-link">Read the blog →</div>
-    </a>
-
-    <a href="/tabernacle" class="work-card reveal reveal-d1">
+    <a href="/tabernacle" class="work-card reveal">
       <div class="work-card-icon">🏛</div>
       <div class="work-card-type">Interactive Tool</div>
       <h3>The Tabernacle</h3>
@@ -1451,7 +1390,7 @@ footer {
       <div class="work-card-link">Explore the tool →</div>
     </a>
 
-    <a href="/high-priest" class="work-card reveal reveal-d2">
+    <a href="/high-priest" class="work-card reveal reveal-d1">
       <div class="work-card-icon">✡</div>
       <div class="work-card-type">Interactive Tool</div>
       <h3>Garments of the High Priest</h3>
@@ -1459,7 +1398,7 @@ footer {
       <div class="work-card-link">Explore the tool →</div>
     </a>
 
-    <a href="/levitical-sacrifices" class="work-card reveal reveal-d3">
+    <a href="/levitical-sacrifices" class="work-card reveal reveal-d2">
       <div class="work-card-icon">🔥</div>
       <div class="work-card-type">Interactive Tool</div>
       <h3>The Sacrifices of Leviticus</h3>
@@ -1467,15 +1406,13 @@ footer {
       <div class="work-card-link">Explore the tool →</div>
     </a>
 
-    <div class="work-card reveal reveal-d4" style="cursor:default">
-      <div class="work-card-icon">🎤</div>
-      <div class="work-card-type">Speaking</div>
-      <h3>Keynotes &amp; Firesides</h3>
-      <p>Talks on personal conversion, covenant theology, becoming your best self, and lessons from the mission field. Available for youth, young adult, and community events.</p>
-      <div class="work-card-link">
-        <a href="#speaking" style="color:var(--gold);text-decoration:none;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;font-weight:500">Book a talk →</a>
-      </div>
-    </div>
+    <a href="/blog" class="work-card reveal reveal-d3">
+      <div class="work-card-icon">✒</div>
+      <div class="work-card-type">Written Studies</div>
+      <h3>Ancient Paths</h3>
+      <p>Deep scripture study in written form — Hebrew word studies and covenant theology almost nobody else writes. (The blog's second track, The Work, covers principled leadership.)</p>
+      <div class="work-card-link">Read the studies →</div>
+    </a>
 
   </div>
 </section>
@@ -1498,28 +1435,28 @@ footer {
           <div class="topic-dot"></div>
           <div class="topic-text">
             <strong>Under Construction</strong>
-            <span>Building your house of principled leadership while you're young enough for it to matter</span>
+            <span>Your audience leaves with a blueprint for who they're becoming — and the urgency to start building now</span>
           </div>
         </div>
         <div class="speaking-topic">
           <div class="topic-dot"></div>
           <div class="topic-text">
             <strong>Becoming Your Best Self</strong>
-            <span>Identity, potential, and the daily decision to grow before hindsight forces it</span>
+            <span>Your youth walk out seeing growth as a daily decision they can actually make — not a someday wish</span>
           </div>
         </div>
         <div class="speaking-topic">
           <div class="topic-dot"></div>
           <div class="topic-text">
             <strong>Covenant &amp; Character</strong>
-            <span>Deep dives into scripture, covenant theology, and what it means to be set apart</span>
+            <span>Scripture study deep enough that your class is still talking about it a week later</span>
           </div>
         </div>
         <div class="speaking-topic">
           <div class="topic-dot"></div>
           <div class="topic-text">
             <strong>Lessons from the Mission Field</strong>
-            <span>Faith, foreordination, and the gathering of Israel — lessons that shape a life</span>
+            <span>Faith, foreordination, and the gathering of Israel — told through stories your youth will remember</span>
           </div>
         </div>
       </div>
@@ -1562,107 +1499,8 @@ footer {
   </div>
 </section>
 
-<!-- ── RESUME ── -->
-<section id="resume">
-  <div class="section-label reveal">Resume</div>
-  <h2 class="reveal reveal-d1">Experience &amp; <em>background</em></h2>
-  <p class="intro reveal reveal-d2">The short version of a life spent in service, learning, and building things that matter.</p>
-
-  <div class="resume-grid">
-    <div class="resume-col">
-      <h3 class="reveal">Professional Experience</h3>
-
-      <div class="resume-item reveal reveal-d1">
-        <div class="resume-item-top">
-          <div class="resume-item-title">Product Manager</div>
-          <div class="resume-item-date">Apr 2026 – Present</div>
-        </div>
-        <div class="resume-item-org">Caselle · Govineer Portfolio · American Fork, UT</div>
-        <p>Owns the roadmap for Community Portal, miViewpoint, Zift integration, and GL posting across a PE-backed GovTech ERP serving 1,000+ U.S. municipalities. Leads 3 engineers and 1 QA tester in an Agile delivery model. One of the most unconventional internal promotions in company history.</p>
-      </div>
-
-      <div class="resume-item reveal reveal-d2">
-        <div class="resume-item-top">
-          <div class="resume-item-title">Founder &amp; Product Lead</div>
-          <div class="resume-item-date">Feb 2025 – Present</div>
-        </div>
-        <div class="resume-item-org">GovSight LLC · Provo, UT</div>
-        <p>Founded a government financial analytics SaaS platform targeting small-to-mid-size municipalities. Identified the opportunity through direct customer discovery across 15+ municipal clients. Presented to three CEOs who opened discussions around platform integration and potential acquisition.</p>
-      </div>
-
-      <div class="resume-item reveal reveal-d3">
-        <div class="resume-item-top">
-          <div class="resume-item-title">Client Success &amp; ERP Specialist</div>
-          <div class="resume-item-date">Sept 2024 – Apr 2026</div>
-        </div>
-        <div class="resume-item-org">Caselle · Govineer Portfolio · American Fork, UT</div>
-        <p>Holds all-time company records: 531 tickets in a single month and 43 in a single day. Hit the 90-day benchmark of 10 tickets/day on day three. Performance cited by the CEO in company-wide meetings within 30 days of hire.</p>
-      </div>
-
-      <div class="resume-item reveal reveal-d3">
-        <div class="resume-item-top">
-          <div class="resume-item-title">Full-Time Missionary</div>
-          <div class="resume-item-date">Jul 2021 – Jul 2023</div>
-        </div>
-        <div class="resume-item-org">The Church of Jesus Christ of Latter-day Saints · Honduras</div>
-        <p>Top &lt;1% leadership role. Served as Assistant to the Mission President — functioned as Training Director and Chief of Staff equivalent for a 160-person organization operating across Honduras. Ran one complete transfer cycle solo at age 20.</p>
-      </div>
-
-    </div>
-
-    <div class="resume-col">
-      <h3 class="reveal">Education &amp; Credentials</h3>
-
-      <div class="resume-item reveal reveal-d1">
-        <div class="resume-item-top">
-          <div class="resume-item-title">B.S. Accounting · GPA 3.8 / 4.0</div>
-          <div class="resume-item-date">May 2025</div>
-        </div>
-        <div class="resume-item-org">Colorado State University Global</div>
-        <p>Financed 100% of college through full-time employment. Relevant coursework: Cost Accounting, Financial Modeling, Database Management, Business Analytics.</p>
-      </div>
-
-      <div class="resume-item reveal reveal-d2">
-        <div class="resume-item-top">
-          <div class="resume-item-title">Maxwell Certified Coach &amp; Speaker</div>
-          <div class="resume-item-date">March 2026</div>
-        </div>
-        <div class="resume-item-org">International Maxwell Certification (IMC26) · Dallas, TX</div>
-        <p>Certified through the John Maxwell Leadership program — one of the most recognized leadership development certifications in the world.</p>
-      </div>
-
-      <div class="resume-item reveal reveal-d2">
-        <div class="resume-item-top">
-          <div class="resume-item-title">CPA Candidate · Eagle Scout</div>
-        </div>
-        <div class="resume-item-org">Fluent in Spanish</div>
-        <p>Currently pursuing CPA licensure. Eagle Scout. Full conversational fluency in Spanish developed during two years of service in Honduras.</p>
-      </div>
-
-      <div class="resume-item reveal reveal-d3">
-        <div class="resume-item-top">
-          <div class="resume-item-title">State Swimming Champion</div>
-        </div>
-        <div class="resume-item-org">High School Athletics</div>
-        <p>Joined the swim team as a sophomore with no prior competitive experience. Won the state championship as a senior — the same pattern that defines everything since.</p>
-      </div>
-
-      <div class="resume-item reveal reveal-d3">
-        <div class="resume-item-top">
-          <div class="resume-item-title">Technical Skills</div>
-        </div>
-        <div class="resume-item-org">Product · Engineering · Analytics</div>
-        <p>Python · SQL · AI Integration · Advanced Excel · API Design · Product Roadmapping · Agile/Scrum · Git/GitHub · ZOHO Desk</p>
-      </div>
-    </div>
-  </div>
-
-  <div class="resume-download reveal">
-    <a href="mailto:cayden.farris03@gmail.com?subject=Resume%20Request%20%E2%80%94%20caydenfarris.net" class="btn-secondary">Request Full Resume</a>
-    <p>Full PDF resume available on request.</p>
-    <!-- UPDATE: When you have a hosted resume PDF, replace the mailto link above with its URL and change the text back to "Download Full Resume (PDF)" -->
-  </div>
-</section>
+<!-- Resume lives at /resume — it serves the career, not the reader,
+     so it no longer competes with conversion points on the homepage. -->
 
 <!-- ── CONTACT ── -->
 <section id="contact" class="full-bleed">
@@ -1672,15 +1510,16 @@ footer {
     <p class="reveal reveal-d2">Whether you want to talk about a speaking event, share how the book landed, or just connect — I'd love to hear from you.</p>
 
     <div class="newsletter-block reveal reveal-d2">
-      <h3>Get the writing in your inbox</h3>
-      <p class="newsletter-sub">New posts and book updates. No noise — just the writing.</p>
+      <h3>Get the Blueprint Check</h3>
+      <p class="newsletter-sub">A free one-page self-assessment built on the eleven principles from <em>Under Construction</em> — plus new writing when it ships.</p>
       <form class="newsletter-form" id="newsletterForm" action="https://formspree.io/f/mreowrzw" method="POST">
         <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
-        <input type="hidden" name="_subject" value="New Newsletter Signup — caydenfarris.net">
-        <input type="hidden" name="form_type" value="newsletter_signup">
-        <input type="hidden" name="_next" value="https://caydenfarris.net/?sent=newsletter#contact">
+        <input type="hidden" name="_subject" value="Blueprint Check Signup — caydenfarris.net">
+        <input type="hidden" name="form_type" value="magnet_blueprint_check">
+        <input type="hidden" name="source" value="homepage-contact">
+        <input type="hidden" name="_next" value="https://caydenfarris.net/blueprint-check/?subscribed=true">
         <input type="email" name="email" placeholder="your@email.com" autocomplete="email" maxlength="254" required aria-label="Email address">
-        <button type="submit">Subscribe</button>
+        <button type="submit">Send It</button>
       </form>
       <p class="newsletter-note">No spam. Ever. Unsubscribe anytime.</p>
     </div>
@@ -1697,7 +1536,11 @@ footer {
 <!-- ── FOOTER ── -->
 <footer>
   <a href="#" class="footer-name">Cayden <span>Farris</span></a>
-  <p class="footer-copy">© 2026 Cayden Farris · caydenfarris.net</p>
+  <p style="display:flex;gap:18px;align-items:center;flex-wrap:wrap">
+    <a href="/resume" style="font-size:12px;color:rgba(250,246,239,0.4);text-decoration:none;letter-spacing:1px;text-transform:uppercase">Resume</a>
+    <a href="https://foreman.coach" target="_blank" rel="noopener" style="font-size:12px;color:rgba(250,246,239,0.4);text-decoration:none;letter-spacing:1px;text-transform:uppercase">Foreman.coach</a>
+    <span class="footer-copy">© 2026 Cayden Farris · caydenfarris.net</span>
+  </p>
 </footer>
 
 <script>
@@ -1755,12 +1598,9 @@ reveals.forEach(el => observer.observe(el));
     if (form) {
       form.innerHTML = '<div class="form-success-box"><div class="check">✓</div><h4>Inquiry sent</h4><p>Thank you — I\'ll be in touch within 48 hours.</p></div>';
     }
-  } else if (sent === 'newsletter') {
-    const block = document.querySelector('.newsletter-block');
-    if (block) {
-      block.innerHTML = '<div class="form-success-box"><div class="check">✓</div><h4 style="color:var(--cream)">You\'re on the list</h4><p style="color:rgba(250,246,239,0.55)">New writing and book updates, straight to your inbox.</p></div>';
-    }
   }
+  // (Blueprint Check signups redirect to /blueprint-check/?subscribed=true,
+  // which shows its own confirmation.)
 })();
 
 // ── SUBMIT LOADING STATE ──

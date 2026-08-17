@@ -1,13 +1,19 @@
 # Publishing a new blog post
 
 Checklist for every new post. Follow all steps — several site features
-(link previews, sorting, navigation) depend on them.
+(link previews, sorting, navigation, search visibility) depend on them.
+
+Posts live at `https://caydenfarris.net/blog/<track>/<slug>/`. The worker
+pre-renders the full article HTML at that path from the markdown file, so
+the text is visible to Google, Bing, and AI search crawlers (which never
+execute JavaScript) and link previews work everywhere. The old
+`reader.html?post=<slug>` URLs 301-redirect to the new paths.
 
 ## 1. Write the markdown file
 
 Create `blog/<track>/posts/<slug>.md` where `<track>` is `the-work` or
 `ancient-paths` and `<slug>` is lowercase-hyphenated (letters, digits,
-hyphens only — the reader rejects anything else).
+hyphens only — the worker rejects anything else).
 
 Frontmatter template:
 
@@ -42,6 +48,13 @@ characters for clean truncation. Do not use double quotes inside
 frontmatter values (the parsers are line-based); apostrophes are fine.
 Nothing else is needed — the worker picks up new posts automatically.
 
+**Markdown support:** the worker's renderer handles `##`/`###` headings,
+`---` section breaks, `>` blockquotes, `-`/`1.` lists, images, links,
+`**bold**`, and `*italics*`. Stick to those.
+
+**Book links in posts:** if a post links to the book, use `/go/book-blog`
+(never a raw Amazon URL) so clicks are tracked and Attribution tags apply.
+
 **Voice notes (The Work):** cold open on a concrete scene, first line as
 its own paragraph; short paragraphs with one-line punches; quote an
 authority then reframe the common reading; `---` between sections;
@@ -56,7 +69,7 @@ it links forward to the new post (most recent posts otherwise dead-end).
 
 Copy an existing `<a class="post-card ...">` block. Set:
 
-- `href="/blog/<track>/reader.html?post=<slug>"`
+- `href="/blog/<track>/<slug>/"`
 - `class` track modifier: `work` or `ancient`
 - `data-track`: `work` or `ancient`
 - `data-date`: ISO format `YYYY-MM-DD` — **this controls sorting**; the
@@ -64,7 +77,7 @@ Copy an existing `<a class="post-card ...">` block. Set:
 - `data-order`: next integer (used by the "Original" sort toggle)
 - Card text: title (with `<em>` on part of it), the excerpt, and the
   date in `Mon D, YYYY` format
-- Share button: `sharePost(event,'<post path>','<Title>')`
+- Share button: `sharePost(event,'/blog/<track>/<slug>/','<Title>')`
 - Update the static post count in `<span id="postsCount">`
 
 Placement in the HTML doesn't affect the default view (JS sorts by date
@@ -73,12 +86,16 @@ on load) — append at the end with the other cards.
 ## 4. Add the sitemap entry
 
 Add to `sitemap.xml`:
-`<url><loc>https://caydenfarris.net/blog/<track>/reader.html?post=<slug></loc></url>`
+`<url><loc>https://caydenfarris.net/blog/<track>/<slug>/</loc></url>`
 
 ## 5. Verify before merging
 
-- Load `/blog/<track>/reader.html?post=<slug>` — title, subtitle,
+- Load `/blog/<track>/<slug>/` on a deployed preview — title, subtitle,
   key-principle band, reflection box, and next-post link all render
-- `curl -s '<url>' | grep og:` on a deployed preview — the og:title and
-  og:description must show the post's title and excerpt
+- `curl -s '<url>'` must show the **article text in the raw HTML**
+  (view-source, not the browser) — this is what search and AI crawlers see
+- `curl -s '<url>' | grep og:` — og:title and og:description must show
+  the post's title and excerpt
+- The old-style `/blog/<track>/reader.html?post=<slug>` URL must 301 to
+  the new path
 - Card appears first on `/blog/` (newest-first default)
