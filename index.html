@@ -277,19 +277,79 @@ section.full-bleed {
 
 .btn-primary {
   display: inline-block;
-  background: var(--espresso);
-  color: var(--cream);
+  background: var(--gold);
+  color: var(--espresso);
   font-family: var(--ff-body);
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 500;
   letter-spacing: 1.5px;
   text-transform: uppercase;
   text-decoration: none;
-  padding: 16px 32px;
+  padding: 18px 38px;
   border-radius: 2px;
-  transition: background 0.22s, transform 0.18s;
+  box-shadow: 0 8px 28px rgba(184,132,10,0.28);
+  transition: background 0.22s, transform 0.18s, box-shadow 0.22s;
 }
-.btn-primary:hover { background: var(--brown); transform: translateY(-2px); }
+.btn-primary:hover { background: var(--gold-lt); transform: translateY(-2px); box-shadow: 0 12px 32px rgba(184,132,10,0.35); }
+
+/* small under-CTA line for the visitor who's already sold */
+.hero-book-note {
+  margin-top: 22px;
+  font-size: 14px;
+  color: var(--muted);
+}
+.hero-book-note a {
+  color: var(--gold);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(184,132,10,0.35);
+  padding-bottom: 1px;
+  transition: color 0.2s, border-color 0.2s;
+}
+.hero-book-note a:hover { color: var(--brown); border-color: var(--brown); }
+
+/* the book itself, above the fold — clicks through to /book.
+   Not a .reveal (that class' transform would override the centering). */
+.hero-book-float {
+  position: absolute;
+  right: clamp(48px, 9vw, 150px);
+  top: 50%;
+  transform: translateY(-50%) rotate(4deg);
+  z-index: 1;
+  width: clamp(190px, 17vw, 260px);
+  text-decoration: none;
+  transition: transform 0.3s;
+  animation: heroBookIn 0.9s cubic-bezier(.4,0,.2,1) 0.35s backwards;
+}
+.hero-book-float:hover { transform: translateY(-51%) rotate(2deg); }
+@keyframes heroBookIn {
+  from { opacity: 0; transform: translateY(calc(-50% + 24px)) rotate(4deg); }
+  to   { opacity: 1; transform: translateY(-50%) rotate(4deg); }
+}
+.hero-book-float img {
+  width: 100%;
+  aspect-ratio: 2/3;
+  object-fit: cover;
+  border-radius: 3px;
+  display: block;
+  box-shadow: 14px 20px 50px rgba(28,18,8,0.3), -2px 0 8px rgba(28,18,8,0.12);
+}
+.hero-book-badge {
+  position: absolute;
+  top: -14px;
+  left: -20px;
+  background: var(--espresso);
+  color: var(--gold-lt);
+  font-family: var(--ff-body);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 8px 15px;
+  border-radius: 2px;
+  box-shadow: 0 8px 20px rgba(28,18,8,0.25);
+  transform: rotate(-3deg);
+}
+@media(max-width: 1150px) { .hero-book-float { display: none; } }
 
 .btn-secondary {
   display: inline-block;
@@ -1177,6 +1237,7 @@ footer {
   <ul class="nav-links">
     <li><a href="#about">About</a></li>
     <li><a href="#book">Book</a></li>
+    <li><a href="#foreman">Foreman</a></li>
     <li><a href="/blog">Blog</a></li>
     <li><a href="#work">Study Tools</a></li>
     <li><a href="#speaking">Speaking</a></li>
@@ -1191,6 +1252,7 @@ footer {
 <div class="nav-mobile" id="navMobile">
   <a href="#about" class="nav-m-link">About</a>
   <a href="#book" class="nav-m-link">Book</a>
+  <a href="#foreman" class="nav-m-link">Foreman</a>
   <a href="/blog" class="nav-m-link">Blog</a>
   <a href="#work" class="nav-m-link">Study Tools</a>
   <a href="#speaking" class="nav-m-link">Speaking</a>
@@ -1208,13 +1270,20 @@ footer {
     <p class="hero-tagline reveal reveal-d2">
       Helping you build who you're meant to become before you look back and wish you had.
     </p>
-    <!-- One primary CTA. Foreman is deliberately not here — it's the step
-         AFTER the book (see the Foreman section below). -->
+    <!-- One PRIMARY CTA (the book). Foreman lives in the nav and its own
+         section — the sequence is book → email → Foreman, never a fork. -->
     <div class="hero-actions reveal reveal-d3">
-      <a href="/book" class="btn-primary">Get the Book</a>
+      <a href="/book" class="btn-primary">Get the Book →</a>
       <a href="#speaking" class="btn-secondary">Book a Talk</a>
     </div>
+    <p class="hero-book-note reveal reveal-d4"><em>Under Construction</em> is out now — <a href="/go/book-home" target="_blank" rel="noopener">grab it on Amazon →</a></p>
   </div>
+
+  <a href="/book" class="hero-book-float" aria-label="Under Construction — see the book">
+    <span class="hero-book-badge">Out Now</span>
+    <img src="images/book-cover.jpg" alt="Under Construction book cover" decoding="async">
+  </a>
+
   <div class="hero-scroll">Scroll</div>
 </section>
 
