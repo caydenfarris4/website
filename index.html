@@ -846,10 +846,6 @@ section.full-bleed {
 .work-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(28,18,8,0.1); border-color: rgba(74,46,18,0.22); }
 .work-card:hover::before { transform: scaleX(1); }
 
-.work-card-icon {
-  font-size: 28px;
-  line-height: 1;
-}
 .work-card-type {
   font-family: var(--ff-body);
   font-size: 10px;
@@ -901,6 +897,14 @@ section.full-bleed {
   align-items: start;
 }
 @media(max-width: 768px) { .speaking-inner { grid-template-columns: 1fr; } }
+
+.speaking-photo {
+  margin: 30px 0 34px;
+  border-radius: 3px;
+  overflow: hidden;
+  box-shadow: 0 18px 44px rgba(0,0,0,0.35);
+}
+.speaking-photo img { width: 100%; display: block; }
 
 .speaking-text h2 {
   font-family: var(--ff-head);
@@ -1042,6 +1046,41 @@ section.full-bleed {
 }
 #resume h2 em { font-style: italic; color: var(--brown); }
 #resume .intro { color: var(--brown-lt); margin-bottom: 56px; font-size: 16.5px; }
+
+/* ── SNAPSHOTS ── */
+#snapshots h2 {
+  font-family: var(--ff-head);
+  font-size: clamp(36px,5vw,52px);
+  font-weight: 400;
+  margin-bottom: 12px;
+}
+#snapshots h2 em { font-style: italic; color: var(--brown); }
+#snapshots .intro { color: var(--brown-lt); max-width: 520px; margin-bottom: 56px; font-size: 16.5px; }
+
+.snapshot-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(16px, 2.5vw, 28px);
+}
+@media(max-width: 900px) { .snapshot-grid { grid-template-columns: repeat(2, 1fr); } }
+
+.snapshot { margin: 0; }
+.snapshot img {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  display: block;
+  border-radius: 3px;
+  border: 1px solid var(--border);
+  box-shadow: 0 12px 28px rgba(28,18,8,0.10);
+}
+.snapshot figcaption {
+  font-family: var(--ff-body);
+  font-size: 13px;
+  color: var(--brown-lt);
+  margin-top: 12px;
+  line-height: 1.55;
+}
 
 .resume-grid {
   display: grid;
@@ -1392,7 +1431,7 @@ footer {
         <div class="foreman-phone-badge">Your coach, on site</div>
         <div class="phone-screen">
           <div class="phone-app-head">
-            <span class="phone-app-name">⛑ Foreman</span>
+            <span class="phone-app-name">Foreman</span>
             <span class="phone-streak">Day 47 · Building</span>
           </div>
           <div class="phone-bubble coach">
@@ -1428,7 +1467,6 @@ footer {
   <div class="work-grid">
 
     <a href="https://foreman.coach" class="work-card reveal" target="_blank" rel="noopener">
-      <div class="work-card-icon">👷</div>
       <div class="work-card-type">Coaching App</div>
       <h3>Foreman.coach</h3>
       <p>My coaching app — the foreman for the person you're building. Daily check-ins, real accountability, and coaching built on the Under Construction framework, so the growth keeps going long after the book ends.</p>
@@ -1436,7 +1474,6 @@ footer {
     </a>
 
     <a href="/blog" class="work-card reveal">
-      <div class="work-card-icon">✒</div>
       <div class="work-card-type">Writing</div>
       <h3>The Blog — Two Tracks</h3>
       <p>Ancient Paths: deep scripture study through Hebrew word studies and covenant theology. The Work: honest essays on principled leadership and building who you're meant to become.</p>
@@ -1444,7 +1481,6 @@ footer {
     </a>
 
     <a href="/tabernacle" class="work-card reveal reveal-d1">
-      <div class="work-card-icon">🏛</div>
       <div class="work-card-type">Interactive Tool</div>
       <h3>The Tabernacle</h3>
       <p>An interactive isometric model of the Old Testament tabernacle — every element clickable, every symbol connected back to Christ. Built for Sunday School teachers and deep scripture students.</p>
@@ -1452,7 +1488,6 @@ footer {
     </a>
 
     <a href="/high-priest" class="work-card reveal reveal-d2">
-      <div class="work-card-icon">✡</div>
       <div class="work-card-type">Interactive Tool</div>
       <h3>Garments of the High Priest</h3>
       <p>An interactive study of the Bigdei Kohen Gadol — the eight garments Aaron wore into the presence of God. Click each garment to explore the Hebrew name, the symbolism, and how every piece points to Christ.</p>
@@ -1460,7 +1495,6 @@ footer {
     </a>
 
     <a href="/levitical-sacrifices" class="work-card reveal reveal-d3">
-      <div class="work-card-icon">🔥</div>
       <div class="work-card-type">Interactive Tool</div>
       <h3>The Sacrifices of Leviticus</h3>
       <p>An interactive study of the Korbanot — the five Levitical offerings that formed the heartbeat of Israel's worship. Click each sacrifice to see the Hebrew name, the ritual, and how every offering pointed forward to Christ.</p>
@@ -1468,7 +1502,6 @@ footer {
     </a>
 
     <div class="work-card reveal reveal-d4" style="cursor:default">
-      <div class="work-card-icon">🎤</div>
       <div class="work-card-type">Speaking</div>
       <h3>Keynotes &amp; Firesides</h3>
       <p>Talks on personal conversion, covenant theology, becoming your best self, and lessons from the mission field. Available for youth, young adult, and community events.</p>
@@ -1492,6 +1525,10 @@ footer {
       <p class="reveal reveal-d2">
         Whether it's a youth fireside, a young adult devotional, a leadership training, or a community event — I bring depth, honesty, and energy every time.
       </p>
+
+      <div class="speaking-photo reveal reveal-d2">
+        <img src="images/speaking-stage.jpg" alt="Cayden Farris speaking on stage with a microphone" loading="lazy" decoding="async">
+      </div>
 
       <div class="speaking-topics reveal reveal-d3">
         <div class="speaking-topic">
@@ -1664,6 +1701,32 @@ footer {
   </div>
 </section>
 
+<!-- ── SNAPSHOTS ── -->
+<section id="snapshots">
+  <div class="section-label reveal">Snapshots</div>
+  <h2 class="reveal reveal-d1">The story so <em>far</em></h2>
+  <p class="intro reveal reveal-d2">Not everything fits on a resume. A few moments from along the way.</p>
+
+  <div class="snapshot-grid">
+    <figure class="snapshot reveal reveal-d1">
+      <img src="images/baseball.jpg" alt="Cayden at bat during a youth baseball game" loading="lazy" decoding="async" style="object-position:42% center;">
+      <figcaption>Baseball days — braces and all</figcaption>
+    </figure>
+    <figure class="snapshot reveal reveal-d2">
+      <img src="images/award.jpg" alt="Cayden holding the Spirit of Excellence Award certificate" loading="lazy" decoding="async">
+      <figcaption>Spirit of Excellence Award · Pleasant Grove High School</figcaption>
+    </figure>
+    <figure class="snapshot reveal reveal-d3">
+      <img src="images/lake.jpg" alt="Cayden by a mountain lake" loading="lazy" decoding="async">
+      <figcaption>Out where the thinking gets done</figcaption>
+    </figure>
+    <figure class="snapshot reveal reveal-d4">
+      <img src="images/headshot-polo.jpg" alt="Cayden Farris today" loading="lazy" decoding="async" style="object-position:40% 20%;">
+      <figcaption>Today — still under construction</figcaption>
+    </figure>
+  </div>
+</section>
+
 <!-- ── CONTACT ── -->
 <section id="contact" class="full-bleed">
   <div class="contact-inner">
@@ -1686,7 +1749,7 @@ footer {
     </div>
 
     <div class="contact-links reveal reveal-d3">
-      <a href="mailto:cayden.farris03@gmail.com" class="contact-link">✉ Email</a>
+      <a href="mailto:cayden.farris03@gmail.com" class="contact-link">Email</a>
       <a href="https://www.linkedin.com/in/cayden-farris-" class="contact-link" target="_blank" rel="noopener">LinkedIn</a>
       <a href="https://www.instagram.com/caydenfarris4/" class="contact-link" target="_blank" rel="noopener">Instagram</a>
     </div>
