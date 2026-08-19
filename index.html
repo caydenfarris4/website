@@ -383,6 +383,31 @@ section.full-bleed {
   border-radius: 50%;
 }
 
+.about-polaroid {
+  position: absolute;
+  bottom: -38px;
+  left: -22px;
+  width: clamp(120px, 14vw, 170px);
+  background: #fff;
+  padding: 8px 8px 10px;
+  border-radius: 2px;
+  box-shadow: 0 14px 32px rgba(28,18,8,0.22);
+  transform: rotate(-4deg);
+  z-index: 2;
+}
+.about-polaroid img { width: 100%; display: block; border-radius: 1px; }
+.about-polaroid span {
+  display: block;
+  font-family: var(--ff-head);
+  font-style: italic;
+  font-size: 13px;
+  color: var(--brown);
+  text-align: center;
+  margin-top: 7px;
+  line-height: 1.3;
+}
+@media(max-width: 768px) { .about-polaroid { left: 0; bottom: -30px; } }
+
 .about-text h2 {
   font-family: var(--ff-head);
   font-size: clamp(36px, 5vw, 52px);
@@ -1047,38 +1072,19 @@ section.full-bleed {
 #resume h2 em { font-style: italic; color: var(--brown); }
 #resume .intro { color: var(--brown-lt); margin-bottom: 56px; font-size: 16.5px; }
 
-/* ── SNAPSHOTS ── */
-#snapshots h2 {
-  font-family: var(--ff-head);
-  font-size: clamp(36px,5vw,52px);
-  font-weight: 400;
-  margin-bottom: 12px;
-}
-#snapshots h2 em { font-style: italic; color: var(--brown); }
-#snapshots .intro { color: var(--brown-lt); max-width: 520px; margin-bottom: 56px; font-size: 16.5px; }
-
-.snapshot-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: clamp(16px, 2.5vw, 28px);
-}
-@media(max-width: 900px) { .snapshot-grid { grid-template-columns: repeat(2, 1fr); } }
-
-.snapshot { margin: 0; }
-.snapshot img {
+.resume-photo { margin: 32px 0 0; }
+.resume-photo img {
   width: 100%;
-  aspect-ratio: 3 / 4;
-  object-fit: cover;
   display: block;
   border-radius: 3px;
   border: 1px solid var(--border);
   box-shadow: 0 12px 28px rgba(28,18,8,0.10);
 }
-.snapshot figcaption {
+.resume-photo figcaption {
   font-family: var(--ff-body);
   font-size: 13px;
   color: var(--brown-lt);
-  margin-top: 12px;
+  margin-top: 10px;
   line-height: 1.55;
 }
 
@@ -1155,6 +1161,16 @@ section.full-bleed {
   text-align: center;
 }
 .contact-inner { max-width: 640px; margin: 0 auto; }
+.contact-photo { display: flex; justify-content: center; margin-bottom: 30px; }
+.contact-photo img {
+  width: 132px;
+  height: 132px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: 43% 28%;
+  border: 2px solid rgba(212,168,50,0.45);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.4);
+}
 #contact .section-label { justify-content: center; color: var(--gold-lt); }
 #contact .section-label::before { background: var(--gold-lt); }
 #contact h2 {
@@ -1337,6 +1353,10 @@ footer {
     </div>
     <div class="about-accent"></div>
     <div class="about-accent2"></div>
+    <div class="about-polaroid reveal reveal-d3">
+      <img src="images/lake.jpg" alt="Cayden by a mountain lake" loading="lazy" decoding="async">
+      <span>Out where the thinking gets done</span>
+    </div>
   </div>
   <div class="about-text">
     <div class="section-label reveal">About</div>
@@ -1645,6 +1665,11 @@ footer {
         <p>Served in multiple leadership positions — functioned as Training Director and Chief of Staff equivalent for a 160-person organization operating across Honduras.</p>
       </div>
 
+      <figure class="resume-photo reveal reveal-d4">
+        <img src="images/baseball.jpg" alt="Cayden at bat during a youth baseball game" loading="lazy" decoding="async" style="aspect-ratio:4/3;object-fit:cover;object-position:42% center;">
+        <figcaption>Long before any of it — baseball days, braces and all</figcaption>
+      </figure>
+
     </div>
 
     <div class="resume-col">
@@ -1691,6 +1716,11 @@ footer {
         <div class="resume-item-org">Product · Engineering · Analytics</div>
         <p>Python · SQL · AI Integration · Advanced Excel · API Design · Product Roadmapping · Agile/Scrum · Git/GitHub · ZOHO Desk</p>
       </div>
+
+      <figure class="resume-photo reveal reveal-d4">
+        <img src="images/award.jpg" alt="Cayden holding the Spirit of Excellence Award certificate" loading="lazy" decoding="async">
+        <figcaption>Spirit of Excellence Award · Pleasant Grove High School</figcaption>
+      </figure>
     </div>
   </div>
 
@@ -1701,35 +1731,13 @@ footer {
   </div>
 </section>
 
-<!-- ── SNAPSHOTS ── -->
-<section id="snapshots">
-  <div class="section-label reveal">Snapshots</div>
-  <h2 class="reveal reveal-d1">The story so <em>far</em></h2>
-  <p class="intro reveal reveal-d2">Not everything fits on a resume. A few moments from along the way.</p>
-
-  <div class="snapshot-grid">
-    <figure class="snapshot reveal reveal-d1">
-      <img src="images/baseball.jpg" alt="Cayden at bat during a youth baseball game" loading="lazy" decoding="async" style="object-position:42% center;">
-      <figcaption>Baseball days — braces and all</figcaption>
-    </figure>
-    <figure class="snapshot reveal reveal-d2">
-      <img src="images/award.jpg" alt="Cayden holding the Spirit of Excellence Award certificate" loading="lazy" decoding="async">
-      <figcaption>Spirit of Excellence Award · Pleasant Grove High School</figcaption>
-    </figure>
-    <figure class="snapshot reveal reveal-d3">
-      <img src="images/lake.jpg" alt="Cayden by a mountain lake" loading="lazy" decoding="async">
-      <figcaption>Out where the thinking gets done</figcaption>
-    </figure>
-    <figure class="snapshot reveal reveal-d4">
-      <img src="images/headshot-polo.jpg" alt="Cayden Farris today" loading="lazy" decoding="async" style="object-position:40% 20%;">
-      <figcaption>Today — still under construction</figcaption>
-    </figure>
-  </div>
-</section>
 
 <!-- ── CONTACT ── -->
 <section id="contact" class="full-bleed">
   <div class="contact-inner">
+    <div class="contact-photo reveal">
+      <img src="images/headshot-polo.jpg" alt="Cayden Farris" loading="lazy" decoding="async">
+    </div>
     <div class="section-label reveal">Contact</div>
     <h2 class="reveal reveal-d1">Let's <em>connect</em></h2>
     <p class="reveal reveal-d2">Whether you want to talk about a speaking event, share how the book landed, or just connect — I'd love to hear from you.</p>
