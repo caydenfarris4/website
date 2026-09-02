@@ -8,8 +8,12 @@
 <meta property="og:description" content="Build who you're meant to become before you look back and wish you had. Out now on Amazon.">
 <meta property="og:type" content="book">
 <meta property="og:url" content="https://caydenfarris.net/book/">
-<meta property="og:image" content="https://caydenfarris.net/images/headshot.jpg">
-<meta name="twitter:card" content="summary">
+<meta property="og:image" content="https://caydenfarris.net/images/og/book.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://caydenfarris.net/images/og/book.png">
+<meta name="theme-color" content="#1c1208">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <link rel="canonical" href="https://caydenfarris.net/book/">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='14' fill='%231c1208'/%3E%3Ctext x='50' y='68' font-family='Georgia,serif' font-size='52' font-weight='600' fill='%23b8840a' text-anchor='middle'%3ECF%3C/text%3E%3C/svg%3E">
@@ -197,6 +201,15 @@ nav {
 }
 @media(max-width: 800px) { .hero-hook { margin: 0 auto 36px; } }
 
+.hero-subtitle {
+  font-family: var(--ff-body);
+  font-size: 15.5px;
+  color: rgba(250,246,239,0.55);
+  line-height: 1.7;
+  max-width: 440px;
+  margin-bottom: 44px;
+}
+@media(max-width: 800px) { .hero-subtitle { margin: 0 auto 40px; } }
 .hero-stats {
   display: flex;
   gap: 36px;
@@ -555,6 +568,64 @@ nav {
   line-height: 1.7;
 }
 
+/* ── READER REVIEWS ── */
+.reviews-section {
+  padding: clamp(60px, 8vw, 100px) clamp(24px, 8vw, 100px);
+  max-width: 760px;
+  margin: 0 auto;
+  text-align: center;
+}
+.reviews-section h2 {
+  font-family: var(--ff-head);
+  font-size: clamp(30px, 4.5vw, 44px);
+  font-weight: 400;
+  color: var(--cream);
+  margin-bottom: 28px;
+}
+.reviews-section h2 em { font-style: italic; color: var(--gold-lt); }
+.reviews-invite p {
+  color: rgba(250,246,239,0.6);
+  font-size: 16px;
+  line-height: 1.75;
+  margin-bottom: 24px;
+}
+.reviews-link {
+  font-family: var(--ff-body);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--gold-lt);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(212,168,50,0.4);
+  padding-bottom: 3px;
+  transition: color 0.2s, border-color 0.2s;
+}
+.reviews-link:hover { color: var(--gold); border-color: var(--gold); }
+.reviews-grid { display: grid; gap: 18px; text-align: left; }
+.review-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(184,132,10,0.16);
+  border-radius: 3px;
+  padding: 24px 26px;
+}
+.review-card p {
+  font-family: var(--ff-head);
+  font-size: 18px;
+  font-style: italic;
+  color: rgba(250,246,239,0.85);
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+.review-card cite {
+  font-family: var(--ff-body);
+  font-style: normal;
+  font-size: 12px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: rgba(250,246,239,0.4);
+}
+
 /* ── FOREMAN.COACH BAND ── */
 .foreman-band {
   background: rgba(184,132,10,0.06);
@@ -735,12 +806,31 @@ footer {
 }
 
 /* ── REVEAL ANIMATION ── */
+/* visible by default; animates only once JS marks the page ready */
 .reveal {
-  opacity: 0;
-  transform: translateY(24px);
+  opacity: 1;
+  transform: translateY(0);
   transition: opacity 0.7s cubic-bezier(.4,0,.2,1), transform 0.7s cubic-bezier(.4,0,.2,1);
 }
-.reveal.visible { opacity: 1; transform: translateY(0); }
+.js-ready .reveal { opacity: 0; transform: translateY(24px); }
+.js-ready .reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ── A11Y & POLISH ── */
+a:focus-visible, button:focus-visible, input:focus-visible {
+  outline: 2px solid var(--gold-lt);
+  outline-offset: 3px;
+}
+h1, h2, h3 { text-wrap: balance; }
+.hero-cta:active { transform: translateY(1px) scale(0.99); }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .js-ready .reveal { opacity: 1; transform: none; }
+  html { scroll-behavior: auto; }
+}
 .reveal-d1 { transition-delay: 0.1s; }
 .reveal-d2 { transition-delay: 0.22s; }
 .reveal-d3 { transition-delay: 0.34s; }
@@ -764,22 +854,9 @@ footer {
     </h1>
     <p class="hero-author reveal reveal-d1">by Cayden Farris</p>
     <p class="hero-hook reveal reveal-d2">
-      "Build the house of principled leadership before you look back and wish you had."
+      “Build the house of principled leadership before you look back and wish you had.”
     </p>
-    <div class="hero-stats reveal reveal-d2">
-      <div class="stat-item">
-        <span class="stat-num">1</span>
-        <span class="stat-label">Book</span>
-      </div>
-      <div class="stat-item">
-        <span class="stat-num">∞</span>
-        <span class="stat-label">Potential</span>
-      </div>
-      <div class="stat-item">
-        <span class="stat-num">You</span>
-        <span class="stat-label">The Builder</span>
-      </div>
-    </div>
+    <p class="hero-subtitle reveal reveal-d2">Leadership principles for first-time leaders who aren’t ready yet — four foundations, built one ordinary decision at a time.</p>
     <a href="https://www.amazon.com/dp/B0H76DT3DM" target="_blank" rel="noopener" class="hero-cta reveal reveal-d3">
       Buy on Amazon →
     </a>
@@ -788,7 +865,7 @@ footer {
   <div class="hero-book reveal reveal-d2">
     <div class="book-wrap">
       <div class="book-cover">
-        <img src="../images/book-cover.jpg" alt="Under Construction book cover — Leadership Principles for First-Time Leaders Who Aren't Ready Yet, by Cayden Farris" decoding="async">
+        <img src="../images/book-cover.jpg" alt="Under Construction book cover — Leadership Principles for First-Time Leaders Who Aren’t Ready Yet, by Cayden Farris" width="200" height="300" decoding="async">
       </div>
       <div class="book-pages"></div>
       <div class="book-shadow"></div>
@@ -828,7 +905,7 @@ footer {
 
 <!-- QUOTE BAND -->
 <div class="quote-band">
-  <p class="quote-text">"Most people spend decades becoming who they are, and only realize too late they built the <em>wrong thing</em>. This book is about doing it right while you still can."</p>
+  <p class="quote-text">“Most people spend decades becoming who they are, and only realize too late they built the <em>wrong thing</em>. This book is about doing it right while you still can.”</p>
   <p class="quote-source">— Under Construction, Cayden Farris</p>
 </div>
 
@@ -839,6 +916,24 @@ footer {
   <div class="buy-box reveal reveal-d2">
     <a href="https://www.amazon.com/dp/B0H76DT3DM" target="_blank" rel="noopener" class="hero-cta">Buy on Amazon →</a>
     <p class="buy-note">To everyone who joined the presale list — thank you. You made this launch real. And if the book builds something in you, an Amazon review is the single best way to pass it on.</p>
+  </div>
+</section>
+
+<!-- READER REVIEWS -->
+<section class="reviews-section">
+  <h2 class="reveal">What it <em>builds</em> in readers</h2>
+  <!--
+    ADDING REVIEWS: once Amazon reviews and reader messages come in, add each
+    quote as a .review-card inside .reviews-grid below, e.g.:
+    <blockquote class="review-card reveal">
+      <p>“Quote text here.”</p>
+      <cite>First name · Amazon review</cite>
+    </blockquote>
+    Then delete the .reviews-invite block.
+  -->
+  <div class="reviews-invite reveal reveal-d1">
+    <p>The book is newly out and the first reviews are being written right now. If you’ve read it, yours can be one of them — a two-sentence Amazon review is the single best way to put this book in front of the next builder.</p>
+    <a href="https://www.amazon.com/dp/B0H76DT3DM#customerReviews" target="_blank" rel="noopener" class="reviews-link">Leave an Amazon review →</a>
   </div>
 </section>
 
@@ -860,7 +955,7 @@ footer {
 <!-- ABOUT THE AUTHOR -->
 <section class="author-section">
   <div class="author-photo reveal">
-    <img src="../images/headshot.jpg" alt="Cayden Farris" loading="lazy" decoding="async">
+    <img src="../images/headshot.jpg" alt="Cayden Farris" width="1200" height="1381" loading="lazy" decoding="async">
   </div>
   <div class="author-text reveal reveal-d1">
     <div class="label">About the Author</div>
@@ -878,11 +973,12 @@ footer {
 <!-- FOOTER -->
 <footer>
   <a href="/" class="footer-logo">Cayden <span>Farris</span></a>
-  <p class="footer-copy">© 2026 Cayden Farris · caydenfarris.net</p>
+  <p class="footer-copy">© 2026 Cayden Farris · <a href="/privacy/" style="color:rgba(250,246,239,0.35);text-decoration:none">Privacy</a></p>
 </footer>
 
 <script>
-// Reveal on scroll
+// Reveal on scroll — js-ready gate keeps content visible if JS never runs
+document.body.classList.add('js-ready');
 const reveals = document.querySelectorAll('.reveal');
 const obs = new IntersectionObserver(entries => {
   entries.forEach(e => {
