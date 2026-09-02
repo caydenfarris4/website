@@ -40,3 +40,6 @@ sitemap entry → verify.
   (never the long search-result URLs with tracking parameters)
 - Keep new UI in the existing design language; match inline-CSS style of
   the page being edited
+- `design-reference/DESIGN.md` is an external reference (Anthropic's
+  design analysis) for quality inspiration only — this site's own
+  palette/type always wins (see design-reference/README.md)
