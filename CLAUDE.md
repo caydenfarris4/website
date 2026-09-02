@@ -40,6 +40,12 @@ sitemap entry → verify.
   (never the long search-result URLs with tracking parameters)
 - Keep new UI in the existing design language; match inline-CSS style of
   the page being edited
+- Pages style `nav` by ELEMENT selector (fixed top bar) — never add a
+  second `<nav>` element to a page; use `<div role="navigation">`
+- The homepage hero book uses `mix-blend-mode: multiply` to sink its
+  white background into the cream page — no ancestor of `.hero-book img`
+  may create a stacking context (no transform/opacity/z-index/filter)
+  or the white box comes back
 - `design-reference/DESIGN.md` is an external reference (Anthropic's
   design analysis) for quality inspiration only — this site's own
   palette/type always wins (see design-reference/README.md)

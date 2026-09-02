@@ -19,6 +19,7 @@
 <meta name="twitter:image" content="https://caydenfarris.net/images/og/ancient-paths.png">
 <link rel="canonical" href="https://caydenfarris.net/blog/ancient-paths/reader.html">
 <meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="theme-color" content="#faf6ef">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='14' fill='%231c1208'/%3E%3Ctext x='50' y='68' font-family='Georgia,serif' font-size='52' font-weight='600' fill='%23b8840a' text-anchor='middle'%3ECF%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
@@ -36,6 +37,12 @@
   --ff-body:'Lora',Georgia,serif;
 }
 html{scroll-behavior:smooth}
+a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+h1,h2,h3{text-wrap:balance}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  html{scroll-behavior:auto}
+}
 body{background:var(--cream);color:var(--espresso);font-family:var(--ff-body);font-size:17px;line-height:1.82;overflow-x:hidden}
 body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;opacity:0.025;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:160px 160px}
 ::selection{background:var(--ancient-pale);color:var(--ancient)}
