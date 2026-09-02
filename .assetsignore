@@ -5,3 +5,7 @@ worker.js
 README.md
 CLAUDE.md
 blog/PUBLISHING.md
+design-reference
+.agents
+.claude
+skills-lock.json
