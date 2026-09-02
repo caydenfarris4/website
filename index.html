@@ -299,7 +299,7 @@ section.full-bleed {
   display: block;
   text-decoration: none;
   justify-self: center;
-  width: min(100%, 460px);
+  width: min(100%, 420px);
   /* no transform/opacity here — either would isolate the img's multiply blend */
 }
 .hero-book img { animation: bookIn 1s cubic-bezier(0.32,0.72,0,1) both; animation-delay: 0.15s; }
@@ -343,7 +343,7 @@ section.full-bleed {
 }
 @media(max-width: 880px) {
   .hero-inner { grid-template-columns: 1fr; }
-  .hero-book { width: min(68vw, 320px); margin: 4px auto 0; }
+  .hero-book { width: min(60vw, 280px); margin: 4px auto 0; }
   #hero { padding-top: 100px; padding-bottom: 90px; }
 }
 
@@ -460,7 +460,7 @@ section.full-bleed {
 /* ── ABOUT ── */
 #about {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 0.85fr 1.15fr;
   gap: clamp(40px, 6vw, 100px);
   align-items: start;
 }
@@ -473,6 +473,7 @@ section.full-bleed {
 }
 .about-photo {
   width: 100%;
+  max-width: 400px;
   aspect-ratio: 4/5;
   background: var(--cream2);
   border-radius: 2px;
@@ -1065,11 +1066,12 @@ section.full-bleed {
 
 .speaking-photo {
   margin: 30px 0 34px;
+  max-width: 460px;
   border-radius: 3px;
   overflow: hidden;
-  box-shadow: 0 18px 44px rgba(0,0,0,0.35);
+  box-shadow: 0 14px 36px rgba(0,0,0,0.28);
 }
-.speaking-photo img { width: 100%; height: auto; display: block; }
+.speaking-photo img { width: 100%; height: auto; aspect-ratio: 16/10; object-fit: cover; display: block; }
 
 .speaking-text h2 {
   font-family: var(--ff-head);
@@ -1212,10 +1214,12 @@ section.full-bleed {
 #resume h2 em { font-style: italic; color: var(--brown); }
 #resume .intro { color: var(--brown-lt); margin-bottom: 56px; font-size: 16.5px; }
 
-.resume-photo { margin: 32px 0 0; }
+.resume-photo { margin: 32px 0 0; max-width: 340px; }
 .resume-photo img {
   width: 100%;
   height: auto;
+  max-height: 300px;
+  object-fit: cover;
   display: block;
   border-radius: 3px;
   border: 1px solid var(--border);
